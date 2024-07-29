@@ -1,0 +1,44 @@
+<form method="post" action="{{$url}}">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">{{$page_title}}</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+
+        <div class="modal-body">
+            @csrf
+
+            @include('messages')
+
+            @if($model->exists)
+                @method('PUT')
+            @endif
+
+            <div class="form-group">
+                <label for="name" class="required">التصنيف </label>
+                <input type="text" class="form-control" id="name" name="name"
+                       value="{{old('name') ?? $model->name}}" required/>
+            </div>
+
+            @if(is_admin())
+                <div class="form-group" id="association-all">
+                    <label for="association_id" class="required">الجمعية</label>
+                    @include('Admin.Layouts.Partials._associations-select', ['currentValue' => $model->association_id])
+                </div>
+            @endif
+
+            <div class="form-group">
+                <label for="name" class="required"> مهلة التصعيد </label>
+                <p><small class="text-muted">عدد الايام المسموح بها قبل اظهر زر تصعيد الطلب</small></p>
+
+                <input type="text" class="form-control" id="appeal_period" name="appeal_period" value="{{old('appeal_period') ?? $model->appeal_period ?? 2}}" />
+            </div>
+
+        </div>
+
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-primary"><i class="fa fa-check"></i> حفظ</button>
+            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">إغلاق</button>
+        </div>
+    </div>
+</form>

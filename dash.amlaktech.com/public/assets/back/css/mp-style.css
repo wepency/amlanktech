@@ -1,0 +1,54 @@
+@font-face {
+    font-family: 'Hacen Casablanca';
+    src: url('../../../fonts/hacen/HacenCasablancaHeavy.woff2') format('woff2'),
+    url('../../../fonts/hacen/HacenCasablancaHeavy.woff') format('woff'),
+    url('../../../fonts/hacen/HacenCasablancaHeavy.ttf') format('truetype'),
+    url('../../../fonts/hacen/HacenCasablancaHeavy.svg#HacenCasablancaHeavy') format('svg');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Hacen Casablanca';
+    src: url('../../../fonts/hacen/HacenCasablancaLight.woff2') format('woff2'),
+    url('../../../fonts/hacen/HacenCasablancaLight.woff') format('woff'),
+    url('../../../fonts/hacen/HacenCasablancaLight.ttf') format('truetype'),
+    url('../../../fonts/hacen/HacenCasablancaLight.svg#HacenCasablancaLight') format('svg');
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Hacen Casablanca';
+    src: url('../../../fonts/hacen/HacenCasablanca.woff2') format('woff2'),
+    url('../../../fonts/hacen/HacenCasablanca.woff') format('woff'),
+    url('../../../fonts/hacen/HacenCasablanca.ttf') format('truetype'),
+    url('../../../fonts/hacen/HacenCasablanca.svg#HacenCasablanca') format('svg');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Hacen Casablanca Lt';
+    src: url('../../../fonts/hacen/HacenCasablancaLt.woff2') format('woff2'),
+    url('../../../fonts/hacen/HacenCasablancaLt.woff') format('woff'),
+    url('../../../fonts/hacen/HacenCasablancaLt.ttf') format('truetype'),
+    url('../../../fonts/hacen/HacenCasablancaLt.svg#HacenCasablancaLt') format('svg');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Hacen Casablanca Hd';
+    src: url('../../../fonts/hacen/HacenCasablancaHd.woff2') format('woff2'),
+    url('../../../fonts/hacen/HacenCasablancaHd.woff') format('woff'),
+    url('../../../fonts/hacen/HacenCasablancaHd.ttf') format('truetype'),
+    url('../../../fonts/hacen/HacenCasablancaHd.svg#HacenCasablancaHd') format('svg');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
