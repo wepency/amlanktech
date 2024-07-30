@@ -1,0 +1,19 @@
+name: Deploying
+
+on:
+  push:
+    paths:
+        - 'app/**'
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: executing remote ssh commands using ssh key
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+          script: sh /home/aticom/.deploy_dev.sh
