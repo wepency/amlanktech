@@ -1,7 +1,7 @@
 import axios from "axios"
 import { getSession } from "next-auth/react"
 
-const baseURL = "https://ati.com.sa/api"
+const baseURL = "https://dash.amlaktech.com/api"
 
 const AmlackApi = axios.create({
   baseURL: baseURL,
