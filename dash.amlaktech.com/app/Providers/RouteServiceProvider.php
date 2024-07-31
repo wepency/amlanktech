@@ -36,20 +36,20 @@ class RouteServiceProvider extends ServiceProvider
                 ->prefix('api')
                 ->group(base_path('routes/api.php'));
 
-        
-            // Admin Route File
-            Route::middleware('web')
-                ->as('dashboard.')
-                ->namespace(self::ADMIN_NAMESPACE)
-                ->prefix('dashboard')
-                ->group(base_path('routes/admin.php'));
 
-                 // Admin Route File
+            // Admin Route File
+//            Route::middleware('web')
+//                ->as('dashboard.')
+//                ->namespace(self::ADMIN_NAMESPACE)
+//                ->prefix('dashboard')
+//                ->group(base_path('routes/admin.php'));
+
+            // Admin Route File
             Route::middleware('web')
                 ->as('member.')
                 ->namespace(self::MEMBER_NAMESPACE)
                 ->prefix('member')
-                ->group(base_path('routes/member.php'));
+                ->group(base_path('routes/admin.php'));
 
             Route::middleware('web')
                 ->namespace(self::NAMESPACE)
