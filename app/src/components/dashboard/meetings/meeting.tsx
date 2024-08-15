@@ -35,6 +35,7 @@ async function initClient({
     success: (success: any) => {
       console.log(success)
 
+      console.log("join meeting", meeting_id, passcode, userName, userEmail)
       ZoomMtg.join({
         signature: signature,
         sdkKey: process.env.NEXT_PUBLIC_ZOOM_MEETING_CLIENT_ID,
@@ -96,8 +97,8 @@ export default function Meeting({ meeting }: { meeting: MeetingType }) {
   const initZoomApp = async () => {
     await initClient({
       ...meeting,
-      userName: session.data?.user.name || "unknown",
-      userEmail: session.data?.user.email || "unknown",
+      userName: session.data!.user.user.name || "unknown",
+      userEmail: session.data!.user.user.email || "unknown",
     })
   }
   return (
