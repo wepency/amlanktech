@@ -25,7 +25,7 @@ class MeetingsResource extends JsonResource
             'created_at' => $this->created_at->diffForHumans(),
             'min_users' => $this->min_users,
             'current_users' => 5,
-            'is_started' => false
+            'is_started' => true
         ];
     }
 }
