@@ -1,6 +1,5 @@
 "use client"
 
-import { getMeeting } from "@/api/helpers/get-meeting"
 import { formatTimeTo12Hour, formatToArabicDate } from "@/utils/formate-date"
 import { Badge, Button } from "@mantine/core"
 import { useQuery } from "@tanstack/react-query"
