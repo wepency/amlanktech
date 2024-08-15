@@ -96,7 +96,7 @@ export default function Meeting({ meeting }: { meeting: MeetingType }) {
     <div>
       <div id="zmmtg-root" className="z-50 mb-4"></div>
 
-      <Button fullWidth disabled={meeting.is_started} onClick={initZoomApp}>
+      <Button fullWidth disabled={!meeting.is_started} onClick={initZoomApp}>
         انضمام للاجتماع
       </Button>
       <div className="mt-4 flex items-center gap-2">
