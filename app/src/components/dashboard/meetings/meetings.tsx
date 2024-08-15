@@ -29,7 +29,6 @@ const Meetings = (props: Props) => {
   }
 
   const meetings = data?.pages!.flatMap((element) => element.data.meetings)
-  console.log("🚀 ~ Meetings ~ meetings:", meetings)
   return (
     <>
       <div className="flex flex-wrap  gap-5 ">

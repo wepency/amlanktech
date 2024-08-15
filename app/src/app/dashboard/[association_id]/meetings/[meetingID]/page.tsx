@@ -26,6 +26,8 @@ export default function ZoomMeeting({
         meetingID: meetingID,
       })
     },
+
+    refetchInterval: 10 * 1000,
   })
 
   return (
