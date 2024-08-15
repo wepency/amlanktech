@@ -111,6 +111,9 @@ Route::prefix('dashboard')->group(function () {
 
 Route::get('getAssociationFeesLabel/{association}', [\App\Http\Controllers\API\AssociationController::class, 'getAssociationFeesLabel']);
 
+// Contact us end-point
+Route::post('contact-us', \App\Http\Controllers\API\ContactUsController::class);
+
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
