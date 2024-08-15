@@ -32,7 +32,7 @@ Route::post('login', [LoginController::class, 'postLogin'])->name('login.post');
 Route::get('login/2fa', [LoginController::class, 'otpForm'])->name('login.otp');
 Route::post('login/2fa', [LoginController::class, 'checkOTP'])->name('login.otp.post');
 
-Route::middleware(['admin', '2fa'])->group(function () {
+Route::middleware(['admin'])->group(function () {
     Route::get('/', DashboardController::class)->name('home');
 
     Route::post('logout', LogoutController::class)->name('logout');

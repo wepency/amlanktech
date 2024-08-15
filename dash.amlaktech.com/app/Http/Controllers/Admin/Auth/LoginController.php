@@ -38,18 +38,18 @@ class LoginController extends Controller
 
         if ($user) {
 
-            $otp = rand(1000, 9999);
+//            $otp = rand(1000, 9999);
+//
+//            OTP::updateOrCreate([
+//                'phonenumber' => $userGuard->phone_number,
+//            ], [
+//                'phonenumber' => $userGuard->phone_number,
+//                'otp' => $otp
+//            ]);
 
-            OTP::updateOrCreate([
-                'phonenumber' => $userGuard->phone_number,
-            ], [
-                'phonenumber' => $userGuard->phone_number,
-                'otp' => $otp
-            ]);
+//            sendSMS(ltrim($userGuard->phone_number, 0), 'كود دخول تطبيق أملاك الخاص بك: ' . $otp);
 
-            sendSMS(ltrim($userGuard->phone_number, 0), 'كود دخول تطبيق أملاك الخاص بك: ' . $otp);
-
-            return redirect()->route('dashboard.login.otp');
+            return redirect(dashboard_route('home'));
         }
 
         return redirect()->back()->withInput($request->all())->withError('البيانات المدخلة غير صحيحة.');
