@@ -24,6 +24,9 @@ Route::get('plans/{plan}', [\App\Http\Controllers\API\PlansController::class, 's
 // Association & Manage sign up
 Route::post('associations/register', [\App\Http\Controllers\API\AssociationRegisterController::class, 'store']);
 
+// Contact us end-point
+Route::post('contact-us', \App\Http\Controllers\API\ContactUsController::class);
+
 Route::group(['prefix' => 'lists'], function () {
 
     // Associations
@@ -110,9 +113,6 @@ Route::prefix('dashboard')->group(function () {
 });
 
 Route::get('getAssociationFeesLabel/{association}', [\App\Http\Controllers\API\AssociationController::class, 'getAssociationFeesLabel']);
-
-// Contact us end-point
-Route::post('contact-us', \App\Http\Controllers\API\ContactUsController::class);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
