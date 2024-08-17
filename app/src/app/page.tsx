@@ -1,4 +1,12 @@
 import { Suspense } from "react"
+import {
+  advantage,
+  building,
+  contract,
+  conversation,
+  management,
+  work,
+} from "@/assets"
 import { Loader } from "@mantine/core"
 
 import { HoverEffect } from "@/components/ui/card-hover-effect"
@@ -14,39 +22,39 @@ import ZoomFeature from "@/components/landing-page/zoom-feature"
 const projects = [
   {
     title: "إدارة العقارات والمرافق",
-    src: "https://simaat.app/wp-content/uploads/2022/11/buildings.png",
+    src: building,
     description:
       "تحول رقميًا بأتمتة جميع عمليات إدارة وتشغيل الأملاك والمرافق العقارية بحلول تقنية متكاملة تعزز من استدامة أعمالك وتسرعها، وتزيد من كفائتك وتخفض تكالفيك إلى النصف.",
   },
   {
     title: "طلبات صيانة آلية",
-    src: "https://simaat.app/wp-content/uploads/2022/11/buildings.png",
+    src: management,
     description:
       "قم بإجراء طلبات الصيانة العقارية آليًا، وتابع إنجازها في وقت قياسي بعد بإسنادها للمختصين (موظفين –مقاولين) مع ضمان تنفيذ طلب الصيانة برمز تأكيد الجودة.",
   },
   {
     title: "توثيق المعاملات المالية بين التجعات العقارية  ",
-    src: "https://simaat.app/wp-content/uploads/2022/11/buildings.png",
-    description:
-      "قم بإجراء طلبات الصيانة العقارية آليًا، وتابع إنجازها في وقت قياسي بعد بإسنادها للمختصين (موظفين –مقاولين) مع ضمان تنفيذ طلب الصيانة برمز تأكيد الجودة.",
+    src: contract,
+    description: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Repudiandae soluta placeat, fugit cupiditate, modi distinctio obcaecati quos, vel beatae quisquam doloribus? Cumque impedit sit blanditiis cum facilis maiores consequatur qui?`,
   },
   {
     title: "إدارة العقود والمستحقات المالية",
-    src: "https://simaat.app/wp-content/uploads/2022/11/buildings.png",
-    description:
-      "احصل على أفضل برنامج حسابات سحابي مخصص لإدارة الأملاك العقارية ، ينشئ النظام قيود يومية آلية ويدعم مختلف العمليات والتقارير المحاسبية لتوفير وقت وجهد طاقمك المحاسبي.",
+    src: work,
+    description: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Repudiandae soluta placeat, fugit cupiditate, modi distinctio obcaecati quos, vel beatae quisquam doloribus? Cumque impedit sit blanditiis cum facilis maiores consequatur qui?`,
+
+    // description:
+    // "احصل على أفضل برنامج حسابات سحابي مخصص لإدارة الأملاك العقارية ، ينشئ النظام قيود يومية آلية ويدعم مختلف العمليات والتقارير المحاسبية لتوفير وقت وجهد طاقمك المحاسبي.",
   },
   {
     title: "إدارة محاضر مجالس ادارات التجمعات العقارية",
-    src: "https://simaat.app/wp-content/uploads/2022/11/buildings.png",
+    src: conversation,
     description:
-      "أصدر فواتيرك الإلكترونية آليًا بأمان مع إضافة الشعار والتوقيع الإلكتروني والــ OR Code، الفواتير متطابقة مع متطلبات هيئة الزكاة والضريبة والجمارك والمرحلة الثانية من الفاتورة الإلكترونية.     ",
+      ".حدول اجتمعاتك وناقش اخر التطورات مع اعضاء جمعيتك مباشرة عبر منصتنا",
   },
   {
     title: "طرح المنافسات للتجمع العقاري",
-    src: "https://simaat.app/wp-content/uploads/2022/11/buildings.png",
-    description:
-      "وسع أعمالك ببوابات الخدمات الذاتية لتطوير عملياتك العقارية، بوصول كل من المالك والمستأجر الوسطاء وموظفي الصيانة إلى البوابات الخاصة بهم مما يختصر الإجراءات الروتينية.",
+    src: advantage,
+    description: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Repudiandae soluta placeat, fugit cupiditate, modi distinctio obcaecati quos, vel beatae quisquam doloribus? Cumque impedit sit blanditiis cum facilis maiores consequatur qui?`,
   },
 ]
 

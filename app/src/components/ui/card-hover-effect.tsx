@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import Image, { StaticImageData } from "next/image"
 import { cn } from "@/utils/cn"
 import { AnimatePresence, motion } from "framer-motion"
 
@@ -11,7 +12,7 @@ export const HoverEffect = ({
   items: {
     title: string
     description: string
-    src: string
+    src: StaticImageData
   }[]
   className?: string
 }) => {
@@ -83,11 +84,11 @@ export const CardImage = ({
   src,
 }: {
   className?: string
-  src: string
+  src: StaticImageData
 }) => {
   return (
     <div className="mb-8">
-      <img
+      <Image
         src={src}
         className=" mx-auto aspect-square w-full max-w-[85px] rounded"
         alt="card icon"
