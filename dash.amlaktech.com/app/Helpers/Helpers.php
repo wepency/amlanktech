@@ -567,7 +567,9 @@ function getUserRequestCount()
     $user = \App\Models\User::notActive();
 
     if (!is_admin()) {
-        $user = getOnlyObjectsAccordingToAdmin($user, 'association_id');
+        $user = $user->whereHas('association', function ($query){
+            return $query->where('id', getAssociationId());
+        });
     }
 
     return $user->count();
