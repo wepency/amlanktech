@@ -206,7 +206,6 @@
                     $('#add-admin').modal('hide');
                 },
                 error: function(xhr) {
-                    alert(xhr.status === 422)
                     if (xhr.status === 422) { // Validation error
                         let errors = xhr.responseJSON.errors;
                         let errorMessage = '';
@@ -241,8 +240,10 @@
             const formData = new FormData(this);
             const form = $(this);
 
+            const url = form.attr('action')
+
             $.ajax({
-                url: '{{url('/associations')}}',
+                url: url,
                 data: formData,
                 processData: false, // Prevent jQuery from processing the data
                 contentType: false, // Prevent jQuery from setting contentType
@@ -252,7 +253,6 @@
                     toastr.success("تم اضافة الجمعية بنجاح.");
                 },
                 error: function(xhr)  {
-                    alert(xhr.status === 422)
                     if (xhr.status === 422) { // Validation error
                         let errors = xhr.responseJSON.errors;
                         let errorMessage = '';
