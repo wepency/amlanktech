@@ -53,7 +53,12 @@
                 <label for="subscription-start-date" class="required"> تاريخ بداية الاشتراك </label>
                 <input type="date" class="form-control" id="subscription-start-date" name="subscription_start_date"
                        value="{{old('subscription_start_date') ?? $association?->subscription_start_date}}"
-                       min="{{now()->format('Y-m-d')}}" required/>
+
+                       @if(!$association->exists)
+                           min="{{now()->format('Y-m-d')}}"
+                       @endif
+
+                       required/>
             </div>
 
             <div class="form-group">
