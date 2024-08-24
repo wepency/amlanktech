@@ -36,17 +36,16 @@ class DashboardController extends Controller
         $paymentReceipts = PaymentReceipt::count();
 
         if (!is_admin()) {
-            $associationId = getAssociationId();
+            $units = getOnlyObjectsAccordingToAdmin($units, 'association_id');
 
-            $units = getOnlyObjectsAccordingToAdmin($units, $associationId);
             $members = $members->whereHas('association', function ($query){
                 return $query->where('id', getAssociationId());
             });
 
-            $subscriptions = $subscriptions;
+            $subscriptions = getOnlyObjectsAccordingToAdmin($subscriptions, 'association_id');
 
-            $notPaids = getOnlyObjectsAccordingToAdmin($notPaids, $associationId);
-            $paids = getOnlyObjectsAccordingToAdmin($paids, $associationId);
+            $notPaids = getOnlyObjectsAccordingToAdmin($notPaids, 'association_id');
+            $paids = getOnlyObjectsAccordingToAdmin($paids, 'association_id');
         }
 
         // All counts
