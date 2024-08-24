@@ -24,7 +24,7 @@
     <input type="email" class="form-control" id="email" name="email" value="{{old('email')  ?? $manager->email }}"/>
 </div>
 
-@if(!isset($type))
+@if(!isset($type) && !empty($associations))
     <div class="form-group">
         <label for="association_id"> الجمعية </label>
 
@@ -46,14 +46,18 @@
     <input type="password" class="form-control" id="password-confirmation" name="password_confirmation" {{$manager->exists ?: 'required'}} />
 </div>
 
-<div class="form-group">
-    <label for="role-group" class="required"> الصلاحية </label>
+@if(!empty($roles))
+    <div class="form-group">
+        <label for="role-group" class="required"> الصلاحية </label>
 
-    <select name="role_group" id="role-group" class="form-control">
-        <option value=""></option>
+        <select name="role_group" id="role-group" class="form-control">
+            <option value=""></option>
 
-        @foreach($roles as $role)
-            <option value="{{$role->name}}" {{in_array($role->name, $manager->roles->pluck('name')->toArray()) ? 'selected' : ''}}>{{$role->main_name}}</option>
-        @endforeach
-    </select>
-</div>
+            @foreach($roles as $role)
+                <option value="{{$role->name}}" {{in_array($role->name, $manager->roles->pluck('name')->toArray()) ? 'selected' : ''}}>{{$role->main_name}}</option>
+            @endforeach
+        </select>
+    </div>
+@else
+    <input type="hidden" name="role_group" value="7" />
+@endif

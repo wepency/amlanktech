@@ -2,15 +2,15 @@
 
 @push('styles')
     <style>
-        #toggle-manager-form .hide-manager{
+        #toggle-manager-form .hide-manager {
             display: none;
         }
 
-        #toggle-manager-form.manager-on .hide-manager{
+        #toggle-manager-form.manager-on .hide-manager {
             display: block;
         }
 
-        #toggle-manager-form.manager-on .show-manager{
+        #toggle-manager-form.manager-on .show-manager {
             display: none;
         }
     </style>
@@ -22,6 +22,32 @@
     <div class="modal fade" id="add-edit-associations" tabindex="-1" aria-labelledby="associationModalLabel"
          aria-hidden="true">
         <div class="modal-dialog"></div>
+    </div>
+
+    <!-- Add Admin -->
+    <div class="modal fade" id="add-admin" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <form method="post" action="" id="bill-id-form">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel"></h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+
+                    <div class="modal-body">
+                        @csrf
+
+                        <div class="form-group">
+                            <label for="name">الاسم <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="add-name" name="name"
+                                   value="{{old('name')}}" required/>
+                        </div>
+
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
 
     <div class="breadcrumb-header justify-content-between">
@@ -129,7 +155,7 @@
             changeCity($(this).val())
         })
 
-        $('body').on('change', '#fees_type', function (){
+        $('body').on('change', '#fees_type', function () {
 
             var selectedOption = $(this).find(':selected');
             var label = selectedOption.data('label');
@@ -143,5 +169,103 @@
                 allowClear: true
             });
         }
+
+        $('body').on('select2:select', '#admin_id', function (e) {
+
+            const data = e.params.data;
+            if (data.id === 'add-new') {
+                // Open Add User modal if 'Add New User' is selected
+                $('#add-admin').css('z-index', 999999999); // Increase z-index
+                $('.modal-backdrop').css('z-index', 1050); // Adjust backdrop z-index
+                $('#add-admin').modal('show');
+
+                // Prevent body scroll
+                $('body').addClass('modal-open');
+
+                $.get('{{url('/admin/api/admins/create')}}').done(function (data) {
+                    $('#add-admin').find('.modal-dialog').html(data.data);
+                });
+            }
+        });
+
+        $('body').on('submit', '#ajax-form', function (e) {
+            e.preventDefault();
+
+            const formDate = $(this).serialize();
+            const form = $(this);
+
+            $.ajax({
+                url: '{{url('/admin/api/admins/store')}}',
+                data: formDate,
+                type: 'POST',
+                success: function (user) {
+                    var newOption = new Option(user.data.name+' - '+user.data.phone_number, user.data.id, false, true);
+                    $('#admin_id').append(newOption);
+
+                    // Close the Add User modal and reopen the User Select modal
+                    $('#add-admin').modal('hide');
+                },
+                error: function(xhr) {
+                    alert(xhr.status === 422)
+                    if (xhr.status === 422) { // Validation error
+                        let errors = xhr.responseJSON.errors;
+                        let errorMessage = '';
+
+                        $.each(errors, function (key, value) {
+                            errorMessage += '<li>' + value[0] + '</li>';
+                        });
+
+                        form.find('#error-list').html(errorMessage);
+                        form.find('#error-message').removeClass('d-none'); // Show the alert
+                    }
+                }
+            })
+        })
+
+        // When the new modal is hidden, adjust z-index and manage scrolling
+        $('#add-admin').on('hidden.bs.modal', function () {
+            // Reset z-index for the backdrop
+            $('.modal-backdrop').last().css('z-index', '');
+
+            // Check if there's any other modal open
+            if ($('.modal.show').length) {
+                $('body').addClass('modal-open');
+            } else {
+                $('body').removeClass('modal-open');
+            }
+        });
+
+
+        $('body').on('submit', '#create-association', function (e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+            const form = $(this);
+
+            $.ajax({
+                url: '{{url('/associations')}}',
+                data: formData,
+                processData: false, // Prevent jQuery from processing the data
+                contentType: false, // Prevent jQuery from setting contentType
+                type: 'POST',
+                success: function (data) {
+                    AddEditAssociationModal.modal('hide');
+                    toastr.success("تم اضافة الجمعية بنجاح.");
+                },
+                error: function(xhr)  {
+                    alert(xhr.status === 422)
+                    if (xhr.status === 422) { // Validation error
+                        let errors = xhr.responseJSON.errors;
+                        let errorMessage = '';
+
+                        $.each(errors, function (key, value) {
+                            errorMessage += '<li>' + value[0] + '</li>';
+                        });
+
+                        form.find('#error-list').html(errorMessage);
+                        form.find('#error-message').removeClass('d-none'); // Show the alert
+                    }
+                }
+            })
+        });
     </script>
 @endpush

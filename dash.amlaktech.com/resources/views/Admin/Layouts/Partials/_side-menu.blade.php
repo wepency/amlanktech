@@ -62,11 +62,11 @@
 
             <ul class="slide-menu">
                 @if(is_admin())
-                    @if(can('view associations'))
+{{--                    @if(can('view associations'))--}}
                         <li>
                             <a class="slide-item" href="{{route('dashboard.associations.index')}}"> الجمعيات</a>
                         </li>
-                    @endif
+{{--                    @endif--}}
                 @endif
 
                 @if(can('view association units'))

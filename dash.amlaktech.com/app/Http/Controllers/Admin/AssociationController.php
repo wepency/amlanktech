@@ -45,14 +45,14 @@ class AssociationController extends Controller
 
         try {
 
-            AssociationService::CreateOrUpdate($request, $association);
-            return back()->withSuccess('Association created successfully');
+            return AssociationService::CreateOrUpdate($request, $association);
+//            return back()->withSuccess('Association created successfully');
 
         } catch (\Exception $exception) {
             Log::debug($exception->getMessage());
         }
 
-        return back()->withError('There was an error creating this association.');
+//        return back()->withError('There was an error creating this association.');
     }
 
     public function edit(Request $request, Association $association){

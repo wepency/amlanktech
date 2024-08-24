@@ -32,13 +32,13 @@
                         </div>
                         <div class="float-start">
                             <h4 class="card-text text-muted mb-1"> الاشتراكات</h4>
-                            <h3 class="pr-3" id="subscriptionsCounter">0</h3>
+                            <h3 class="pr-3" id="subscriptionsCounter">{{$subscriptions}}</h3>
                         </div>
                     </div>
                     <a href="{{route('dashboard.subscriptions.index')}}">
                         <div class="card-footer p-0">
                             <p class="text-muted mb-0 pt-4"><i class="si si-arrow-down-circle text-info me-1-20  me-2"
-                                                               aria-hidden="true"></i>الاطلاع</p>
+                                                               aria-hidden="true"></i>عرض الاشتراكات</p>
                         </div>
                     </a>
                 </div>
@@ -49,7 +49,8 @@
                 <div class="card-body list-icons">
 
                     <div class="clearfix">
-                        <div class="float-end  mb-3">
+
+                        <div class="float-end mb-3">
                             <span class="text-success ">
                                 {{ currency($paids) }}
                             </span>
@@ -62,8 +63,7 @@
 
                     <a href="{{route('dashboard.subscriptions.paid')}}">
                         <div class="card-footer p-0">
-                            <p class="text-muted mb-0 pt-4"><i class="si si-exclamation text-success me-2"></i>الاطلاع
-                            </p>
+                            <p class="text-muted mb-0 pt-4"><i class="si si-exclamation text-success me-2"></i>عرض المدفوعات</p>
                         </div>
                     </a>
                 </div>
@@ -85,8 +85,7 @@
                     </div>
                     <a href="{{route('dashboard.subscriptions.notPaid')}}">
                         <div class="card-footer p-0">
-                            <p class="text-muted mb-0 pt-4"><i class="si si-exclamation text-warning me-2"></i>الاطلاع
-                            </p>
+                            <p class="text-muted mb-0 pt-4"><i class="si si-exclamation text-warning me-2"></i>عرض المستحقات</p>
                         </div>
                     </a>
 
@@ -111,8 +110,7 @@
 
                     <a href="{{route('dashboard.subscriptions.late')}}">
                         <div class="card-footer p-0">
-                            <p class="text-muted mb-0 pt-4"><i class="si si-exclamation text-danger me-2"></i>الاطلاع
-                            </p>
+                            <p class="text-muted mb-0 pt-4"><i class="si si-exclamation text-danger me-2"></i>عرض المتأخرات</p>
                         </div>
                     </a>
                 </div>
@@ -126,7 +124,7 @@
                 <div class="card-body">
                     <div class="card-order">
                         <h6 class="mb-2">عدد الجمعيات</h6>
-                        <h2 class="text-end"><i class="fe fe-bar-chart-2 tx-40 float-start text-primary text-primary-shadow"></i><span>1896</span></h2>
+                        <h2 class="text-end"><i class="fe fe-bar-chart-2 tx-40 float-start text-primary text-primary-shadow"></i><span>{{$associations}}</span></h2>
                     </div>
                 </div>
             </div>
@@ -137,7 +135,7 @@
                 <div class="card-body">
                     <div class="card-order">
                         <h6 class="mb-2">الملاك</h6>
-                        <h2 class="text-end"><i class="fe fe-users tx-40 float-start text-primary text-primary-shadow"></i><span>1896</span></h2>
+                        <h2 class="text-end"><i class="fe fe-users tx-40 float-start text-primary text-primary-shadow"></i><span>{{$members}}</span></h2>
                     </div>
                 </div>
             </div>
@@ -148,7 +146,7 @@
                 <div class="card-body">
                     <div class="card-order">
                         <h6 class="mb-2">الوحدات</h6>
-                        <h2 class="text-end"><i class="fe fe-home tx-40 float-start text-primary text-primary-shadow"></i><span>1896</span></h2>
+                        <h2 class="text-end"><i class="fe fe-home tx-40 float-start text-primary text-primary-shadow"></i><span>{{$units}}</span></h2>
                     </div>
                 </div>
             </div>
@@ -159,7 +157,7 @@
                 <div class="card-body">
                     <div class="card-order">
                         <h6 class="mb-2">السندات</h6>
-                        <h2 class="text-end"><i class="fe fe-home tx-40 float-start text-primary text-primary-shadow"></i><span>1896</span></h2>
+                        <h2 class="text-end"><i class="fe fe-home tx-40 float-start text-primary text-primary-shadow"></i><span>{{$paymentReceipts}}</span></h2>
                     </div>
                 </div>
             </div>
@@ -182,7 +180,6 @@
         const targetAssociations = {{$associations}};
         const targetMembers = {{$members}};
         const targetUnits = {{$units}};
-        const targetBills = {{$bills}};
 
         const counters = {
             subscriptions: {elementId: 'subscriptionsCounter', targetValue: targetSubscriptions},
@@ -192,7 +189,6 @@
             associations: {elementId: 'associations', targetValue: targetAssociations},
             members: {elementId: 'members', targetValue: targetMembers},
             units: {elementId: 'units', targetValue: targetUnits},
-            bills: {elementId: 'bills', targetValue: targetBills},
         };
 
         // Function to update a counter

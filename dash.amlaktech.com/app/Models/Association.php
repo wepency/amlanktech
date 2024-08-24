@@ -13,9 +13,9 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\Image\Manipulations;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class Association extends Model implements HasMedia
+class Association extends Model
 {
-    use HasFactory, SoftDeletes, InteractsWithMedia;
+    use HasFactory, SoftDeletes;
 
     protected $fillable = [
         'name',
@@ -29,7 +29,7 @@ class Association extends Model implements HasMedia
         'address',
         'postal_code',
         'city_id',
-//        'admin_id'
+        'admin_id'
     ];
 
     protected $casts = [
@@ -58,13 +58,13 @@ class Association extends Model implements HasMedia
         return $this->belongsTo(FeeType::class, 'fee_type_id', 'id');
     }
 
-    public function registerMediaConversions(Media $media = null): void
-    {
-        $this
-            ->addMediaConversion('preview')
-            ->fit(Manipulations::FIT_CROP, 300, 300)
-            ->nonQueued();
-    }
+//    public function registerMediaConversions(Media $media = null): void
+//    {
+//        $this
+//            ->addMediaConversion('preview')
+//            ->fit(Manipulations::FIT_CROP, 300, 300)
+//            ->nonQueued();
+//    }
 
     public function admin(): BelongsTo
     {

@@ -28,7 +28,7 @@ class StoreAssociationRequest extends FormRequest
             'fee_type_id' => 'required|numeric',
             'fee_amount' => 'required|numeric',
             'admin_id' => 'nullable|integer',
-            'registration_certificate' => 'nullable|file|mimes:pdf,docx,png,jpg,jpeg,svg,gif|max:4096',
+            'registration_certificate' => 'nullable|file|mimes:pdf,docx,png,jpg,jpeg,svg,gif,xlsx|max:4096',
         ];
     }
 }

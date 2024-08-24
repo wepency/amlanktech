@@ -1,4 +1,4 @@
-<form method="post" action="{{$url}}" enctype="multipart/form-data">
+<form id="create-association" method="post" action="{{$url}}" enctype="multipart/form-data">
     <div class="modal-content">
         <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLabel">{{$page_title}}</h5>
@@ -80,40 +80,44 @@
             </div>
 
             <div class="form-group">
-                <label for="admin_id"> رئيس الجمعية </label>
+                <label for="admin_id" class="required"> رئيس الجمعية </label>
 
-                <select class="form-select" id="admin_id" name="admin_id" data-placeholder="اختر رئيس الجمعية">
-                    <option></option>
-
-                    @foreach($admins as $admin)
-                        <option value="{{$admin->id}}" {{$association->admin_id ==  $admin?->id ? 'selected' : ''}}>
-                            {{$admin->name}}
-                        </option>
-                    @endforeach
-                </select>
+                <div class="form-group">
+                    <select name="admin_id" id="admin_id" class="select2 w-100">
+                        @if($association->exists)
+                            <option value="{{$association->admin_id}}">{{$association->admin->name . ' - ' . $association->admin->phone_number}}</option>
+                        @endif
+                    </select>
+                </div>
             </div>
-
-            @if(!$association->exists)
-                <div id="manager-form"></div>
-                <button type="button" class="btn btn-success" id="toggle-manager-form">
-
-                <span class="show-manager">
-                    <i class="fa fa-plus"></i> <span>اضافة مدير</span>
-                </span>
-
-                    <span class="hide-manager">
-                    <i class="fa fa-minus"></i> <span>إزالة</span>
-                </span>
-
-                </button>
-            @endif
 
             <script>
                 $(document).ready(function () {
 
+                    // Handle Select2 change event
                     $('#admin_id').select2({
-                        dropdownParent: $('.modal-body'),
                         allowClear: true,
+                        placeholder: 'برجاء اختيار رئيس الجمعية',
+                        ajax: {
+                            url: '/admin/api/admins', // URL to fetch current users
+                            dataType: 'json',
+                            processResults: function (data) {
+                                let results = data.map(function (user) {
+                                    return {
+                                        id: user.id,
+                                        text: user.name
+                                    };
+                                });
+                                // Add "Add New User" option
+                                results.unshift({
+                                    id: 'add-new',
+                                    text: '+ اضافة رئيس جمعية'
+                                });
+                                return {
+                                    results: results
+                                };
+                            }
+                        }
                     });
 
                     $('#toggle-manager-form').click(function (e) {

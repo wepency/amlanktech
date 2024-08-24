@@ -38,11 +38,13 @@ class RouteServiceProvider extends ServiceProvider
 
 
             // Admin Route File
-//            Route::middleware('web')
-//                ->as('dashboard.')
-//                ->namespace(self::ADMIN_NAMESPACE)
-//                ->prefix('dashboard')
-//                ->group(base_path('routes/admin.php'));
+            if ($this->app->environment() == 'local') {
+                Route::middleware('web')
+                    ->as('dashboard.')
+                    ->namespace(self::ADMIN_NAMESPACE)
+                    ->prefix('dashboard')
+                    ->group(base_path('routes/admin.php'));
+            }
 
             // Admin Route File
 //            Route::middleware('web')

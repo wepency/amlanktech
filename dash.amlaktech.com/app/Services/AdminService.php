@@ -21,10 +21,10 @@ class AdminService implements AdminInterface
                 $fields['password'] = Hash::make($request->password);
         }
 
-        $admin->syncRoles([$request->role_group]);
-
-        return $admin->updateOrCreate([
+        $admin = $admin->updateOrCreate([
             'id' => $admin?->id
         ], $fields);
+
+        return $admin->syncRoles([$request->role_group]);
     }
 }
