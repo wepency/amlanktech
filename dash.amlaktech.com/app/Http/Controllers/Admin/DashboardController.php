@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Association;
-use App\Models\Bill;
 use App\Models\PaymentReceipt;
 use App\Models\Subscription;
 use App\Models\Unit;

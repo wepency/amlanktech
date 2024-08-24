@@ -45,6 +45,14 @@ class StoreMemberHandler
                     'user_id' => $member->id
                 ]);
             }
+        }else {
+            AssociationsMembers::updateOrCreate([
+                'association_id' => getAssociationId(),
+                'user_id' => $member->id
+            ],[
+                'association_id' => getAssociationId(),
+                'user_id' => $member->id
+            ]);
         }
 
         DB::commit();

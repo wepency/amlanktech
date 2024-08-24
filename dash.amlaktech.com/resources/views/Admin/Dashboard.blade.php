@@ -63,7 +63,8 @@
 
                     <a href="{{route('dashboard.subscriptions.paid')}}">
                         <div class="card-footer p-0">
-                            <p class="text-muted mb-0 pt-4"><i class="si si-exclamation text-success me-2"></i>عرض المدفوعات</p>
+                            <p class="text-muted mb-0 pt-4"><i class="si si-exclamation text-success me-2"></i>عرض
+                                المدفوعات</p>
                         </div>
                     </a>
                 </div>
@@ -85,7 +86,8 @@
                     </div>
                     <a href="{{route('dashboard.subscriptions.notPaid')}}">
                         <div class="card-footer p-0">
-                            <p class="text-muted mb-0 pt-4"><i class="si si-exclamation text-warning me-2"></i>عرض المستحقات</p>
+                            <p class="text-muted mb-0 pt-4"><i class="si si-exclamation text-warning me-2"></i>عرض
+                                المستحقات</p>
                         </div>
                     </a>
 
@@ -110,7 +112,8 @@
 
                     <a href="{{route('dashboard.subscriptions.late')}}">
                         <div class="card-footer p-0">
-                            <p class="text-muted mb-0 pt-4"><i class="si si-exclamation text-danger me-2"></i>عرض المتأخرات</p>
+                            <p class="text-muted mb-0 pt-4"><i class="si si-exclamation text-danger me-2"></i>عرض
+                                المتأخرات</p>
                         </div>
                     </a>
                 </div>
@@ -126,7 +129,9 @@
                     <div class="card-body">
                         <div class="card-order">
                             <h6 class="mb-2">عدد الجمعيات</h6>
-                            <h2 class="text-end"><i class="fe fe-bar-chart-2 tx-40 float-start text-primary text-primary-shadow"></i><span>{{$associations}}</span></h2>
+                            <h2 class="text-end"><i
+                                    class="fe fe-bar-chart-2 tx-40 float-start text-primary text-primary-shadow"></i><span>{{$associations}}</span>
+                            </h2>
                         </div>
                     </div>
                 </div>
@@ -138,7 +143,9 @@
                 <div class="card-body">
                     <div class="card-order">
                         <h6 class="mb-2">الملاك</h6>
-                        <h2 class="text-end"><i class="fe fe-users tx-40 float-start text-primary text-primary-shadow"></i><span>{{$members}}</span></h2>
+                        <h2 class="text-end"><i
+                                class="fe fe-users tx-40 float-start text-primary text-primary-shadow"></i><span>{{$members}}</span>
+                        </h2>
                     </div>
                 </div>
             </div>
@@ -149,7 +156,9 @@
                 <div class="card-body">
                     <div class="card-order">
                         <h6 class="mb-2">الوحدات</h6>
-                        <h2 class="text-end"><i class="fe fe-home tx-40 float-start text-primary text-primary-shadow"></i><span>{{$units}}</span></h2>
+                        <h2 class="text-end"><i
+                                class="fe fe-home tx-40 float-start text-primary text-primary-shadow"></i><span>{{$units}}</span>
+                        </h2>
                     </div>
                 </div>
             </div>
@@ -160,7 +169,9 @@
                 <div class="card-body">
                     <div class="card-order">
                         <h6 class="mb-2">السندات</h6>
-                        <h2 class="text-end"><i class="fe fe-home tx-40 float-start text-primary text-primary-shadow"></i><span>{{$paymentReceipts}}</span></h2>
+                        <h2 class="text-end"><i
+                                class="fe fe-home tx-40 float-start text-primary text-primary-shadow"></i><span>{{$paymentReceipts}}</span>
+                        </h2>
                     </div>
                 </div>
             </div>
