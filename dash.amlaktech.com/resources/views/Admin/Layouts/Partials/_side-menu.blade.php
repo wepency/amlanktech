@@ -41,7 +41,7 @@
 
                 <i class="svg-icon side-menu__icon si si-doc"></i>
 
-                <span class="side-menu__label">طلبات انضمام الملاك<span class="badge bg-danger" style="position:absolute;left:20px;">{{\App\Models\User::notActive()->count()}}</span></span>
+                <span class="side-menu__label">طلبات انضمام الملاك<span class="badge bg-danger" style="position:absolute;left:20px;">{{ getUserRequestCount()  }}</span></span>
             </a>
         </li>
     @endif

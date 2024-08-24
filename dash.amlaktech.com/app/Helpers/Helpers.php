@@ -62,11 +62,14 @@ function get_user_image($guard = null)
         return 'https://eu.ui-avatars.com/api/?size=128&rounded=true&bold=true&background=395590&color=fff&name=' . auth($guard)->user()->name;
     }
 }
+
 function checkIfTicketExpired($lastTicketMessage)
 {
     return $lastTicketMessage?->sender_type == 'admin' && optional($lastTicketMessage?->created_at)->diffInDays(now()) > 2;
 }
-function canApplyAppeal($lastTicketMessage, $appealPeriod = 2) {
+
+function canApplyAppeal($lastTicketMessage, $appealPeriod = 2)
+{
     return $lastTicketMessage->sender_type == 'member' && optional($lastTicketMessage->created_at)->diffInDays(now()) >= $appealPeriod;
 }
 
@@ -557,6 +560,17 @@ function getOnlyObjectsAccordingToAdmin($object, $association)
     }
 
     return $object;
+}
+
+function getUserRequestCount()
+{
+    $user = \App\Models\User::notActive();
+
+    if (!is_admin()) {
+        $user = getOnlyObjectsAccordingToAdmin($user, 'association_id');
+    }
+
+    return $user->count();
 }
 
 function getReactionString($type = '')

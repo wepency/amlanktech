@@ -70,7 +70,6 @@ class DashboardController extends Controller
             'paidsCount' => $paidsCount,
             'notPaidsCount' => $notPaidsCount,
             'latesCount' => $latesCount,
-
         ]);
     }
 }
