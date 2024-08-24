@@ -137,7 +137,7 @@ Route::middleware(['admin'])->group(function () {
     Route::post('permits/blocklist', [\App\Http\Controllers\Admin\PermitBlocksController::class, 'store'])->name('permits.blocklist.store');
     Route::post('permits/blocklist/{block}/delete', [\App\Http\Controllers\Admin\PermitBlocksController::class, 'destroy'])->name('permits.blocklist.destroy');
 
-    Route::resource('permits', \App\Http\Controllers\Admin\PermitsController::class);
+    Route::resource('permits', \App\Http\Controllers\Admin\PermitsController::class)->except('show');
 
     Route::resource('tickets/{ticket}/messages', TicketMessageController::class)->only('index', 'store', 'update', 'destroy');
 
@@ -152,3 +152,7 @@ Route::prefix('admin/api')->group(function () {
     Route::get('admins/create', [\App\Http\Controllers\Admin\API\AdminController::class, 'create']);
     Route::post('admins/store', [\App\Http\Controllers\Admin\API\AdminController::class, 'store']);
 });
+
+Route::get('permits/{permit?}', [App\Http\Controllers\Admin\PermitsController::class, 'show'])->name('permits.show');;
+
+
