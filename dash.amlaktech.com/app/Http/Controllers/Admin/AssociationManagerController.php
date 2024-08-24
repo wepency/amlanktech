@@ -93,7 +93,9 @@ class AssociationManagerController extends Controller
 
         try {
 
-            $request->merge(['role' => 'manager', 'deleted_at' => now()]);
+            $hide = $request->hide_admin ? now() : null;
+
+            $request->merge(['role' => 'manager', 'deleted_at' => $hide]);
             AdminService::createOrUpdate($request, $manager);
             return back()->withSuccess('Association created successfully');
 

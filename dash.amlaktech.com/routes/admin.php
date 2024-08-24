@@ -154,5 +154,3 @@ Route::prefix('admin/api')->group(function () {
 });
 
 Route::get('permits/{permit?}', [App\Http\Controllers\Admin\PermitsController::class, 'show'])->name('permits.show');;
-
-

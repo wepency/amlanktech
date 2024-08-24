@@ -21,6 +21,9 @@ class AdminService implements AdminInterface
                 $fields['password'] = Hash::make($request->password);
         }
 
+        if (!is_admin())
+            $fields['association_id'] = getAssociationId();
+
         $admin = $admin->updateOrCreate([
             'id' => $admin?->id
         ], $fields);

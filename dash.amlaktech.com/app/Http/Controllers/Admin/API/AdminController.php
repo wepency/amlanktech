@@ -23,7 +23,7 @@ class AdminController extends Controller
         if (!is_admin())
             $admin = getOnlyObjectsAccordingToAdmin($admin, 'association_id')->where('id', '!=', dashboard_auth()->id());
 
-        return $admin->orderBy('name', 'asc')->get()->map(function ($admin) {
+        return $admin->whereNull('association_id')->orderBy('name', 'asc')->get()->map(function ($admin) {
             return [
                 'id' => $admin->id,
                 'name' => $admin->name . ' - ' . $admin->phone_number

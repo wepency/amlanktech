@@ -68,7 +68,10 @@ class AssociationService implements AssociationInterface
 //        }
         $admin = Admin::withTrashed()->findOrFail(request()->admin_id);
 
-        Log::debug($admin->restore());
+        $admin->restore();
+
+        $admin->syncRoles([7]);
+
         return $admin->update([
            'association_id' => $associationId
         ]);

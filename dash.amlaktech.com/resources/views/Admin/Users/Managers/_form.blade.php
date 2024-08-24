@@ -24,7 +24,7 @@
     <input type="email" class="form-control" id="email" name="email" value="{{old('email')  ?? $manager->email }}"/>
 </div>
 
-@if(!isset($type) && !empty($associations))
+@if(!isset($type) && !empty($associations) && is_admin())
     <div class="form-group">
         <label for="association_id"> الجمعية </label>
 
@@ -59,5 +59,6 @@
         </select>
     </div>
 @else
+    <input type="hidden" name="hide_admin" value="1" />
     <input type="hidden" name="role_group" value="7" />
 @endif
