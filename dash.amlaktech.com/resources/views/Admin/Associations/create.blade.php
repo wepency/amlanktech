@@ -84,8 +84,8 @@
 
                 <div class="form-group">
                     <select name="admin_id" id="admin_id" class="select2 w-100">
-                        @if($association->exists)
-                            <option value="{{$association->admin_id}}">{{$association->admin->name . ' - ' . $association->admin->phone_number}}</option>
+                        @if($association->exists && $association?->admin)
+                            <option value="{{$association->admin_id}}">{{$association?->admin?->name . ' - ' . $association?->admin?->phone_number}}</option>
                         @endif
                     </select>
                 </div>
