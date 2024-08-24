@@ -119,16 +119,19 @@
     </div>
 
     <div class="row row-sm">
-        <div class="col-lg-6 col-xl-3 col-md-6 col-12">
-            <div class="card">
-                <div class="card-body">
-                    <div class="card-order">
-                        <h6 class="mb-2">عدد الجمعيات</h6>
-                        <h2 class="text-end"><i class="fe fe-bar-chart-2 tx-40 float-start text-primary text-primary-shadow"></i><span>{{$associations}}</span></h2>
+
+        @if(is_admin())
+            <div class="col-lg-6 col-xl-3 col-md-6 col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="card-order">
+                            <h6 class="mb-2">عدد الجمعيات</h6>
+                            <h2 class="text-end"><i class="fe fe-bar-chart-2 tx-40 float-start text-primary text-primary-shadow"></i><span>{{$associations}}</span></h2>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        @endif
 
         <div class="col-lg-6 col-xl-3 col-md-6 col-12">
             <div class="card">

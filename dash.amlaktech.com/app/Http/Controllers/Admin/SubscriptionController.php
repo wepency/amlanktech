@@ -14,23 +14,29 @@ class SubscriptionController extends Controller
 
     public function index()
     {
-        $subscriptions = Subscription::paginate(10);
-        $subscriptionsCount = Subscription::count();
+        $subscriptions = Subscription::query();
+
+        if (!is_admin()) {
+            $subscriptions = getOnlyObjectsAccordingToAdmin($subscriptions, getAssociationId());
+        }
+
+        $subscriptions = $subscriptions->paginate(10);
+
+        $subscriptionsCount = $subscriptions->total();
+
         $associations = Association::all();
         $units = Unit::all();
         $subscriptionTypes = SubscriptionType::all();
 
-
         return view('Admin.Subscriptions.Index', [
-            'page_title'=>'الاشتراكات',
-            'subscriptions'=>$subscriptions,
-            'associations'=>$associations,
-            'units'=>$units,
-            'subscriptionTypes'=>$subscriptionTypes,
-            'subscriptionsCount'=>$subscriptionsCount,
+            'page_title' => 'الاشتراكات',
+            'subscriptions' => $subscriptions,
+            'associations' => $associations,
+            'units' => $units,
+            'subscriptionTypes' => $subscriptionTypes,
+            'subscriptionsCount' => $subscriptionsCount,
         ]);
     }
-
 
 
     public function store(Request $request)
@@ -89,7 +95,7 @@ class SubscriptionController extends Controller
         $carFee = $association->car_fee;
 
         $unit = Unit::findOrFail($request->input('unit_id'));
-        $units = $unit->area ;
+        $units = $unit->area;
         $persons = $unit->unit_memebers;
         $families = $unit->unit_families;
         $cars = $unit->car_numbers;
@@ -132,11 +138,11 @@ class SubscriptionController extends Controller
         $subscriptionsCount = $lateSubscriptions->count();
 
         return view('Admin.Subscriptions.NotPaid', [
-            'page_title'=>'الاستحقاقات',
+            'page_title' => 'الاستحقاقات',
             'subscriptions' => $lateSubscriptions,
             'associations' => $associations,
             'units' => $units,
-            'subscriptionsCount'=>$subscriptionsCount,
+            'subscriptionsCount' => $subscriptionsCount,
             'subscriptionTypes' => $subscriptionTypes,
         ]);
     }
@@ -151,12 +157,12 @@ class SubscriptionController extends Controller
         $lateSubscriptions = Subscription::where('is_paid', true)->paginate(10);
         $subscriptionsCount = $lateSubscriptions->count();
 
-        return view('Admin.Subscriptions.Paid',[
-            'page_title'=>'المدفوعات',
+        return view('Admin.Subscriptions.Paid', [
+            'page_title' => 'المدفوعات',
             'subscriptions' => $lateSubscriptions,
             'associations' => $associations,
             'units' => $units,
-            'subscriptionsCount'=>$subscriptionsCount,
+            'subscriptionsCount' => $subscriptionsCount,
             'subscriptionTypes' => $subscriptionTypes,
         ]);
     }
@@ -177,7 +183,7 @@ class SubscriptionController extends Controller
         $subscriptionsCount = $lateSubscriptions->count();
 
         return view('Admin.Subscriptions.Late', [
-            'page_title'=>'المتأخرات',
+            'page_title' => 'المتأخرات',
             'subscriptions' => $lateSubscriptions,
             'associations' => $associations,
             'units' => $units,
@@ -186,7 +192,8 @@ class SubscriptionController extends Controller
         ]);
     }
 
-    public function destroy(Subscription $subscription){
+    public function destroy(Subscription $subscription)
+    {
 
         $subscription = Subscription::findOrFail($subscription->id);
         $subscription->delete();
