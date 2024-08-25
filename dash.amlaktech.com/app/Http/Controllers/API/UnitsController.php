@@ -161,6 +161,7 @@ class UnitsController extends Controller
         Unit::updateOrCreate([
             'id' => $unit->id
         ], [
+            'association_id' => $request->association_id,
             'name' => $request->unit_name,
             'unit_no' => $unitCode,
             'ownership_type' => $request->ownership_type,
