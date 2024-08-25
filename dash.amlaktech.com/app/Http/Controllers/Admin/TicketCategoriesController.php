@@ -60,7 +60,9 @@ class TicketCategoriesController extends Controller
     public function store(TicketCategory $ticketCategory)
     {
 
-        $create = $ticketCategory->create(request()->all());
+        $create = $ticketCategory->create(request()->all() + [
+            'association_id' => getAssociationId()
+        ]);
 
         return $this->redirectBack(
             $create
