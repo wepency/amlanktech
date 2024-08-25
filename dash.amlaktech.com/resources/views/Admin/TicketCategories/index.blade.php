@@ -54,11 +54,11 @@
 
                     @include('Frontend.Partials._messages')
 
-                    <div id="empty">
-                        @include('Admin.Layouts.Partials._empty')
-                    </div>
+{{--                    <div id="empty">--}}
+{{--                        @include('Admin.Layouts.Partials._empty')--}}
+{{--                    </div>--}}
 
-                    <div id="table" style="display: none">
+                    <div id="table" style="">
                         @include('Admin.Receipt_category._table')
                     </div>
 
