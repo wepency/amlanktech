@@ -135,7 +135,7 @@ Route::middleware(['admin'])->group(function () {
     Route::get('permits/blocklist', [\App\Http\Controllers\Admin\PermitBlocksController::class, 'index'])->name('permits.blocklist.index');
     Route::get('permits/blocklist/create', [\App\Http\Controllers\Admin\PermitBlocksController::class, 'create'])->name('permits.blocklist.create');
     Route::post('permits/blocklist', [\App\Http\Controllers\Admin\PermitBlocksController::class, 'store'])->name('permits.blocklist.store');
-    Route::post('permits/blocklist/{block}/delete', [\App\Http\Controllers\Admin\PermitBlocksController::class, 'destroy'])->name('permits.blocklist.destroy');
+    Route::delete('permits/blocklist/{block}/delete', [\App\Http\Controllers\Admin\PermitBlocksController::class, 'destroy'])->name('permits.blocklist.destroy');
 
     Route::resource('permits', \App\Http\Controllers\Admin\PermitsController::class)->except('show');
 

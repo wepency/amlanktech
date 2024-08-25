@@ -150,7 +150,7 @@
             lengthChange: false,
             searching: false,
             ajax: {
-                url: "{{ route('dashboard.permits.blocklist.index') }}",
+                url: "{{ dashboard_route('permits.blocklist.index') }}",
                 data: function (d) {
                     d.search = $('#search').val()
                     d.association = $('#associations-select').val()
@@ -165,13 +165,13 @@
             },
             columns: [
                 {data: 'id', name: 'id', orderable: true, searchable: false},
-                {data: 'national_id', name: 'owner', orderable: true, searchable: true},
+                {data: 'national_id', name: 'natinal_id', orderable: true, searchable: true},
 
                 @if(is_admin())
                 {data: 'association', name: 'association', orderable: true, searchable: true},
                 @endif
 
-                {data: 'action', name: 'action', orderable: false, searchable: false}
+                {data: 'actions', name: 'actions', orderable: false, searchable: false}
             ],
             responsive: true,
             order: [0, 'desc']

@@ -18,6 +18,7 @@ class PermitBlocksController extends Controller
                 ->addColumnNationalId()
                 ->addColumnAction()
                 ->getAssociationDetails()
+                ->rawTableColumns()
                 ->setRowId()
                 ->toJson();
         }
@@ -45,8 +46,8 @@ class PermitBlocksController extends Controller
         return $this->redirectBack(PermitBlockService::updateOrCreate($request, $permitBlock));
     }
 
-    public function destroy(Request $request, PermitBlock $permitBlock)
+    public function destroy(Request $request, PermitBlock $block)
     {
-        return $this->redirectBack($permitBlock->delete());
+        return $this->redirectBack($block->delete());
     }
 }
