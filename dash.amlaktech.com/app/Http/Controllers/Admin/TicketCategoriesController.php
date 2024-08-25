@@ -56,4 +56,14 @@ class TicketCategoriesController extends Controller
             ])->render()
         ]);
     }
+
+    public function store(TicketCategory $ticketCategory)
+    {
+
+        $create = $ticketCategory->create(request()->all());
+
+        return $this->redirectBack(
+            $create
+        );
+    }
 }
