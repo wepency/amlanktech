@@ -64,7 +64,7 @@ class UnitsController extends Controller
                 'unit_address' => 'required|max:191',
                 'water_meter_serial' => 'required|max:191',
                 'electricity_meter_serial' => 'required|max:191',
-                'area' => 'required|numeric'
+                'area' => 'nullable|numeric'
             ];
 
             $request->validate($validateField);
