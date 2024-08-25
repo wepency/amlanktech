@@ -107,7 +107,7 @@
             // lengthChange: false,
             // searching: false,
             ajax: {
-                url: "{{ getCurrentPageURL() }}",
+                url: "https://dash.amlaktech.com/ticket-categories",
                 data: function (d) {
                     // d.search = $('#search').val()
                     // d.association = $('#associations-select').val()
