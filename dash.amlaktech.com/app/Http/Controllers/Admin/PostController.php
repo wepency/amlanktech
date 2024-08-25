@@ -165,21 +165,25 @@ class PostController extends Controller
 //            'added_to_budget' => 'nullable'
         ];
 
-        $validatedData = $request->validate($data);
+//        $validatedData = $request->validate($data);
 
-        if ($request->hasFile('image')) {
-            $validatedData['image'] = UploadService::upload($request->file('image'))['filename'];
-        }
+//        if ($request->hasFile('image')) {
+//            $validatedData['image'] = UploadService::upload($request->file('image'))['filename'];
+//        }
+//
+//        if ($post->exists && !$request->hasFile('image')) {
+//            unset($validatedData['image']);
+//        }
+//
+//        $validatedData['is_active'] = $request->is_active == 'on';
 
-        if ($post->exists && !$request->hasFile('image')) {
-            unset($validatedData['image']);
-        }
-
-        $validatedData['is_active'] = $request->is_active == 'on';
-
-        $post = $post->updateOrCreate([
+        $post->updateOrCreate([
             'id' => $post->id
-        ], $validatedData);
+        ], [
+            'title' => $request->title,
+            'content' => $request->content,
+            'is_active' => $request->is_active == 'on',
+        ]);
 
         DB::commit();
 
