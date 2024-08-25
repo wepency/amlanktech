@@ -158,11 +158,11 @@ class PostController extends Controller
         DB::beginTransaction();
 
         $data = [
-            'name' => 'required|string|max:100',
-            'association_id' => 'nullable|exists:associations,id|numeric',
-            'amount' => 'required|numeric',
-            'file_path' => 'nullable|mimes:pdf,docx,doc,xslx,xls',
-            'added_to_budget' => 'nullable'
+//            'name' => 'required|string|max:100',
+//            'association_id' => 'nullable|exists:associations,id|numeric',
+//            'amount' => 'required|numeric',
+//            'file_path' => 'nullable|mimes:pdf,docx,doc,xslx,xls',
+//            'added_to_budget' => 'nullable'
         ];
 
         $validatedData = $request->validate($data);
