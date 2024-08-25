@@ -8,11 +8,11 @@
 
             <th scope="col">التصنيف</th>
 
-            <th scope="col">المدة قبل رفع الشكوى</th>
-
             @if(is_admin())
                 <th scope="col">الجمعية</th>
             @endif
+
+            <th scope="col">المدة قبل رفع الشكوى</th>
 
             <th scope="col">نوع التصنيف</th>
             <th scope="col">إجراءات</th>
