@@ -36,7 +36,7 @@ class TicketCategoriesController extends Controller
     public function create(TicketCategory $ticketCategory)
     {
         return response()->json([
-            'data' => view('Admin.ticketCategories.create', [
+            'data' => view('Admin.TicketCategories.create', [
                 'page_title' => 'اضافة تصنيف للطلبات',
                 'url' => dashboard_route('ticket-categories.store'),
                 'model' => $ticketCategory
@@ -49,7 +49,7 @@ class TicketCategoriesController extends Controller
         $ticketCategory = TicketCategory::findOrFail($ticketCategories);
 
         return response()->json([
-            'data' => view('Admin.ticketCategories.create', [
+            'data' => view('Admin.TicketCategories.create', [
                 'page_title' => 'تعديل التصنيف',
                 'url' => dashboard_route('ticket-categories.update', $ticketCategories?->id),
                 'model' => $ticketCategories
