@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Unit;
 use Carbon\Carbon;
 
 function dashboard_title($page_title = null)
@@ -564,15 +565,13 @@ function getOnlyObjectsAccordingToAdmin($object, $association)
 
 function getUserRequestCount()
 {
-    $user = \App\Models\User::notActive();
+    $unit = Unit::whereNull('status');
 
     if (!is_admin()) {
-        $user = $user->whereHas('association', function ($query){
-            return $query->where('id', getAssociationId());
-        });
+        $unit = $unit->where('association_id', getAssociationId());
     }
 
-    return $user->count();
+    return $unit->count();
 }
 
 function getReactionString($type = '')

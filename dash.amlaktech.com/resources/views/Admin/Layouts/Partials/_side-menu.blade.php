@@ -201,7 +201,7 @@
         </li>
     @endif
 
-    @if(can('view ads'))
+{{--    @if(can('view ads'))--}}
         <!----- Posts -->
         <li class="slide">
             <a class="side-menu__item" href="{{route('dashboard.posts.index')}}">
@@ -210,7 +210,7 @@
                 <span class="side-menu__label">المنشورات</span>
             </a>
         </li>
-    @endif
+{{--    @endif--}}
 
     <!----- Tasks -->
     <li class="slide">

@@ -123,7 +123,7 @@ class PostController extends Controller
     {
         try {
             return $this->redirectBack($this->updateOrCreate($request, $post));
-        }catch (\Exception $exception) {
+        } catch (\Exception $exception) {
             report($exception);
         }
 
@@ -145,7 +145,7 @@ class PostController extends Controller
     {
         try {
             return $this->redirectBack($this->updateOrCreate($request, $post));
-        }catch (\Exception $exception) {
+        } catch (\Exception $exception) {
             report($exception);
         }
 
@@ -155,35 +155,45 @@ class PostController extends Controller
     public function updateOrCreate(Request $request, Post $post)
     {
 
-        DB::beginTransaction();
+        try {
+            DB::beginTransaction();
 
-        $data = [
-            'name' => 'required|string|max:100',
-            'association_id' => 'nullable|exists:associations,id|numeric',
-            'amount' => 'required|numeric',
-            'file_path' => 'nullable|mimes:pdf,docx,doc,xslx,xls',
-            'added_to_budget' => 'nullable'
-        ];
+            $data = [
+                'title' => 'required|string|max:100',
+//                'association_id' => 'nullable|exists:associations,id|numeric',
+                'content' => 'required',
+                'file_path' => 'nullable|mimes:pdf,docx,doc,xslx,xls',
+            ];
 
-        $validatedData = $request->validate($data);
+            $validatedData = $request->validate($data);
 
-        if ($request->hasFile('image')) {
-            $validatedData['image'] = UploadService::upload($request->file('image'))['filename'];
+            if ($request->hasFile('image')) {
+                $validatedData['image'] = UploadService::upload($request->file('image'))['filename'];
+            }
+
+            if ($post->exists && !$request->hasFile('image')) {
+                unset($validatedData['image']);
+            }
+
+            if (!is_admin()) {
+                $validatedData['association_id'] = getAssociationId();
+            }
+
+            $validatedData['is_active'] = $request->is_active == 'on';
+
+            $post = $post->updateOrCreate([
+                'id' => $post->id
+            ], $validatedData);
+
+            DB::commit();
+
+            return true;
+
+        } catch (\Exception $exception) {
+            report($exception);
         }
 
-        if ($post->exists && !$request->hasFile('image')) {
-            unset($validatedData['image']);
-        }
-
-        $validatedData['is_active'] = $request->is_active == 'on';
-
-        $post = $post->updateOrCreate([
-            'id' => $post->id
-        ], $validatedData);
-
-        DB::commit();
-
-        return true;
+        return false;
     }
 
     public function destroy(Post $post)

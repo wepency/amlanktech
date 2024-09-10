@@ -14,6 +14,7 @@ class UnitService
     public static function updateOrCreate(Request $request, Unit $unit)
     {
         try {
+
             DB::beginTransaction();
 
             $associationId = is_admin() ? $request->association_id : auth('admin')->user()->association_id;
@@ -23,11 +24,11 @@ class UnitService
             $memberId = self::associateMember($associationId);
             $memberId = $memberId ? $memberId->id : $request->association_member_id;
 
-            $fields = $request->only((new Unit)->getFillable());
+            $fields = $request->only((new Unit)->__get('toFill'));
 
             $unitCode = $unit->unit_no;
 
-            if (is_null($unitCode)) {
+            if ($unitCode != '') {
                 $unitCode = generateUnitCode();
             }
 

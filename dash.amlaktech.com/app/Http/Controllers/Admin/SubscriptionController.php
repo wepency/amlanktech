@@ -39,7 +39,7 @@ class SubscriptionController extends Controller
     }
 
 
-    public function store(Request $request)
+    public function store(Request $request, Subscription $subscription)
     {
         $calculatedFee = $this->calculateSubscriptionFee($request);
 
@@ -48,15 +48,20 @@ class SubscriptionController extends Controller
         $validatedData['is_paid'] = $request->input('is_paid');
         $validatedData['total'] = $calculatedFee;
 
+        if ($request->amount != '') {
+            $validatedData['amount'] = $request->amount;
+            $validatedData['total'] = $request->amount;
+        }
+
         Subscription::create($validatedData);
 
         return redirect()->route('dashboard.subscriptions.index')->with('success', 'Subscription created successfully');
     }
 
 
-    public function update(Request $request, $id)
+    public function update(Request $request, Subscription $subscription)
     {
-        $subscription = Subscription::findOrFail($id);
+//        $subscription = Subscription::findOrFail($id);
 
         $updatedFee = $this->calculateSubscriptionFee($request);
 
@@ -64,6 +69,11 @@ class SubscriptionController extends Controller
 
         $validatedData['is_paid'] = $request->input('is_paid');
         $validatedData['total'] = $updatedFee;
+
+        if ($request->amount != '') {
+            $validatedData['amount'] = $request->amount;
+            $validatedData['total'] = $request->amount;
+        }
 
         $subscription->update($validatedData);
 
