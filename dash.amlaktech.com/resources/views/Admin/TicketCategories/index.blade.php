@@ -55,10 +55,10 @@
                     @include('Frontend.Partials._messages')
 
                     <div id="empty">
-                        @include('Admin.Layouts.Partials._empty')
+{{--                        @include('Admin.Layouts.Partials._empty')--}}
                     </div>
 
-                    <div id="table" style="display: none">
+                    <div id="table">
                         @include('Admin.Receipt_category._table')
                     </div>
 
@@ -107,7 +107,7 @@
             // lengthChange: false,
             // searching: false,
             ajax: {
-                url: "{{ getCurrentPageURL() }}",
+                url: "https://dash.amlaktech.com/ticket-categories",
                 data: function (d) {
                     // d.search = $('#search').val()
                     // d.association = $('#associations-select').val()

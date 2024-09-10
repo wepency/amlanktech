@@ -33,14 +33,28 @@
                        value="{{old('email')  ?? $user->email }}" />
             </div>
 
+            @if(!is_admin())
+                <div class="form-group">
+                    <label for="association_id">الجمعية</label>
+
+                    <select name="association_id" id="association_id" class="form-control">
+                        <option value="">اختر الجمعية</option>
+
+                        @foreach($associations as $association)
+                            <option value="{{$association->id}}" {{$user->association_id == $association->id ? 'selected' : ''}}>{{$association->name}}</option>
+                        @endforeach
+                    </select>
+                </div>
+            @endif
+
             <div class="form-group">
-                <label for="association_id">الجمعية</label>
+                <label for="association_id">الشركة الخدمية</label>
 
-                <select name="association_id" id="association_id" class="form-control">
-                    <option value="">اختر الجمعية</option>
+                <select name="company_id" id="company_id" class="form-control">
+                    <option value="">اختر الشركة</option>
 
-                    @foreach($associations as $association)
-                        <option value="{{$association->id}}" {{$user->association_id == $association->id ? 'selected' : ''}}>{{$association->name}}</option>
+                    @foreach($companies as $company)
+                        <option value="{{$company->id}}" {{$user->association_id == $company->id ? 'selected' : ''}}>{{$company->name}}</option>
                     @endforeach
                 </select>
             </div>

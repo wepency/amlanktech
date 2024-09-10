@@ -35,6 +35,11 @@ class User extends Authenticatable
         );
     }
 
+    public function company()
+    {
+        return $this->belongsTo(Company::class, 'company_id');
+    }
+
     public function associations()
     {
         return $this->hasManyThrough(

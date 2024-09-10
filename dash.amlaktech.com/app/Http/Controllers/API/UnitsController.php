@@ -64,7 +64,7 @@ class UnitsController extends Controller
                 'unit_address' => 'required|max:191',
                 'water_meter_serial' => 'required|max:191',
                 'electricity_meter_serial' => 'required|max:191',
-                'area' => 'required|numeric'
+                'area' => 'nullable|numeric'
             ];
 
             $request->validate($validateField);
@@ -103,7 +103,7 @@ class UnitsController extends Controller
                 'unit_address' => 'required|max:191',
                 'water_meter_serial' => 'required|max:191',
                 'electricity_meter_serial' => 'required|max:191',
-                'area' => 'required|numeric'
+                'area' => 'nullable|numeric'
             ];
 
             $request->validate($validateField);
@@ -161,6 +161,7 @@ class UnitsController extends Controller
         Unit::updateOrCreate([
             'id' => $unit->id
         ], [
+            'association_id' => $request->association_id,
             'name' => $request->unit_name,
             'unit_no' => $unitCode,
             'ownership_type' => $request->ownership_type,
