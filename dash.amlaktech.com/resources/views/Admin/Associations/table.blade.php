@@ -20,7 +20,7 @@
                             <th scope="col">اسم الجمعية</th>
                             <th scope="col">العنوان</th>
                             <th scope="col">رقم التسجيل</th>
-                            <th scope="col"> المدير</th>
+                            <th scope="col"> رئيس الحمعية </th>
 
                             <th scope="col">بداية الاشتراك</th>
                             <th scope="col">نهاية الاشتراك</th>

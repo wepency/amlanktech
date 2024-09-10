@@ -107,7 +107,7 @@
             // lengthChange: false,
             // searching: false,
             ajax: {
-                url: "https://dash.amlaktech.com/ticket-categories",
+                url: "{{dashboard_route('ticket-categories.index')}}",
                 data: function (d) {
                     // d.search = $('#search').val()
                     // d.association = $('#associations-select').val()
@@ -129,9 +129,9 @@
                 },
                     @endif
                 {data: 'appeal_period', name: 'appeal_period', orderable: true, searchable: false},
-                {
-                    data: 'status', name: 'status', orderable: true, searchable: false
-                },
+                // {
+                //     data: 'status', name: 'status', orderable: true, searchable: false
+                // },
                 {data: 'actions', name: 'actions', orderable: false, searchable: false}
             ],
             responsive: true,

@@ -30,7 +30,7 @@ class PermitRequest extends FormRequest
             'start_date' => 'required',
             'permit_days' => 'required|numeric',
             'type' => 'required|in:maintenance,worker,deliver,visitor',
-            'visitors' => 'required|array',
+            'visitors' => 'required|array'
         ];
     }
 }

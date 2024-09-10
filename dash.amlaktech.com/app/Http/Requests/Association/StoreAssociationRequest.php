@@ -24,7 +24,7 @@ class StoreAssociationRequest extends FormRequest
         return [
             'name' => 'required|string|max:255',
             'map_link' => 'required|string',
-            'registration_number' => 'required|string',
+            'registration_number' => 'required|numeric',
             'fee_type_id' => 'required|numeric',
             'fee_amount' => 'required|numeric',
             'admin_id' => 'nullable|integer',

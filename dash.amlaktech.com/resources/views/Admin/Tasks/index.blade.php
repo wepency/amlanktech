@@ -82,6 +82,8 @@
 
                             </div>
 
+                            <p>{{$task->description}}</p>
+
                             <div class="progress progress-sm mt-2">
                                 <div aria-valuemax="100" aria-valuemin="0" aria-valuenow="{{$progress}}"
                                      class="progress-bar bg-{{getTaskProgressBG($progress)}} wd-{{$progress}}p" role="progressbar"></div>

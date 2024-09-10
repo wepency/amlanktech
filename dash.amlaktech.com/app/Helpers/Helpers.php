@@ -71,7 +71,7 @@ function checkIfTicketExpired($lastTicketMessage)
 
 function canApplyAppeal($lastTicketMessage, $appealPeriod = 2)
 {
-    return $lastTicketMessage->sender_type == 'member' && optional($lastTicketMessage->created_at)->diffInDays(now()) >= $appealPeriod;
+    return $lastTicketMessage->sender_type == 'member' && optional($lastTicketMessage->created_at)->diffInHours(now()) >= $appealPeriod;
 }
 
 function calculateUnitFees($unitPrice, $amount): string

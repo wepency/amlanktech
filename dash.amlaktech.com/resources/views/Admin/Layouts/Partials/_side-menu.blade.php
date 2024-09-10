@@ -96,7 +96,7 @@
                 {{--                    @if(can('view managers'))--}}
                 @if(is_admin())
                     <li>
-                        <a class="slide-item" href="{{dashboard_route('admins.index')}}"> مديري التطبيق</a>
+                        <a class="slide-item" href="{{dashboard_route('admins.index')}}"> مدراء شركة املاك</a>
                     </li>
                 @endif
 
