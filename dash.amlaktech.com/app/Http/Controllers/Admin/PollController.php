@@ -6,22 +6,20 @@ use App\Http\Controllers\Controller;
 use App\Models\Option;
 use App\Models\Poll;
 use Illuminate\Http\Request;
-use PhpParser\Node\Expr\AssignOp\Pow;
 
 class PollController extends Controller
 {
-    
-    
+
     public function index()
     {
-        $polls = Poll::paginate(10); 
-        $pollsCount = Poll::count(); 
-        
+        $polls = Poll::paginate(10);
+        $pollsCount = Poll::count();
+
         return view('Admin.Polls.index', [
-            'page_title'=>'التصويتات',
-            'polls'=>$polls,
-            'pollsCount'=>$pollsCount,
-        ]); 
+            'page_title' => 'التصويتات',
+            'polls' => $polls,
+            'pollsCount' => $pollsCount,
+        ]);
     }
 
 
@@ -63,7 +61,7 @@ class PollController extends Controller
             'name' => $validatedData['name'],
         ]);
 
-        $poll->options()->delete(); 
+        $poll->options()->delete();
         foreach ($validatedData['options'] as $option) {
             $poll->options()->create(['option' => $option]);
         }
@@ -74,10 +72,10 @@ class PollController extends Controller
     public function show($id)
     {
         $poll = Poll::findOrFail($id);
-        
+
         return view('Admin.Polls.show', [
-            'page_title'=>' تصويتات  ',
-            'poll'      =>$poll,
+            'page_title' => ' تصويتات  ',
+            'poll' => $poll,
         ]);
     }
 
@@ -85,15 +83,9 @@ class PollController extends Controller
     {
         $poll = Poll::findOrFail($id);
         $poll->delete();
-        
+
         return redirect()->back()->with('success', 'Poll Deleted successfully');
 
     }
 
-    
-
-
 }
-
-
-

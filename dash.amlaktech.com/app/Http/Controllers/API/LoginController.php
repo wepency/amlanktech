@@ -16,16 +16,17 @@ class LoginController extends Controller
     {
 
         $username = $request->get('username');
+        $user = false;
 
         if (is_numeric($username)) {
             $username = PhoneNumber::validatePhoneNumber($username)['number'];
-            auth()->attempt(['phone_number' => $username, 'password' => $request->password]);
+            $user = auth('web')->attempt(['phone_number' => $username, 'password' => $request->password]);
         } else if (filter_var($username, FILTER_VALIDATE_EMAIL)) {
-            auth()->attempt(['email' => $username, 'password' => $request->password]);
+            $user = auth('web')->attempt(['email' => $username, 'password' => $request->password]);
         }
 
-        if (get_auth()) {
-            $status = get_auth()->user()->status;
+        if ($user) {
+            $status = auth('sanctum')->user()->status;
 
             if ($status != 1) {
                 $message = match ($status) {

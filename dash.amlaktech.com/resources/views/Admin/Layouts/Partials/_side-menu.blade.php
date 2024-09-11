@@ -138,6 +138,17 @@
         </li>
     @endif
 
+{{--    @if(can('view service company contracts'))--}}
+        <li class="slide">
+            <a class="side-menu__item" href="{{route('dashboard.polls.index')}}">
+
+                <i class="side-menu__icon si si-pie-chart"></i>
+
+                <span class="side-menu__label">التصويت</span>
+            </a>
+        </li>
+{{--    @endif--}}
+
     @if(can('view support tickets'))
         <!----- Tickets -->
 
