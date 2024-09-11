@@ -94,7 +94,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
         // Permits
         Route::post('permits/{permit}', [\App\Http\Controllers\API\PermitsController::class, 'update']);
-        Route::resource('permits', \App\Http\Controllers\API\PermitsController::class)->except('create', 'edit');
+        Route::resource('permits', \App\Http\Controllers\API\PermitsController::class)->except('create', 'edit', 'show');
 
         // Polls
         Route::get('polls', [\App\Http\Controllers\API\PollsController::class, 'index']);
@@ -103,6 +103,8 @@ Route::middleware('auth:sanctum')->group(function () {
     });
 
 });
+
+Route::get('permits', [\App\Http\Controllers\API\PermitsController::class, 'show']);
 
 // Dashboard API
 Route::prefix('dashboard')->group(function () {
