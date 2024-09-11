@@ -13,7 +13,7 @@
             <!-- Members -->
             <div class="form-group">
                 <label for="member_id" class="required">رقم الهوية</label>
-                <input type="text" class="form-control" name="national_id"  />
+                <input type="number" id="national-id" name="national_id" min="0" step="1" class="form-control" oninput="limitDigits(this)" />
             </div>
 
             <!-- Associations -->
@@ -40,4 +40,12 @@
     $(document).ready(function () {
         $('#associations-select').select2();
     })
+
+    function limitDigits(input) {
+        const maxLength = 10;
+        const value = input.value;
+        if (value.length > maxLength) {
+            input.value = value.slice(0, maxLength);
+        }
+    }
 </script>

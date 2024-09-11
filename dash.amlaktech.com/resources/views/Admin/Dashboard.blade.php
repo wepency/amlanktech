@@ -1,5 +1,15 @@
 @extends('Admin.Layouts.Dashboard')
 
+@push('styles')
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&display=swap"
+        rel="stylesheet"/>
+    <link rel="stylesheet" href="{{asset('assets/kpis/index.css')}}"/>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+@endpush
+
 @section('content')
     <!-- breadcrumb -->
     <div class="breadcrumb-header justify-content-between">
@@ -56,7 +66,7 @@
                             </span>
                         </div>
                         <div class="float-start">
-                            <h4 class="card-text text-muted mb-1">المدفوعات</h4>
+                            <h4 class="card-text text-muted mb-1">الوحدات</h4>
                             <h3 class="pr-3">{{$paidsCount}}</h3>
                         </div>
                     </div>
@@ -64,7 +74,7 @@
                     <a href="{{route('dashboard.subscriptions.paid')}}">
                         <div class="card-footer p-0">
                             <p class="text-muted mb-0 pt-4"><i class="si si-exclamation text-success me-2"></i>عرض
-                                المدفوعات</p>
+                                الوحدات</p>
                         </div>
                     </a>
                 </div>
@@ -80,14 +90,14 @@
                             </span>
                         </div>
                         <div class="float-start">
-                            <h4 class="card-text text-muted mb-1">المستحقات</h4>
+                            <h4 class="card-text text-muted mb-1">طلبات النظام</h4>
                             <h3 class="pr-3">{{$notPaidsCount}}</h3>
                         </div>
                     </div>
                     <a href="{{route('dashboard.subscriptions.notPaid')}}">
                         <div class="card-footer p-0">
                             <p class="text-muted mb-0 pt-4"><i class="si si-exclamation text-warning me-2"></i>عرض
-                                المستحقات</p>
+                                طلبات النظام</p>
                         </div>
                     </a>
 
@@ -178,60 +188,242 @@
         </div>
     </div>
 
+    <div class="charts">
+        <div>
+            <div class="chart-outer-wrapper">
+                <div class="header">
+                    <p>اجمالي الوحدات</p>
+                    <span>
+                  قم بتغير الفترة الزمنية لمقارنة الوحدات في فترات مختلفة
+                </span>
+                </div>
+                <div class="filters">
+                    <div class="radio-inputs">
+                        <label class="radio">
+                            <input
+                                type="radio"
+                                name="total-sales-filter"
+                                value="today"/>
+                            <span class="name">يومي</span>
+                        </label>
+                        <label class="radio">
+                            <input
+                                type="radio"
+                                value="week"
+                                name="total-sales-filter"
+                                checked=""/>
+                            <span class="name">اسبوعي</span>
+                        </label>
+                        <label class="radio">
+                            <input
+                                type="radio"
+                                value="month"
+                                name="total-sales-filter"/>
+                            <span class="name">شهري</span>
+                        </label>
+
+                        <label class="radio">
+                            <input
+                                type="radio"
+                                value="three_months"
+                                name="total-sales-filter"/>
+                            <span class="name">ربع سنوي</span>
+                        </label>
+                        <label class="radio">
+                            <input
+                                type="radio"
+                                value="six_months"
+                                name="total-sales-filter"/>
+                            <span class="name">نصف سنوي</span>
+                        </label>
+                        <label class="radio">
+                            <input
+                                type="radio"
+                                value="year"
+                                name="total-sales-filter"/>
+                            <span class="name">سنوي</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="chart-wrapper">
+                    <div class="chart">
+                        <canvas id="total-sales-chart" role="img"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--  -->
+        <div>
+            <div class="chart-outer-wrapper">
+                <div class="header">
+                    <p>اجمالي الاشتراكات</p>
+                    <span>
+                  قم بتغير الفترة الزمنية لمقارنة الاشتراكات في فترات مختلفة
+                </span>
+                </div>
+                <div class="filters">
+                    <div class="radio-inputs">
+                        <label class="radio">
+                            <input type="radio" name="profits-filter" value="today"/>
+                            <span class="name">يومي</span>
+                        </label>
+                        <label class="radio">
+                            <input
+                                type="radio"
+                                name="profits-filter"
+                                checked=""
+                                value="week"/>
+                            <span class="name">اسبوعي</span>
+                        </label>
+                        <label class="radio">
+                            <input type="radio" name="profits-filter" value="month"/>
+                            <span class="name">شهري</span>
+                        </label>
+
+                        <label class="radio">
+                            <input
+                                type="radio"
+                                name="profits-filter"
+                                value="three_months"/>
+                            <span class="name">ربع سنوي</span>
+                        </label>
+                        <label class="radio">
+                            <input
+                                type="radio"
+                                name="profits-filter"
+                                value="six-months"/>
+                            <span class="name">نصف سنوي</span>
+                        </label>
+                        <label class="radio">
+                            <input type="radio" name="profits-filter" value="year"/>
+                            <span class="name">سنوي</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="chart-wrapper">
+                    <div class="chart">
+                        <canvas id="profits-chart" role="img"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--  -->
+        <div>
+            <div class="chart-outer-wrapper">
+                <div class="header">
+                    <p>الوحدات</p>
+                    <span>
+                  قم بتغير الفترة الزمنية لمقارنة الوحدات في فترات مختلفة
+                </span>
+                </div>
+                <div class="filters">
+                    <div class="radio-inputs">
+                        <label class="radio">
+                            <input type="radio" name="units-filter" value="today"/>
+                            <span class="name">يومي</span>
+                        </label>
+                        <label class="radio">
+                            <input
+                                type="radio"
+                                name="units-filter"
+                                checked=""
+                                value="week"/>
+                            <span class="name">اسبوعي</span>
+                        </label>
+                        <label class="radio">
+                            <input type="radio" name="units-filter" value="month"/>
+                            <span class="name">شهري</span>
+                        </label>
+
+                        <label class="radio">
+                            <input
+                                type="radio"
+                                name="units-filter"
+                                value="three_months"/>
+                            <span class="name">ربع سنوي</span>
+                        </label>
+                        <label class="radio">
+                            <input
+                                type="radio"
+                                name="units-filter"
+                                value="six-months"/>
+                            <span class="name">نصف سنوي</span>
+                        </label>
+                        <label class="radio">
+                            <input type="radio" name="units-filter" value="year"/>
+                            <span class="name">سنوي</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="chart-wrapper">
+                    <div class="chart">
+                        <canvas id="units-chart" role="img"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--  -->
+        <!--  -->
+        <div>
+            <div class="chart-outer-wrapper">
+                <div class="header">
+                    <p>الحجوزات</p>
+                    <span>
+                  قم بتغير الفترة الزمنية لمقارنة الحجوزات في فترات مختلفة
+                </span>
+                </div>
+                <div class="filters">
+                    <div class="radio-inputs">
+                        <label class="radio">
+                            <input type="radio" name="bookings-filter" value="today"/>
+                            <span class="name">يومي</span>
+                        </label>
+                        <label class="radio">
+                            <input
+                                type="radio"
+                                name="bookings-filter"
+                                checked=""
+                                value="week"/>
+                            <span class="name">اسبوعي</span>
+                        </label>
+                        <label class="radio">
+                            <input type="radio" name="bookings-filter" value="month"/>
+                            <span class="name">شهري</span>
+                        </label>
+
+                        <label class="radio">
+                            <input
+                                type="radio"
+                                name="bookings-filter"
+                                value="three_months"/>
+                            <span class="name">ربع سنوي</span>
+                        </label>
+                        <label class="radio">
+                            <input
+                                type="radio"
+                                name="bookings-filter"
+                                value="six-months"/>
+                            <span class="name">نصف سنوي</span>
+                        </label>
+                        <label class="radio">
+                            <input type="radio" name="bookings-filter" value="year"/>
+                            <span class="name">سنوي</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="chart-wrapper">
+                    <div class="chart">
+                        <canvas id="bookings-chart" role="img"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--  -->
+    </div>
+
 @endsection
 
-@section('scripts')
-    <script src="{{asset('assets/back/plugins/raphael/raphael.min.js')}}"></script>
-    <script src="{{asset('assets/back/plugins/morris.js/morris.min.js')}}"></script>
-
-
-    <script>
-        // Define target values for the counters
-        const targetSubscriptions = {{$subscriptions}};
-        const targetPaid = {{$paids}};
-        const targetNotPaid = {{$notPaids}};
-        const targetLate = {{$lates}};
-        const targetAssociations = {{$associations}};
-        const targetMembers = {{$members}};
-        const targetUnits = {{$units}};
-
-        const counters = {
-            subscriptions: {elementId: 'subscriptionsCounter', targetValue: targetSubscriptions},
-            paid: {elementId: 'paidCounter', targetValue: targetPaid},
-            notPaid: {elementId: 'notPaidCounter', targetValue: targetNotPaid},
-            late: {elementId: 'lateCounter', targetValue: targetLate},
-            associations: {elementId: 'associations', targetValue: targetAssociations},
-            members: {elementId: 'members', targetValue: targetMembers},
-            units: {elementId: 'units', targetValue: targetUnits},
-        };
-
-        // Function to update a counter
-        function updateCounter(counter) {
-            const element = document.getElementById(counter.elementId);
-            const duration = 1000; // Duration in milliseconds
-            const frameDuration = 1000 / 60; // 60 frames per second
-
-            const increment = counter.targetValue / (duration / frameDuration);
-            let currentCount = 0;
-
-            const counterInterval = setInterval(() => {
-                currentCount += increment;
-                element.textContent = Math.round(currentCount);
-
-                if (currentCount >= counter.targetValue) {
-                    element.textContent = counter.targetValue;
-                    clearInterval(counterInterval);
-                }
-            }, frameDuration);
-        }
-
-        // Start the counter animations for each category
-        for (const key in counters) {
-            if (Object.hasOwnProperty.call(counters, key)) {
-                const counter = counters[key];
-                updateCounter(counter);
-            }
-        }
-    </script>
-
-@endsection
+@push('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="{{asset('assets/kpis/index.js')}}"></script>
+@endpush

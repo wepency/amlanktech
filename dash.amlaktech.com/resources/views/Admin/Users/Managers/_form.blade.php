@@ -15,8 +15,7 @@
 
 <div class="form-group">
     <label for="national_id" class="required"> رقم الهوية </label>
-    <input type="text" class="form-control" id="national_id" name="national_id"
-           value="{{old('national_id') ?? $manager->national_id}}" required />
+    <input type="number" id="national_id" name="national_id" min="0" step="1" class="form-control" value="{{old('national_id') ?? $manager->national_id}}" oninput="limitDigits(this)" required />
 </div>
 
 <div class="form-group">
@@ -62,3 +61,13 @@
     <input type="hidden" name="hide_admin" value="1" />
     <input type="hidden" name="role_group" value="7" />
 @endif
+
+<script>
+    function limitDigits(input) {
+        const maxLength = 10;
+        const value = input.value;
+        if (value.length > maxLength) {
+            input.value = value.slice(0, maxLength);
+        }
+    }
+</script>

@@ -62,46 +62,46 @@ const defaultOptions = {
   const statisticsMap = {
     all_bookings_count: {
       label: "اجمالي عدد الحجوزات",
-      icon: "./assets/calendar-days.svg",
+      icon: "/assets/kpis/assets/calendar-days.svg",
     },
     active_bookings: {
       label: "حجوزات فعالة",
-      icon: "./assets/calendar-clock.svg",
+      icon: "/assets/kpis/assets/calendar-clock.svg",
     },
     active_bookings_nights: {
       label: "اجمالي الليالي المحجوزة",
-      icon: "./assets/calendar-days.svg",
+      icon: "/assets/kpis/assets/calendar-days.svg",
     },
     active_last_24_visitors: {
-      label: " الزائرين خلا 24 ساعة",
-      icon: "./assets/user-round-plus.svg",
+      label: " الزائرين خلال 24 ساعة",
+      icon: "/assets/kpis/assets/user-round-plus.svg",
     },
     cancelled_bookings: {
       label: "الحجوزات الملغاه",
-      icon: "./assets/calendar-x.svg",
+      icon: "/assets/kpis/assets/calendar-x.svg",
     },
     expired_bookings: {
       label: "حجوزات منتهية",
-      icon: "./assets/calendar-check.svg",
+      icon: "/assets/kpis/assets/calendar-check.svg",
     },
-    active_units: { label: "الوحدات الفعالة", icon: "./assets/activity.svg" },
+    active_units: { label: "الوحدات الفعالة", icon: "/assets/kpis/assets/activity.svg" },
     active_visitors: {
       label: "العملاء النشطين",
-      icon: "./assets/user-round-pen.svg",
+      icon: "/assets/kpis/assets/user-round-pen.svg",
     },
 
-    all_units: { label: "اجمالي عدد الوحدات", icon: "./assets/building-2.svg" },
-    all_users: { label: "عدد العملاء", icon: "./assets/users.svg" },
+    all_units: { label: "اجمالي عدد الوحدات", icon: "/assets/kpis/assets/building-2.svg" },
+    all_users: { label: "عدد العملاء", icon: "/assets/kpis/assets/users.svg" },
 
     licensed_units: {
       label: "الوحدات المرخصة",
-      icon: "./assets/user-check.svg",
+      icon: "/assets/kpis/assets/user-check.svg",
     },
-    linked_units: { label: "Linked units", icon: "./assets/link.svg" },
-    partners_count: { label: "اجمالي الشركاء", icon: "./assets/handshake.svg" },
+    linked_units: { label: "عقارات مربوطه", icon: "/assets/kpis/assets/link.svg" },
+    partners_count: { label: "اجمالي الشركاء", icon: "/assets/kpis/assets/handshake.svg" },
     verified_users: {
       label: "مستخدمين موثقين",
-      icon: "./assets/user-check.svg",
+      icon: "/assets/kpis/assets/user-check.svg",
     },
   }
 
