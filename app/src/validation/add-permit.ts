@@ -14,7 +14,10 @@ export const AddPermitSchema = z.object({
   type: z.enum(["maintenance", "worker", "deliver", "visitor"]),
   visitors: z.array(
     z.object({
-      national_id: z.string().regex(/^\s*\d+\s*$/, "رقم غير صالح"),
+      national_id: z
+        .string()
+        .regex(/^\s*\d+\s*$/, "رقم غير صالح")
+        .max(10, "رقم غير صالح"),
       visitor_name: z.string().min(1, "مطلوب"),
     }),
   ),
