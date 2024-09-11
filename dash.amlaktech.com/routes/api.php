@@ -100,6 +100,9 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('polls', [\App\Http\Controllers\API\PollsController::class, 'index']);
         Route::get('polls/{poll}', [\App\Http\Controllers\API\PollsController::class, 'show']);
         Route::post('polls/{poll}/toggle-vote', [\App\Http\Controllers\API\PollsController::class, 'toggleVote']);
+
+        // Statics
+        Route::get('statics', \App\Http\Controllers\API\StaticsController::class);
     });
 
 });
