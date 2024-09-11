@@ -28,10 +28,6 @@ export type Option = {
 }
 
 export type Vote = {
-  user: User
-}
-
-export type User = {
   id: number
   name: string
   avatar: string
