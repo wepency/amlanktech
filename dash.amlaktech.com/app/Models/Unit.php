@@ -12,23 +12,23 @@ class Unit extends Model
 {
     use HasFactory, SoftDeletes;
 
-//    protected $fillable = [
-//        'association_id',
-//        'fee_type_amount',
-//        'fee_type_total',
-//        'ownership_type',
-//        'partners_amount',
-//        'ownership_ratio',
-//        'address',
-//        'unit_no',
-//        'water_meter_serial',
-//        'electricity_meter_serial',
-//        'association_member_id',
-//        'sub_start_date',
-//        'notes',
-//        'status',
-//        'area'
-//    ];
+    protected $toFill = [
+        'association_id',
+        'fee_type_amount',
+        'fee_type_total',
+        'ownership_type',
+        'partners_amount',
+        'ownership_ratio',
+        'address',
+        'unit_no',
+        'water_meter_serial',
+        'electricity_meter_serial',
+        'association_member_id',
+        'sub_start_date',
+        'notes',
+        'status',
+        'area'
+    ];
 
     public $guarded = ['id'];
 

@@ -26,7 +26,8 @@ class PollsResource extends JsonResource
             'is_answered' => count($userVotes) > 0,
             'selected_option_id' => $userVotes[0]->poll_item_id ?? null,
             'options' => PollItemsResource::collectOptions($this->items, $this->votes_count, $userVotes),
-            'created_at' => $this->created_at
+            'created_at' => $this->created_at,
+            'voters' => PollVotesResource::make($this->user)
         ];
     }
 }

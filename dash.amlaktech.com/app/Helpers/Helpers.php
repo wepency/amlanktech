@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Unit;
 use Carbon\Carbon;
 
 function dashboard_title($page_title = null)
@@ -62,12 +63,15 @@ function get_user_image($guard = null)
         return 'https://eu.ui-avatars.com/api/?size=128&rounded=true&bold=true&background=395590&color=fff&name=' . auth($guard)->user()->name;
     }
 }
+
 function checkIfTicketExpired($lastTicketMessage)
 {
     return $lastTicketMessage?->sender_type == 'admin' && optional($lastTicketMessage?->created_at)->diffInDays(now()) > 2;
 }
-function canApplyAppeal($lastTicketMessage, $appealPeriod = 2) {
-    return $lastTicketMessage->sender_type == 'member' && optional($lastTicketMessage->created_at)->diffInDays(now()) >= $appealPeriod;
+
+function canApplyAppeal($lastTicketMessage, $appealPeriod = 2)
+{
+    return $lastTicketMessage->sender_type == 'member' && optional($lastTicketMessage->created_at)->diffInHours(now()) >= $appealPeriod;
 }
 
 function calculateUnitFees($unitPrice, $amount): string
@@ -557,6 +561,17 @@ function getOnlyObjectsAccordingToAdmin($object, $association)
     }
 
     return $object;
+}
+
+function getUserRequestCount()
+{
+    $unit = Unit::whereNull('status');
+
+    if (!is_admin()) {
+        $unit = $unit->where('association_id', getAssociationId());
+    }
+
+    return $unit->count();
 }
 
 function getReactionString($type = '')

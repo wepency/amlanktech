@@ -6,8 +6,7 @@
 
 <div class="form-group">
     <label for="phonenumber" class="required"> رقم الجوال </label>
-    <input type="number" class="form-control" id="phonenumber" name="phone_number"
-           value="{{old('phone_number') ?? $member->phone_number}}" required/>
+    <input type="number" id="phonenumber" name="phone_number" min="0" step="1" class="form-control" value="{{old('phone_number') ?? $member->phone_number}}" oninput="limitDigits(this)" required />
 </div>
 
 <div class="form-group">
@@ -25,3 +24,13 @@
     <label for="password-confirmation" class="{{$member->exists ?: 'required'}}"> تأكيد كلمة المرور </label>
     <input type="password" class="form-control" id="password-confirmation" name="password_confirmation" {{$member->exists ?: 'required'}} />
 </div>
+
+<script>
+    function limitDigits(input) {
+        const maxLength = 10;
+        const value = input.value;
+        if (value.length > maxLength) {
+            input.value = value.slice(0, maxLength);
+        }
+    }
+</script>

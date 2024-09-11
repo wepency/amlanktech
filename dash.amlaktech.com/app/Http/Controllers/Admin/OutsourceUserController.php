@@ -7,6 +7,7 @@ use App\Http\Requests\OutsourceUsers\StoreOutsourceRequest;
 use App\Http\Requests\OutsourceUsers\UpdateOutsourceRequest;
 use App\Models\Admin;
 use App\Models\Association;
+use App\Models\Company;
 use App\Services\OutsourceService;
 use Illuminate\Support\Facades\Log;
 
@@ -32,12 +33,21 @@ class OutsourceUserController extends Controller
     {
         $associations = Association::orderBy('name', 'asc')->get();
 
+        $companies = Company::query();
+
+        if (!is_admin()) {
+            $companies = $companies->where('association_id', getAssociationId());
+        }
+
+        $companies = $companies->get();
+
         return response()->json([
             'data' => view('Admin.Users.OutsourceUsers.create', [
                 'page_title' => 'إضافة موظف خارج النظام',
                 'url' => dashboard_route('outsource_employees.store'),
                 'user' => $admin,
-                'associations' => $associations
+                'associations' => $associations,
+                'companies' => $companies
             ])->render()
         ]);
     }

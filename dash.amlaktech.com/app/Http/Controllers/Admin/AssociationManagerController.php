@@ -71,7 +71,7 @@ class AssociationManagerController extends Controller
     {
         return response()->json([
             'data' => view('Admin.Users.Managers.create', [
-                'page_title' => 'إضافة مدير جمعية',
+                'page_title' => 'إضافة عضو جمعية',
                 'url' => dashboard_route('managers.store'),
                 'manager' => $manager,
                 'associations' => $this->associations(),
@@ -93,7 +93,9 @@ class AssociationManagerController extends Controller
 
         try {
 
-            $request->merge(['role' => 'manager']);
+            $hide = $request->hide_admin ? now() : null;
+
+            $request->merge(['role' => 'manager', 'deleted_at' => $hide]);
             AdminService::createOrUpdate($request, $manager);
             return back()->withSuccess('Association created successfully');
 

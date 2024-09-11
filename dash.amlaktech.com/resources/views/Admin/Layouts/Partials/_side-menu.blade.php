@@ -41,7 +41,8 @@
 
                 <i class="svg-icon side-menu__icon si si-doc"></i>
 
-                <span class="side-menu__label">طلبات انضمام الملاك<span class="badge bg-danger" style="position:absolute;left:20px;">{{\App\Models\User::notActive()->count()}}</span></span>
+                <span class="side-menu__label">طلبات انضمام الملاك<span class="badge bg-danger"
+                                                                        style="position:absolute;left:20px;">{{ getUserRequestCount()  }}</span></span>
             </a>
         </li>
     @endif
@@ -62,11 +63,11 @@
 
             <ul class="slide-menu">
                 @if(is_admin())
-                    @if(can('view associations'))
-                        <li>
-                            <a class="slide-item" href="{{route('dashboard.associations.index')}}"> الجمعيات</a>
-                        </li>
-                    @endif
+                    {{--                    @if(can('view associations'))--}}
+                    <li>
+                        <a class="slide-item" href="{{route('dashboard.associations.index')}}"> الجمعيات</a>
+                    </li>
+                    {{--                    @endif--}}
                 @endif
 
                 @if(can('view association units'))
@@ -91,26 +92,29 @@
             </a>
 
             <ul class="slide-menu">
-{{--                @if(!is_manager())--}}
-{{--                    @if(can('view managers'))--}}
-                        <li>
-                            <a class="slide-item" href="{{dashboard_route('admins.index')}}"> مديري التطبيق</a>
-                        </li>
-{{--                    @endif--}}
-
-{{--                    @if(can('view association heads'))--}}
-                        <li>
-                            <a class="slide-item" href="{{dashboard_route('managers.index')}}"> اعضاء الجمعية </a>
-                        </li>
-{{--                    @endif--}}
-{{--                @endif--}}
-
-{{--                @if(can('view outsource employees'))--}}
+                {{--                @if(!is_manager())--}}
+                {{--                    @if(can('view managers'))--}}
+                @if(is_admin())
                     <li>
-                        <a class="slide-item" href="{{route('dashboard.outsource_employees.index')}}"> الموظفون خارج
-                            النظام</a>
+                        <a class="slide-item" href="{{dashboard_route('admins.index')}}"> مدراء شركة املاك</a>
                     </li>
-{{--                @endif--}}
+                @endif
+
+                {{--                    @endif--}}
+
+                {{--                    @if(can('view association heads'))--}}
+                <li>
+                    <a class="slide-item" href="{{dashboard_route('managers.index')}}"> اعضاء الجمعية </a>
+                </li>
+                {{--                    @endif--}}
+                {{--                @endif--}}
+
+                {{--                @if(can('view outsource employees'))--}}
+                <li>
+                    <a class="slide-item" href="{{route('dashboard.outsource_employees.index')}}"> الموظفون خارج
+                        النظام</a>
+                </li>
+                {{--                @endif--}}
 
                 @if (can('view association members'))
                     <li>
@@ -133,6 +137,17 @@
             </a>
         </li>
     @endif
+
+{{--    @if(can('view service company contracts'))--}}
+        <li class="slide">
+            <a class="side-menu__item" href="{{route('dashboard.polls.index')}}">
+
+                <i class="side-menu__icon si si-pie-chart"></i>
+
+                <span class="side-menu__label">التصويت</span>
+            </a>
+        </li>
+{{--    @endif--}}
 
     @if(can('view support tickets'))
         <!----- Tickets -->
@@ -197,7 +212,7 @@
         </li>
     @endif
 
-    @if(can('view ads'))
+{{--    @if(can('view ads'))--}}
         <!----- Posts -->
         <li class="slide">
             <a class="side-menu__item" href="{{route('dashboard.posts.index')}}">
@@ -206,7 +221,7 @@
                 <span class="side-menu__label">المنشورات</span>
             </a>
         </li>
-    @endif
+{{--    @endif--}}
 
     <!----- Tasks -->
     <li class="slide">
@@ -263,14 +278,14 @@
         </li>
     @endif
 
-     @if (can('view gifts'))
-    <li class="slide">
-        <a class="side-menu__item " href="{{route('dashboard.gifts.index')}}">
-            <i class="side-menu__icon si si-bag"></i>
-            <span class="side-menu__label">الهبات</span>
-        </a>
-    </li>
-     @endif
+    @if (can('view gifts'))
+        <li class="slide">
+            <a class="side-menu__item " href="{{route('dashboard.gifts.index')}}">
+                <i class="side-menu__icon si si-bag"></i>
+                <span class="side-menu__label">الهبات</span>
+            </a>
+        </li>
+    @endif
 
     @if(canOr(['view income receipts', 'view payment receipt requests', 'view payment receipts']))
         <!-- Receipts -->
@@ -295,7 +310,8 @@
                 <!-- Hold Receipts -->
                 @if (can('view payment receipt requests'))
                     <li>
-                        <a class="slide-item" href="{{dashboard_route('payment-receipts.index', ['type' => 'requests'])}}">
+                        <a class="slide-item"
+                           href="{{dashboard_route('payment-receipts.index', ['type' => 'requests'])}}">
                             سندات الصرف المقيدة</a>
                     </li>
                 @endif

@@ -16,6 +16,10 @@
     </div>
 @endif
 
+<div id="error-message" class="alert alert-danger d-none">
+    <ul id="error-list"></ul>
+</div>
+
 @if($errors->any())
     <ul class="alert alert-danger">
         @foreach($errors->all() as $error)

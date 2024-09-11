@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Permit;
+use App\Models\PermitBlock;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -68,7 +69,11 @@ class PermitService
                 'permit_id' => $permit->id
             ];
 
-            if ($visitor['national_id'] == '1107521104')
+//                ->where(function ($query){
+//                $query->whereNull('association_id')->orWhere('association_id', $this->permit->id);
+//            });
+
+            if (PermitBlock::where('national_id', $visitor['national_id'])->exists())
                 throw new \Exception('رقم الهوية هذا محظور.');
         }
 

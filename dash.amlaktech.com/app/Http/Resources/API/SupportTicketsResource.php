@@ -21,7 +21,8 @@ class SupportTicketsResource extends JsonResource
             'content' => SupportTicketContentResource::make($this->firstMessage),
             'association' => AssociationsResource::make($this->association),
             'can_apply_appeal' => canApplyAppeal($this->lastMessage),
-            'category' => SupportTicketCategoriesResource::make($this->category),
+//            'category' => SupportTicketCategoriesResource::make($this->category),
+            'category' => $this?->category?->name,
             'status' => $this->status(),
             'created_at' => $this->created_at,
             'replies' => $this->when($this->resource->show_details, function (){

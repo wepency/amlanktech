@@ -127,7 +127,9 @@ class PostController extends Controller
             report($exception);
         }
 
-        return $this->redirectBack(false);
+        return $exception->getMessage();
+
+//        return $this->redirectBack(false);
     }
 
     public function edit(Request $request, Post $post)
@@ -158,11 +160,10 @@ class PostController extends Controller
         DB::beginTransaction();
 
         $data = [
-            'name' => 'required|string|max:100',
+            'title' => 'required|string|max:100',
             'association_id' => 'nullable|exists:associations,id|numeric',
-            'amount' => 'required|numeric',
-            'file_path' => 'nullable|mimes:pdf,docx,doc,xslx,xls',
-            'added_to_budget' => 'nullable'
+            'content' => 'required|string',
+            'image' => 'nullable|image'
         ];
 
         $validatedData = $request->validate($data);

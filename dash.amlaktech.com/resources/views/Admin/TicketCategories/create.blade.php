@@ -29,7 +29,7 @@
 
             <div class="form-group">
                 <label for="name" class="required"> مهلة التصعيد </label>
-                <p><small class="text-muted">عدد الايام المسموح بها قبل اظهر زر تصعيد الطلب</small></p>
+                <p><small class="text-muted">عدد الساعات المسموح بها قبل ظهور زر تصعيد الطلب</small></p>
 
                 <input type="text" class="form-control" id="appeal_period" name="appeal_period" value="{{old('appeal_period') ?? $model->appeal_period ?? 2}}" />
             </div>

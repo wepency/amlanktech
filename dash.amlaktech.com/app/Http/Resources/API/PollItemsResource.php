@@ -17,8 +17,13 @@ class PollItemsResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        $votes = [];
         $optionVotesCount = count($this->votes);
         $totalVotes = max(self::$totalVotes, 1);
+
+        foreach ($this->votes as $vote) {
+            $votes[] = UserResource::make($vote->user);
+        }
 
         return [
             'id' => $this->id,
@@ -26,7 +31,7 @@ class PollItemsResource extends JsonResource
             'votes_count' => count($this->votes),
             'vote_percent' => ($optionVotesCount / $totalVotes) * 100,
             'is_selected' => is_array(self::$userVotes) && in_array($this->id, self::$userVotes),
-            'votes' => PollVotesResource::collection($this->votes),
+            'votes' => $votes,
         ];
     }
 

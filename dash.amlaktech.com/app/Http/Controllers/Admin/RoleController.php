@@ -40,11 +40,13 @@ class RoleController extends Controller
     {
         $permissions = Permissions::attributes();
 
-        return view('Admin.Roles._form', [
-            'page_title' => 'اضافة مجموعة صلاحيات',
-            'permissionGroups' => $permissions,
-            'role' => $role,
-            'url' => dashboard_route('roles.store'),
+        return response()->json([
+            'data' => view('Admin.Roles._form', [
+                'page_title' => 'اضافة مجموعة صلاحيات',
+                'permissionGroups' => $permissions,
+                'role' => $role,
+                'url' => dashboard_route('roles.store'),
+            ])->render()
         ]);
     }
 

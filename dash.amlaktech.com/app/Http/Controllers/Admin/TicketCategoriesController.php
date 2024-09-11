@@ -36,7 +36,7 @@ class TicketCategoriesController extends Controller
     public function create(TicketCategory $ticketCategory)
     {
         return response()->json([
-            'data' => view('Admin.ticketCategories.create', [
+            'data' => view('Admin.TicketCategories.create', [
                 'page_title' => 'اضافة تصنيف للطلبات',
                 'url' => dashboard_route('ticket-categories.store'),
                 'model' => $ticketCategory
@@ -49,11 +49,45 @@ class TicketCategoriesController extends Controller
         $ticketCategory = TicketCategory::findOrFail($ticketCategories);
 
         return response()->json([
-            'data' => view('Admin.ticketCategories.create', [
+            'data' => view('Admin.TicketCategories.create', [
                 'page_title' => 'تعديل التصنيف',
-                'url' => dashboard_route('ticket-categories.update', $ticketCategories?->id),
-                'model' => $ticketCategories
+                'url' => dashboard_route('ticket-categories.update', $ticketCategory?->id),
+                'model' => $ticketCategory
             ])->render()
         ]);
+    }
+
+    public function store(TicketCategory $ticketCategory)
+    {
+
+        $create = $ticketCategory->create(request()->all() + [
+                'association_id' => getAssociationId()
+            ]);
+
+        return $this->redirectBack(
+            $create
+        );
+    }
+
+    public function update(TicketCategory $ticketCategory)
+    {
+
+        $update = $ticketCategory->update(request()->all() + [
+                'association_id' => getAssociationId()
+            ]);
+
+        return $this->redirectBack(
+            $update
+        );
+    }
+
+    public function destroy(TicketCategory $ticketCategory)
+    {
+
+        $delete = $ticketCategory->delete();
+
+        return $this->redirectBack(
+            $delete
+        );
     }
 }

@@ -25,7 +25,8 @@ class Admin extends Authenticatable
         'profession',
         'salary',
         'address',
-        'association_id'
+        'association_id',
+        'deleted_at'
     ];
 
     protected $hidden = [

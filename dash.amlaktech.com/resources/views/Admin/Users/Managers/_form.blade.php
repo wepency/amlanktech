@@ -15,8 +15,7 @@
 
 <div class="form-group">
     <label for="national_id" class="required"> رقم الهوية </label>
-    <input type="text" class="form-control" id="national_id" name="national_id"
-           value="{{old('national_id') ?? $manager->national_id}}" required />
+    <input type="number" id="national_id" name="national_id" min="0" step="1" class="form-control" value="{{old('national_id') ?? $manager->national_id}}" oninput="limitDigits(this)" required />
 </div>
 
 <div class="form-group">
@@ -24,7 +23,7 @@
     <input type="email" class="form-control" id="email" name="email" value="{{old('email')  ?? $manager->email }}"/>
 </div>
 
-@if(!isset($type))
+@if(!isset($type) && !empty($associations) && is_admin())
     <div class="form-group">
         <label for="association_id"> الجمعية </label>
 
@@ -46,14 +45,29 @@
     <input type="password" class="form-control" id="password-confirmation" name="password_confirmation" {{$manager->exists ?: 'required'}} />
 </div>
 
-<div class="form-group">
-    <label for="role-group" class="required"> الصلاحية </label>
+@if(!empty($roles))
+    <div class="form-group">
+        <label for="role-group" class="required"> الصلاحية </label>
 
-    <select name="role_group" id="role-group" class="form-control">
-        <option value=""></option>
+        <select name="role_group" id="role-group" class="form-control">
+            <option value=""></option>
 
-        @foreach($roles as $role)
-            <option value="{{$role->name}}" {{in_array($role->name, $manager->roles->pluck('name')->toArray()) ? 'selected' : ''}}>{{$role->main_name}}</option>
-        @endforeach
-    </select>
-</div>
+            @foreach($roles as $role)
+                <option value="{{$role->name}}" {{in_array($role->name, $manager->roles->pluck('name')->toArray()) ? 'selected' : ''}}>{{$role->main_name}}</option>
+            @endforeach
+        </select>
+    </div>
+@else
+    <input type="hidden" name="hide_admin" value="1" />
+    <input type="hidden" name="role_group" value="7" />
+@endif
+
+<script>
+    function limitDigits(input) {
+        const maxLength = 10;
+        const value = input.value;
+        if (value.length > maxLength) {
+            input.value = value.slice(0, maxLength);
+        }
+    }
+</script>

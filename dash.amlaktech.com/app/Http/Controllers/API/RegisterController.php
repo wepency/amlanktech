@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Classes\PhoneNumber;
 use App\Http\Controllers\Controller;
+use App\Models\Association;
 use App\Models\AssociationsMembers;
 use App\Models\Unit;
 use App\Models\User;
@@ -41,6 +42,8 @@ class RegisterController extends Controller
 
             $request->validate($validateField);
 
+            $association = Association::findOrFail($request->association_id);
+
             DB::beginTransaction();
 
             $user = User::create([
@@ -63,9 +66,12 @@ class RegisterController extends Controller
                 'association_member_id' => $user->id,
                 'unit_no' => generateUnitCode(),
                 'ownership_type' => $request->ownership_type,
+                'partners_amount' => $request->partners_amount,
                 'address' => $request->unit_address,
                 'water_meter_serial' => $request->water_meter_serial,
                 'electricity_meter_serial' => $request->electricity_meter_serial,
+                'fee_type_amount' => $request->fee_type_amount ?? 0,
+                'fee_type_total' => calculateUnitFees($association->fee_amount, $request->fee_type_value),
 //                'area' => $request->area
             ]);
 

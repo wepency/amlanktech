@@ -16,6 +16,7 @@ return [
         'solved' => 'محلولة',
         'notSolved' => 'جديدة',
         'closed' => 'مغلقة',
+        'answered' => 'بانتظار رد المالك',
     ],
 
     'pages' => [

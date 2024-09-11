@@ -1,433 +1,440 @@
-$(window).load(function () {
-    var $container = $('.start-screen');
+class LocaleCache {
+  constructor() {
+    this.cache = {}
+  }
 
-    $container.masonry({
-        itemSelector: '.masonry-item',
-        columnWidth: 128
-    });
+  // Method
+  isCashed(key) {
+    return key in this.cache
+  }
+  get(key) {
+    if (key in this.cache) return this.cache[key]
+    return null
+  }
 
-    /*$container.sortable({
-      items: '.start-screen__tile',
-      start: function(e, ui) {
-        ui.item.removeClass('masonry-item');
-        $container.masonry('reloadItems');
-
-        console.log('start drag');
-      },
-      change: function(e, ui) {
-       $container.masonry('reload');
-      },
-      stop: function(e, ui) {
-        ui.item.addClass('masonry-item');
-        $container.masonry('reload');
-
-        console.log('stop drag');
-      }
-    });
-    $container.disableSelection();*/
-
-
-    $('.start-menu').hide().css('opacity', 1);
-});
-
-$(function () {
-    //$('.start-screen-scroll').jScrollPane();
-});
-
-function resizeStart() {
-    var startWidth = $('.start-screen').outerWidth();
-    var startRound = Math.ceil(startWidth / 128.0) * 128;
-
-    console.log('original: ' + startWidth);
-    console.log('rounded: ' + startRound);
-
-    $('.start-screen').css({
-        'width': startRound
-    });
+  set(key, value) {
+    this.cache[key] = value
+  }
 }
 
-//$(window).load(resizeStart);
-//$(window).resize(resizeStart);
+const cache = new LocaleCache()
+const baseURL = "https://app.mabet.com.sa/dashboard"
 
+const MabetKPIs = axios.create({
+  baseURL,
+})
 
-$(function () {
-    var zIndex = 1;
+// Append '4d' to the colors (alpha channel), except for the hovered index
+function handleHover(evt, item, legend) {
+  const color = legend.chart.data.datasets[item.datasetIndex].backgroundColor
+  legend.chart.data.datasets[item.datasetIndex].backgroundColor = color + "4D"
+  legend.chart.update()
+}
+// Removes the alpha channel from background colors
+function handleLeave(evt, item, legend) {
+  const color = legend.chart.data.datasets[item.datasetIndex].backgroundColor
+  legend.chart.data.datasets[item.datasetIndex].backgroundColor = color.slice(
+    0,
+    -2
+  )
+  legend.chart.update()
+}
+// chart default options
+const defaultOptions = {
+  responsive: true,
 
-    var fullHeight = $(window).height() - 48,
-        fullWidth = $(window).width();
+  animation: {
+    duration: 1000, // duration of the animation in ms
+    easing: "easeInOutQuad", // easing function
+  },
+  interaction: {
+    intersect: false,
+    mode: "index",
+  },
+  scales: {
+    y: {
+      beginAtZero: true,
+    },
+  },
+}
 
+;(async () => {
+  const statisticsMap = {
+    all_bookings_count: {
+      label: "اجمالي عدد الحجوزات",
+      icon: "./assets/calendar-days.svg",
+    },
+    active_bookings: {
+      label: "حجوزات فعالة",
+      icon: "./assets/calendar-clock.svg",
+    },
+    active_bookings_nights: {
+      label: "اجمالي الليالي المحجوزة",
+      icon: "./assets/calendar-days.svg",
+    },
+    active_last_24_visitors: {
+      label: " الزائرين خلا 24 ساعة",
+      icon: "./assets/user-round-plus.svg",
+    },
+    cancelled_bookings: {
+      label: "الحجوزات الملغاه",
+      icon: "./assets/calendar-x.svg",
+    },
+    expired_bookings: {
+      label: "حجوزات منتهية",
+      icon: "./assets/calendar-check.svg",
+    },
+    active_units: { label: "الوحدات الفعالة", icon: "./assets/activity.svg" },
+    active_visitors: {
+      label: "العملاء النشطين",
+      icon: "./assets/user-round-pen.svg",
+    },
 
-    $(window).resize(function () {
-        fullHeight = $(window).height() - 48;
-        fullWidth = $(window).width();
-    });
+    all_units: { label: "اجمالي عدد الوحدات", icon: "./assets/building-2.svg" },
+    all_users: { label: "عدد العملاء", icon: "./assets/users.svg" },
 
-    $(function () {
-        $('.window:visible').each(function () {
-            var appName = $(this).data('window');
+    licensed_units: {
+      label: "الوحدات المرخصة",
+      icon: "./assets/user-check.svg",
+    },
+    linked_units: { label: "Linked units", icon: "./assets/link.svg" },
+    partners_count: { label: "اجمالي الشركاء", icon: "./assets/handshake.svg" },
+    verified_users: {
+      label: "مستخدمين موثقين",
+      icon: "./assets/user-check.svg",
+    },
+  }
 
-            $('.taskbar__item[data-window="' + appName + '"]').addClass('taskbar__item--open');
-        });
+  const statistics = document.getElementById("statistics")
+  // ;(async () => {
+  try {
+    const response = await MabetKPIs.get("/kpis")
 
-        $('.window:hidden').each(function () {
-            $(this).addClass('window--opening');
-        });
-    });
+    const fragment = document.createDocumentFragment()
+    Object.entries(response.data.data).forEach(([key, value]) => {
+      if (typeof statisticsMap[key] === "undefined") return null
+      const card = document.createElement("div")
+      card.className = "statistic-card"
+      card.innerHTML = `
+       <div class="icon">
+                <img src="${statisticsMap[key].icon}" alt="icon" />
+              </div>
+              <p class="label">${statisticsMap[key].label}</p>
+              <span>${value}</span>
+      `
+      fragment.appendChild(card)
+    })
 
-    $(function () {
-        var initialActive = $('.window:visible').not('.window--minimized').first();
-        var appName = $(initialActive).data('window');
+    statistics.appendChild(fragment)
+  } catch (error) {
+    console.log("🚀 ~ getGeneratedStatistics ~ error:", error)
+  }
+  // })()
 
-        $(initialActive).addClass('window--active').css({'z-index': zIndex++});
-        $('.taskbar__item[data-window="' + appName + '"]').addClass('taskbar__item--active');
-    });
+  // total sales chart
+  let totalSalesChart = null
 
+  const GetTotalSales = async (period = "week") => {
+    if (cache.isCashed(`total-sales-${period}`)) {
+      return cache.get(`total-sales-${period}`)
+    }
+    const response = await MabetKPIs.get(`/kpis/total-sales`, {
+      params: {
+        period,
+      },
+    })
 
-    $('.window').click(function (e) {
-        if (!$(this).is('.window--active')) {
-            $('.window').removeClass('window--active');
-        }
+    cache.set(`total-sales-${period}`, response.data.data)
 
-        $(this).addClass('window--active');
-        $(this).css({'z-index': zIndex++});
+    return response.data.data
+  }
+  const generateTotalSalesChart = async (fetcher) => {
+    const totalSalesChartElement = document.getElementById("total-sales-chart")
+    try {
+      const data = await fetcher("week")
+      // if (totalSalesChart) totalSalesChart.destroy()
+      totalSalesChart = new Chart(totalSalesChartElement, {
+        type: "line",
+        data: {
+          labels: data.map((e) => e.xAxis),
+          datasets: [
+            {
+              label: "اجمالي الارباح",
+              data: data.map((e) => e.yAxis),
+              fill: false,
 
-        var appName = $(this).data('window');
-        var targetTaskbar = $('.taskbar__item[data-window="' + appName + '"]');
-
-        if (!$('.window__close').is(e.target) && $('.window__close').has(e.target).length === 0 && !$('.window__minimize').is(e.target) && $('.window__minimize').has(e.target).length === 0) {
-            $('.taskbar__item').removeClass('taskbar__item--active');
-            $(targetTaskbar).addClass('taskbar__item--active');
-
-        }
-    });
-
-    $('.window').resizable({
-        handles: 'n,ne,e,se,s,sw,w,nw',
-        stop: function () {
-            var initialHeight = $(this).height(),
-                initialWidth = $(this).width(),
-                initialTop = $(this).position().top,
-                initialLeft = $(this).position().left;
-        }
-    });
-
-    $('.window').draggable({
-        handle: '.window__titlebar',
-        stop: function () {
-            var initialHeight = $(this).height(),
-                initialWidth = $(this).width(),
-                initialTop = $(this).position().top,
-                initialLeft = $(this).position().left;
+              borderColor: "#4ebeb1",
+              tension: 0.1,
+              fill: true,
+              hoverBackgroundColor: "#4ebeb1",
+            },
+          ],
         },
-        start: function (event, ui) {
-            var mouseX = event.pageX + 'px';
-            console.log(mouseX);
-
-            $('.window').removeClass('window--active');
-
-            $(this).addClass('window--active');
-            $(this).css({'z-index': zIndex++});
-
-            if ($(this).hasClass('window--maximized')) {
-
-                //alert(mouseX);
-                $(this).removeClass('window--maximized').css({
-                    'height': initialHeight,
-                    'width': initialWidth,
-                    'top': 0,
-                    'left': mouseX
-                });
-            }
-
-            var appName = $(this).data('window');
-            var targetTaskbar = $('.taskbar__item[data-window="' + appName + '"]')
-            $('.taskbar__item').removeClass('taskbar__item--active');
-            $(targetTaskbar).addClass('taskbar__item--active');
-        }
-    });
-
-    function openApp(e) {
-        var appName = $(this).data('window');
-        var targetWindow = $('.window[data-window="' + appName + '"]');
-        var targetTaskbar = $('.taskbar__item[data-window="' + appName + '"]');
-
-        e.preventDefault();
-        $('.taskbar__item').removeClass('taskbar__item--active');
-
-        if (targetWindow.is(':visible')) {
-            if (targetWindow.hasClass('window--active')) {
-                $(targetWindow).toggleClass('window--minimized');
-
-                if (!targetWindow.hasClass('window--minimized')) {
-                    var initialHeight = $(targetWindow).height(),
-                        initialWidth = $(targetWindow).width(),
-                        initialTop = $(targetWindow).position().top,
-                        initialLeft = $(targetWindow).position().left;
-
-                    $('.window').removeClass('window--active');
-
-                    $(targetWindow).addClass('window--active').css({
-                        'z-index': zIndex++
-                    });
-
-                    $(targetTaskbar).addClass('taskbar__item--active');
-                }
-            } else {
-                $('.window').removeClass('window--active');
-                $(targetWindow).addClass('window--active').removeClass('window--minimized').css({'z-index': zIndex++});
-
-                $(targetTaskbar).addClass('taskbar__item--active');
-            }
-        } else {
-            $('.window').removeClass('window--active');
-
-            $('.window[data-window="' + appName + '"]').css({'z-index': zIndex++}).addClass('window--active').show();
-
-            setTimeout(function () {
-                $('.window[data-window="' + appName + '"]').removeClass('window--opening');
-            }, 500);
-
-            $(targetTaskbar).addClass('taskbar__item--active').addClass('taskbar__item--open');
-        }
+        options: defaultOptions,
+      })
+    } catch (error) {
+      console.log("🚀 ~ generateTotalSalesChart ~ error:", error)
     }
+  }
 
-    $('.taskbar__item').click(openApp);
-    $('.start-menu__recent li a').click(openApp);
-    $('.start-screen__tile').click(openApp);
+  const totalSalesFiler = document.querySelectorAll(
+    'input[name="total-sales-filter"]'
+  )
 
+  const handleTotalSalesFilter = async (event) => {
+    const selectedValue = event.target.value
+    try {
+      const data = await GetTotalSales(selectedValue)
+      totalSalesChart.data.datasets[0].data = data.map((e) => e.yAxis)
 
-    $('.window__titlebar').each(function () {
-        var parentWindow = $(this).closest('.window');
+      // Optionally update labels if needed
+      totalSalesChart.data.labels = data.map((e) => e.xAxis)
 
-        $(this).find('a').click(function (e) {
-            e.preventDefault();
-        });
-
-        $(this).find('.window__icon').click(function (e) {
-            $(this).siblings('.window__menutoggle').trigger('click');
-        });
-
-        $(this).find('.window__menutoggle').click(function (e) {
-            $(parentWindow).find('.window__menu').fadeToggle(100).toggleClass('window__menu--open');
-            $(this).toggleClass('window__menutoggle--open');
-        });
-
-        $(this).find('.window__close').click(function (e) {
-            $(parentWindow).addClass('window--closing');
-
-            setTimeout(function () {
-                $(parentWindow).hide().removeClass('window--closing').addClass('window--opening');
-            }, 500);
-
-            var appName = $(parentWindow).data('window');
-
-            $('.taskbar__item[data-window="' + appName + '"]').removeClass('taskbar__item--open').removeClass('taskbar__item--active');
-
-            var closest = $('.window').not('.window--minimized, .window--closing, .window--opening').filter(function () {
-                return $(this).css('z-index') < zIndex
-            }).first();
-
-            $(closest).addClass('window--active');
-        });
-
-        $(this).find('.window__minimize').click(function (e) {
-            $(parentWindow).addClass('window--minimized');
-
-            var appName = $(parentWindow).data('window');
-            var targetTaskbar = $('.taskbar__item[data-window="' + appName + '"]');
-
-            //alert(targetTaskbar.attr('class'));
-            $(targetTaskbar).removeClass('taskbar__item--active');
-
-        });
-
-        $(this).find('.window__maximize').click(function (e) {
-
-            $(parentWindow).toggleClass('window--maximized');
-
-            if (!$(parentWindow).hasClass('window--maximized')) {
-                $(parentWindow).css({
-                    'height': initialHeight,
-                    'width': initialWidth,
-                    'top': initialTop,
-                    'left': initialLeft
-                });
-            } else {
-                initialHeight = $(parentWindow).height();
-                initialWidth = $(parentWindow).width();
-                initialTop = $(parentWindow).position().top;
-                initialLeft = $(parentWindow).position().left;
-
-                $(parentWindow).css({
-                    'height': fullHeight,
-                    'width': fullWidth,
-                    'top': 0,
-                    'left': 0
-                });
-            }
-        });
-    });
-
-    $('.window__titlebar').mouseup(function (e) {
-        var parentWindow = $(this).closest('.window');
-        var pos = $(parentWindow).offset().top;
-
-        if (pos < -5) {
-            //alert('at top')
-            $(parentWindow).addClass('window--maximized');
-
-            initialHeight = $(parentWindow).height();
-            initialWidth = $(parentWindow).width();
-            initialTop = $(parentWindow).position().top;
-            initialLeft = $(parentWindow).position().left;
-
-            $(parentWindow).css({
-                'height': fullHeight,
-                'width': fullWidth,
-                'top': 0,
-                'left': 0
-            });
-        }
-
-    });
-});
-
-
-// Unfocus windows when desktop is clicked
-$('.desktop').click(function (e) {
-    if ($('.desktop').has(e.target).length === 0) {
-        $('.window').removeClass('window--active');
-        $('.taskbar__item').removeClass('taskbar__item--active');
+      // Smoothly update the chart
+      totalSalesChart.update()
+    } catch (error) {
+      console.log("🚀 ~ handleTotalSalesFilter ~ error:", error)
     }
-});
+  }
 
+  totalSalesFiler.forEach((radio) => {
+    radio.addEventListener("change", handleTotalSalesFilter)
+  })
 
-$(function () {
-    $('.side__list ul').each(function () {
-        if ($(this).find('ul').is(':visible')) {
-            $(this).children('li').addClass('side__list--open');
-        }
-    });
-});
+  await generateTotalSalesChart(GetTotalSales)
 
+  // profitsChart chart
+  let profitsChart = null
 
-$(function () {
-    $('.side__list li').each(function () {
-        if ($(this).children('ul').length) {
-            //$(this).addClass('list__sublist');
-            $(this).children('a').append('<span class="list__toggle"></span>');
-
-
-        }
-
-        if ($(this).children('ul').is(':visible')) {
-            $(this).addClass('side__list--open');
-        }
-    });
-});
-
-$(document).on('click', '.list__toggle', function () {
-
-    $(this).closest('li').children('ul').animate({
-        'height': 'toggle',
-        'opacity': 'toggle'
-    }, 250);
-
-    $(this).closest('li').toggleClass('side__list--open');
-
-
-});
-
-
-function toggleStart(e) {
-    $('.start-menu-fade').fadeToggle(500);
-    $('.start-menu').fadeToggle(250).toggleClass('start-menu--open');
-    $('.taskbar__item--start').toggleClass('start--open');
-}
-
-$('.taskbar__item--start').click(toggleStart);
-$('.start-screen__tile').click(toggleStart);
-
-// Prevent "open" class on start
-$(function () {
-    $('.taskbar__item--start').click(function () {
-        $(this).removeClass('taskbar__item--open taskbar__item--active');
-    });
-});
-
-
-$(document).mouseup(function (e) {
-    var start = $('.start-menu');
-    var startToggle = $('.taskbar__item--start');
-
-
-    if (start.is(':visible') && !startToggle.is(e.target) && startToggle.has(e.target).length === 0 && !start.is(e.target) && start.has(e.target).length === 0) {
-        toggleStart();
-        //alert('clicked outside start');
+  const GetProfits = async (period = "week") => {
+    if (cache.isCashed(`profits-${period}`)) {
+      return cache.get(`profits-${period}`)
     }
+    const response = await MabetKPIs.get(`/kpis/profits`, {
+      params: {
+        period,
+      },
+    })
 
+    cache.set(`profits-${period}`, response.data.data)
+    return response.data.data
+  }
+  const generateProfitsChart = async (fetcher) => {
+    const profitsChartElement = document.getElementById("profits-chart")
+    try {
+      const data = await fetcher("week")
+      console.log("🚀 ~ generateProfitsChart ~ data:", data)
+      // if (totalSalesChart) totalSalesChart.destroy()
+      profitsChart = new Chart(profitsChartElement, {
+        type: "line",
+        data: {
+          labels: data.map((e) => e.xAxis),
+          datasets: [
+            {
+              label: "اجمالي الارباح",
+              data: data.map((e) => e.yAxis),
+              fill: false,
 
-});
-
-
-// Current time
-$(function () {
-    var a_p = "";
-    var d = new Date();
-
-    var curr_hour = d.getHours();
-
-    if (curr_hour < 12) {
-        a_p = "AM";
-    } else {
-        a_p = "PM";
+              borderColor: "#4ebeb1",
+              tension: 0.1,
+              fill: true,
+              hoverBackgroundColor: "#4ebeb1",
+            },
+          ],
+        },
+        options: defaultOptions,
+      })
+    } catch (error) {
+      console.log("🚀 ~ generateProfitsChart ~ error:", error)
     }
-    if (curr_hour == 0) {
-        curr_hour = 12;
+  }
+
+  const profitsFilter = document.querySelectorAll(
+    'input[name="profits-filter"]'
+  )
+
+  const handleProfitsChange = async (event) => {
+    const selectedValue = event.target.value
+    try {
+      const data = await GetProfits(selectedValue)
+      profitsChart.data.datasets[0].data = data?.map((e) => e.yAxis)
+
+      // Optionally update labels if needed
+      profitsChart.data.labels = data?.map((e) => e.xAxis)
+
+      // Smoothly update the chart
+      profitsChart.update()
+    } catch (error) {
+      console.log("🚀 ~ handleProfitsChange ~ error:", error)
     }
-    if (curr_hour > 12) {
-        curr_hour = curr_hour - 12;
+  }
+
+  profitsFilter.forEach((radio) => {
+    radio.addEventListener("change", handleProfitsChange)
+  })
+
+  await generateProfitsChart(GetProfits)
+
+  // unitsChart chart
+  let unitsChart = null
+
+  const GetUnits = async (period = "week") => {
+    if (cache.isCashed(`units-${period}`)) {
+      return cache.get(`units-${period}`)
     }
+    const response = await MabetKPIs.get(`/kpis/units`, {
+      params: {
+        period,
+      },
+    })
 
-    var curr_min = d.getMinutes();
+    cache.set(`units-${period}`, response.data.data)
 
-    if (curr_min < 10) {
-        curr_min = '0' + curr_min;
+    return response.data.data
+  }
+
+  const generateUnitsChart = async (fetcher) => {
+    const unitsChartElement = document.getElementById("units-chart")
+    try {
+      const data = await fetcher("week")
+      console.log("🚀 ~ generateUnitsChart ~ data:", data)
+      // if (totalSalesChart) totalSalesChart.destroy()
+      unitsChart = new Chart(unitsChartElement, {
+        type: "bar",
+        data: {
+          labels: data.map((e) => e.xAxis),
+          datasets: [
+            {
+              label: "اجمالي الوحدات",
+              data: data.map((e) => e.yAxis),
+              fill: false,
+              backgroundColor: "#4ebeb1",
+              borderColor: "#4ebeb1",
+              tension: 0.1,
+              fill: true,
+              hoverBackgroundColor: "#4ebeb1",
+            },
+          ],
+        },
+        options: defaultOptions,
+      })
+    } catch (error) {
+      console.log("🚀 ~ generateUnitsChart ~ error:", error)
     }
+  }
 
-    $('.time').html(curr_hour + ':' + curr_min + ' ' + a_p);
-});
+  const unitsFilter = document.querySelectorAll('input[name="units-filter"]')
 
+  const handleUnitsFilterChange = async (event) => {
+    const selectedValue = event.target.value
+    try {
+      const data = await GetUnits(selectedValue)
+      unitsChart.data.datasets[0].data = data?.map((e) => e.yAxis)
 
-$('.menu-toggle').each(function () {
-    var menuName = $(this).data('menu');
-    var menu = $('.menu[data-menu="' + menuName + '"]');
-    var pos = $(this).position();
-    var height = $(this).outerHeight();
+      // Optionally update labels if needed
+      unitsChart.data.labels = data?.map((e) => e.xAxis)
 
-    if (!$(menu).hasClass('menu--bottom')) {
-        $(menu).position({
-            my: 'left top',
-            at: 'left bottom',
-            of: this,
-            collision: 'none'
-        });
-    } else {
-
+      // Smoothly update the chart
+      unitsChart.update()
+    } catch (error) {
+      console.log("🚀 ~ handleUnitsFilterChange ~ error:", error)
     }
+  }
 
-    $(menu).hide();
+  unitsFilter.forEach((radio) => {
+    radio.addEventListener("change", handleUnitsFilterChange)
+  })
 
-    $(this).click(function (e) {
-        e.preventDefault();
-        $('.menu').not(menu).hide();
-        $(menu).toggle();
-    });
-});
+  await generateUnitsChart(GetUnits)
+  // bookingsChart chart
+  let bookingsChart = null
 
-
-$(document).mouseup(function (e) {
-    if ($('.menu').has(e.target).length === 0 && !$('.menu-toggle').is(e.target) && $('.menu-toggle').has(e.target).length === 0) {
-        $('.menu').hide();
+  const GetBookings = async (period = "week") => {
+    if (cache.isCashed(`bookings-${period}`)) {
+      return cache.get(`bookings-${period}`)
     }
-});
+    const response = await MabetKPIs.get(`/kpis/bookings`, {
+      params: {
+        period,
+      },
+    })
+
+    cache.set(`bookings-${period}`, response.data.data)
+
+    return response.data.data
+  }
+
+  const generateBookingsChart = async (fetcher) => {
+    const bookingsChartElement = document.getElementById("bookings-chart")
+    try {
+      const data = await fetcher()
+      console.log("🚀 ~ generateBookingsChart ~ data:", data)
+      // if (totalSalesChart) totalSalesChart.destroy()
+      bookingsChart = new Chart(bookingsChartElement, {
+        type: "bar",
+        data: {
+          labels: data.labels,
+          datasets: data.dataset,
+          // datasets: [
+          //   {
+          //     label: "اجمالي الوحدات",
+          //     data: data.map((e) => e.yAxis),
+          //     fill: false,
+          //     backgroundColor: "#4ebeb1",
+          //     borderColor: "#4ebeb1",
+          //     tension: 0.1,
+          //     fill: true,
+          //     hoverBackgroundColor: "#4ebeb1",
+          //   },
+          // ],
+        },
+        options: {
+          ...defaultOptions,
+          plugins: {
+            legend: {
+              onHover: handleHover,
+              onLeave: handleLeave,
+            },
+          },
+          scales: {
+            x: {
+              stacked: true,
+            },
+            y: {
+              stacked: true,
+              beginAtZero: true,
+            },
+          },
+        },
+      })
+    } catch (error) {
+      console.log("🚀 ~ generateBookingsChart ~ error:", error)
+    }
+  }
+
+  const bookingsFilter = document.querySelectorAll(
+    'input[name="bookings-filter"]'
+  )
+
+  const handleBookingsFilterChange = async (event) => {
+    const selectedValue = event.target.value
+    try {
+      const data = await GetBookings(selectedValue)
+      bookingsChart.data.datasets = data.dataset
+
+      // Optionally update labels if needed
+      bookingsChart.data.labels = data.labels
+
+      // Smoothly update the chart
+      bookingsChart.update()
+    } catch (error) {
+      console.log("🚀 ~ handleBookingsFilterChange ~ error:", error)
+    }
+  }
+
+  bookingsFilter.forEach((radio) => {
+    radio.addEventListener("change", handleBookingsFilterChange)
+  })
+
+  await generateBookingsChart(GetBookings)
+})()

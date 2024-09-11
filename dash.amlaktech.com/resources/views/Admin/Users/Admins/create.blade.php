@@ -21,8 +21,7 @@
 
             <div class="form-group">
                 <label for="phonenumber" class="required"> رقم الجوال </label>
-                <input type="number" class="form-control" id="phonenumber" name="phone_number"
-                       value="{{old('phone_number') ?? $admin->phone_number}}" required />
+                <input type="number" id="phonenumber" name="phone_number" min="0" step="1" class="form-control" value="{{old('phone_number') ?? $admin->phone_number}}" oninput="limitDigits(this)" />
             </div>
 
             <div class="form-group">
@@ -60,3 +59,13 @@
         </div>
     </div>
 </form>
+
+<script>
+    function limitDigits(input) {
+        const maxLength = 10;
+        const value = input.value;
+        if (value.length > maxLength) {
+            input.value = value.slice(0, maxLength);
+        }
+    }
+</script>

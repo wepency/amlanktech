@@ -53,6 +53,7 @@
                                     <th scope="col">#</th>
                                     <th scope="col">الاسم</th>
                                     <th scope="col"> البريد الإلكتروني</th>
+                                    <th scope="col"> الشركة </th>
                                     <th scope="col"> الجوال</th>
                                     <th scope="col">المهنة</th>
                                     <th scope="col">الراتب</th>
@@ -67,6 +68,7 @@
                                         <td>{{pad_code($user->id)}}</td>
                                         <td>{{$user->name}}</td>
                                         <td>{{$user->email}}</td>
+                                        <td>{{$user->company?->name}}</td>
                                         <td>{{$user->phone_number}}</td>
                                         <td>{{$user->profession}}</td>
                                         <td>{{$user->salary}}</td>

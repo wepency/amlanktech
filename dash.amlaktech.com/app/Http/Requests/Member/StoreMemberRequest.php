@@ -26,7 +26,7 @@ class StoreMemberRequest extends FormRequest
             'email' => 'required|email|unique:users',
             'phone_number' => 'required',
             'password' => 'required|confirmed|min:8',
-            'association_id'=>'required',
+//            'association_id'=>'required',
             'address'=>'nullable|string',
             'status'=>'nullable',
             'city_id'=>'nullable',
