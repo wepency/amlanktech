@@ -17,8 +17,8 @@ export type Ticket = {
   content: Content | null
   association: Association
   status: Status
-  "can_apply_appeal": boolean,
-  "category": null | string,
+  can_apply_appeal: boolean
+  category: null | string
   created_at: Date
 }
 
