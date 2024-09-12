@@ -18,6 +18,11 @@ class Poll extends Model
        return $this->hasMany(PollItem::class);
    }
 
+    public function admin(): HasMany
+    {
+        return $this->hasMany(Admin::class, 'created_by');
+    }
+
     public function votes(): HasMany
     {
         return $this->hasMany(PollVote::class);

@@ -91,6 +91,7 @@ Route::middleware(['admin'])->group(function () {
 
     Route::resource('bills', BillController::class);
 
+    // Polls
     Route::resource('polls', PollController::class);
 
     Route::resource('invoices', InvoiceController::class)->only('index', 'store', 'update', 'destroy');
