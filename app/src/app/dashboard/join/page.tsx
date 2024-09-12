@@ -64,11 +64,7 @@ export default function Register() {
   ) => {
     try {
       data.fee_type_id = selectedAssociation!.feeType?.id + "" || ""
-      await AmlackApi.post("/units", data, {
-        headers: {
-          Authorization: `Bearer ${session.data?.user.access_token}`,
-        },
-      })
+      await AmlackApi.post("/units", data)
 
       router.push("/dashboard")
     } catch (error: any) {

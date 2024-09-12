@@ -1,5 +1,7 @@
 import React from "react"
+import AmlackApi from "@/api"
 import { getUserData } from "@/api/helpers/get-me"
+import { getStatics } from "@/api/helpers/get-statics"
 import {
   IconBuildingCommunity,
   IconReceipt2,
@@ -132,15 +134,9 @@ const dummyApplicationsData = [
 type Props = {}
 
 const page = async (props: Props) => {
-  const session = (await getServerSession(authOptions))!
-  const user = await getUserData()
-  const [associations, units, tickets, subscriptions, awaitingSubscriptions] = [
-    user.data.statics?.associations || 0,
-    user.data.statics?.units || 0,
-    user.data.statics?.tickets || 0,
-    user.data.statics?.subscriptions || 0,
-    user.data.statics?.awaiting_subscriptions || 0,
-  ]
+  const status = await getStatics()
+  const { associations, units, tickets, subscriptions, subscriptionsToPay } = status
+
   const data = [
     {
       title: "الجمعيات",
@@ -157,9 +153,9 @@ const page = async (props: Props) => {
     {
       title: "اشتراكات بانتظار الدفع",
       Icon: IconReceipt2,
-      value: awaitingSubscriptions,
-      des: awaitingSubscriptions
-        ? ` ${awaitingSubscriptions} اشتراكات بانتظار الدفع`
+      value: subscriptionsToPay,
+      des: subscriptionsToPay
+        ? ` ${subscriptionsToPay} اشتراكات بانتظار الدفع`
         : "لا يوجد اي اشتراكات بانتظار الدفع",
     },
     { title: "الطلبات", Icon: IconReport, value: tickets, des: "الطلبات الخاصة بك" },
