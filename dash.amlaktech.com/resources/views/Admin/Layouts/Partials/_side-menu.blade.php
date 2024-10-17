@@ -12,7 +12,7 @@
                 <path d="M7 10.19V18h2v-6h6v6h2v-7.81l-5-4.5z" opacity=".3"></path>
             </svg>
 
-            <span class="side-menu__label">موقع اتحاد الملاك</span>
+            <span class="side-menu__label">أملاك-تك</span>
         </a>
     </li>
 

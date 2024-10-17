@@ -1,6 +1,6 @@
 @extends('Frontend.Layouts.Front-pages')
 
-@section('title', 'موقع اتحاد الملاك')
+@section('title', 'أملاك-تك')
 
 @section('content')
 
