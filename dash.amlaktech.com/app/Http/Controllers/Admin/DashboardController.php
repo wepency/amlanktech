@@ -4,29 +4,32 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Association;
+use App\Models\Company;
 use App\Models\PaymentReceipt;
 use App\Models\Subscription;
 use App\Models\Unit;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
-    public function __invoke(){
+    public function __invoke()
+    {
 
-        $units         = Unit::query();
-        $members       = User::query();
+        $units = Unit::query();
+        $members = User::query();
 
-        $associations  = Association::count();
+        $associations = Association::count();
 
         $subscriptions = Subscription::query();
 
         $notPaids = Subscription::where('is_paid', false)
-                ->whereDate('end_payment', '>', now());
+            ->whereDate('end_payment', '>', now());
 
         $paids = Subscription::where('is_paid', true);
 
         $lates = Subscription::where('is_paid', false)
-                ->whereDate('end_payment', '<', now());
+            ->whereDate('end_payment', '<', now());
 
         $latesCount = $lates->count();
         $lates = $lates->sum('total');
@@ -34,10 +37,14 @@ class DashboardController extends Controller
         // Receipts
         $paymentReceipts = PaymentReceipt::count();
 
+        // Check if there is company agreement needed
+        $getCompany = Company::query();
+
         if (!is_admin()) {
+
             $units = getOnlyObjectsAccordingToAdmin($units, 'association_id');
 
-            $members = $members->whereHas('association', function ($query){
+            $members = $members->whereHas('association', function ($query) {
                 return $query->where('id', getAssociationId());
             });
 
@@ -45,6 +52,8 @@ class DashboardController extends Controller
 
             $notPaids = getOnlyObjectsAccordingToAdmin($notPaids, 'association_id');
             $paids = getOnlyObjectsAccordingToAdmin($paids, 'association_id');
+
+            $getCompany = getOnlyObjectsAccordingToAdmin($getCompany, 'association_id');
         }
 
         // All counts
@@ -56,8 +65,13 @@ class DashboardController extends Controller
         $paidsCount = $paids->count();
         $paids = $paids->sum('total');
 
+        // Get all contracts and agreements
+        $getCompany = $getCompany->whereDoesntHave('adminAgreementPivot', function ($query) {
+            $query->where('admin_id', get_auth()->id());
+        })->get();
+
         return view('Admin.Dashboard', [
-            'page_title' => 'أهلا بك في لوحة تحكم اتحاد الملاك',
+            'page_title' => 'أهلا بك في لوحة تحكم أملاك-تك',
             'paymentReceipts' => $paymentReceipts,
             'units' => $units,
             'members' => $members,
@@ -69,6 +83,7 @@ class DashboardController extends Controller
             'paidsCount' => $paidsCount,
             'notPaidsCount' => $notPaidsCount,
             'latesCount' => $latesCount,
+            'getCompanyContracts' => $getCompany
         ]);
     }
 }

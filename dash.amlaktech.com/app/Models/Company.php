@@ -18,4 +18,9 @@ class Company extends Model
     {
         return $this->belongsToMany(Admin::class, 'companies_admin_agreement')->withPivot('created_at');
     }
+
+    public function adminAgreementPivot()
+    {
+        return $this->hasMany(CompanyAgreement::class, 'company_id', 'id');
+    }
 }

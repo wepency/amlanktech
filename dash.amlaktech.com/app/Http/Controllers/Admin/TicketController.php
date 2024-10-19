@@ -80,7 +80,7 @@ class TicketController extends Controller
 
                     $out .= '<a href="' . dashboard_route('tickets.show', $row->id) . '" class="btn btn-primary btn-icon m-0 me-2"
                                                data-toggle="tooltip" title="عرض الطلب">
-                                            <i class="fas fa-info-circle"></i>
+                                            <i class="fas fa-eye"></i>
                                         </a>';
 
                     $out .= '<form method="post" action="' . route('dashboard.tickets.destroy', $row->id) . '" style="display:inline-block;margin:0">';

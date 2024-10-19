@@ -12,7 +12,7 @@
                 <th scope="col">الجمعية</th>
             @endif
 
-            <th scope="col">المدة قبل رفع الشكوى (بالساعات)</th>
+            <th scope="col">المدة قبل رفع الشكوى</th>
 
 {{--            <th scope="col">نوع التصنيف</th>--}}
             <th scope="col">إجراءات</th>

@@ -20,10 +20,10 @@
 {{--            <button type="button" data-bs-toggle="modal" data-bs-target="#add-edit-tickets" id="add-ticket-btn"--}}
 {{--                    class="btn btn-danger btn-icon mb-1 me-1"><i class="mdi mdi-plus"></i></button>--}}
 
-            <span class="btn btn-primary mb-1 me-1">
-                <span>التذاكر</span>
-                <span id="tickets-count" class="badge bg-white ms-1"></span>
-            </span>
+{{--            <span class="btn btn-primary mb-1 me-1">--}}
+{{--                <span>التذاكر</span>--}}
+{{--                <span id="tickets-count" class="badge bg-white ms-1"></span>--}}
+{{--            </span>--}}
         </div>
     </div>
     <!-- breadcrumb -->

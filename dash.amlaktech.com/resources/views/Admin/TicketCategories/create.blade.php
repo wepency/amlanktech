@@ -29,9 +29,23 @@
 
             <div class="form-group">
                 <label for="name" class="required"> مهلة التصعيد </label>
-                <p><small class="text-muted">عدد الساعات المسموح بها قبل ظهور زر تصعيد الطلب</small></p>
+                {{--                <p><small class="text-muted">عدد الساعات المسموح بها قبل ظهور زر تصعيد الطلب</small></p>--}}
 
-                <input type="text" class="form-control" id="appeal_period" name="appeal_period" value="{{old('appeal_period') ?? $model->appeal_period ?? 2}}" />
+                <div class="form-inline">
+                    @php
+                        $type = $model->appeal_period_type == 'days' || $model->appeal_period > 24 ? 'days' : 'hours';
+                        $amount = $model->appeal_period > 24 ? $model->appeal_period / 24 : $model->appeal_period;
+                    @endphp
+
+                    <input type="text" class="form-control" id="appeal_period" name="appeal_period"
+                           value="{{old('appeal_period') ?? $amount ?? 2}}"/> &nbsp;
+
+                    <select name="appeal_period_type" id="appeal_period_type" class="form-control">
+                        <option value="hours" {{$type == 'hours' ? 'selected' : ''}}>ساعه / ساعات
+                        </option>
+                        <option value="days" {{$type == 'days' ? 'selected' : ''}}>يوم/آيام</option>
+                    </select>
+                </div>
             </div>
 
         </div>

@@ -5,6 +5,31 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.20/summernote-bs4.min.css"
           integrity="sha512-ngQ4IGzHQ3s/Hh8kMyG4FC74wzitukRMIcTOoKT3EyzFZCILOPF0twiXOQn75eDINUfKBYmzYn2AA8DkAk8veQ=="
           crossorigin="anonymous" referrerpolicy="no-referrer"/>
+
+    <style>
+        .card-header:not(.note-toolbar) {
+            background-color: #1062fe !important;
+        }
+
+        .ticket-details-card .card-body {
+            padding: 0;
+        }
+
+        .ticket-details-card ul {
+            padding: 0;
+            margin: 0;
+            list-style: none;
+        }
+
+        .ticket-details-card ul li {
+            padding: 15px;
+            border-bottom: 1px solid #e7e7e7;
+        }
+
+        .card-header {
+            padding: 20px;
+        }
+    </style>
 @endpush
 
 @section('content')
@@ -47,7 +72,7 @@
 
         <div class="col-md-4 col-sm-12">
 
-            <div class="card">
+            <div class="card ticket-details-card">
 
                 <div class="card-header bg-primary text-white">معلومات التذكرة</div>
 
@@ -89,7 +114,7 @@
                             <label for="created_at">تصنيف التذكرة</label>
 
                             @if($ticket?->category?->name)
-                                <h5><span class="bg-success">{{$ticket?->category?->name}}</span></h5>
+                                <h5><span class="badge bg-success">{{$ticket?->category?->name}}</span></h5>
                             @else
                                 <h5>--</h5>
                             @endif
@@ -115,12 +140,14 @@
         <div class="col-md-8 col-sm-12">
 
             <div class="card">
-                <div class="card-header bg-primary text-white p-0" id="foldableCardHeader">
+                <div class="card-header bg-primary text-white p-2" id="foldableCardHeader">
                     <h5 class="mb-0">
                         <button class="btn btn-link text-white d-block w-100 text-right" data-bs-toggle="collapse"
                                 data-bs-target="#foldableCardBody" aria-expanded="false"
                                 aria-controls="foldableCardBody">
-                            ارسال رد
+
+                            اضافة رد للتذكرة
+
                         </button>
                     </h5>
                 </div>

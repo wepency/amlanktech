@@ -73,6 +73,9 @@ Route::middleware(['admin'])->group(function () {
     Route::resource('managers', AssociationManagerController::class)->except('show');
 
     Route::get('/companies/{company}/agreements', [CompanyController::class, 'agreements'])->name('companies.agreements');
+
+    Route::post('/companies/{company}/agreements/vote', [CompanyController::class, 'vote'])->name('companies.agreements.vote');
+
     Route::resource('companies', CompanyController::class);
 
 //    Route::get('/companies/{company}/invesment-contract', [CompanyController::class, 'showInvesmentContract'])->name('companies.showInvesmentContract');

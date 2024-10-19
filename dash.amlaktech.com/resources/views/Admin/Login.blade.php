@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
 
-    <title>تسجيل الدخول | لوحة تحكم اتحاد الملاك</title>
+    <title>تسجيل الدخول | لوحة تحكم أملاك-تك</title>
 
     <!-- Font -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
