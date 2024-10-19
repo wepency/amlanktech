@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Company;
-use App\Models\companyAgreement;
+use App\Models\CompanyAgreement;
 use App\Services\CompanyService;
 use App\Services\UploadService;
 use App\Traits\generateAPI;
@@ -179,7 +179,7 @@ class CompanyController extends Controller
             'vote' => 'required|in:agree,disagree'
         ]);
 
-        if(companyAgreement::updateOrCreate([
+        if(CompanyAgreement::updateOrCreate([
             'company_id' => $company->id,
             'admin_id' => get_auth()->id(),
         ],[
