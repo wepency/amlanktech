@@ -13,7 +13,7 @@
         <div class="col-md-4 col-sm-12">
             <div class="form-group">
                 <label for="national-id">رقم الهوية</label>
-                <input type="number" id="national-id" name="visitors[{{$index}}][national_id]" min="0" step="1" class="form-control" value="{{$visitor->national_id ?? ''}}" oninput="limitDigits(this)" />
+                <input type="number" id="national-id" name="visitors[{{$index}}][national_id]" min="0" step="1" class="form-control" placeholder="10*******" value="{{$visitor->national_id ?? ''}}" oninput="limitDigits(this)" />
             </div>
         </div>
 

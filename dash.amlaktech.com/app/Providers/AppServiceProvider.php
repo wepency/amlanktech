@@ -3,7 +3,7 @@
 namespace App\Providers;
 
 use App\Services\BudgetService;
-use Illuminate\Pagination\Paginator ;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Relations\Relation;
 
@@ -22,9 +22,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-//        if($this->app->environment('production')) {
-//            \URL::forceScheme('https');
-//        }
+        if ($this->app->environment('production')) {
+            \URL::forceScheme('https');
+        }
 
         Relation::morphMap([
             'web' => \App\Models\User::class,

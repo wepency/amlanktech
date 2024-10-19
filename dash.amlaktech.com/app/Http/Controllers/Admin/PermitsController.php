@@ -75,7 +75,7 @@ class PermitsController extends Controller
                 ->addColumn('action', function ($row) {
                     $out = '<div class="table-buttons">';
 
-                    $out .= '<a href="'.dashboard_route('permits.show', $row?->code).'" class="btn btn-success" target="_blank">
+                    $out .= '<a href="' . dashboard_route('permits.show', $row?->code) . '" class="btn btn-success" target="_blank">
                                             <i class="far fa-eye"></i>
                                         </a>';
 
@@ -160,7 +160,7 @@ class PermitsController extends Controller
         $permit = Permit::where('code', $permitCode)->firstOrFail();
 
         return view('Permit', [
-            'page_title' => 'تصريح دخول '.$permit->code,
+            'page_title' => 'تصريح دخول ' . $permit->code,
             'permit' => $permit
         ]);
     }
