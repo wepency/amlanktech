@@ -59,6 +59,18 @@
             font-family: 'Cairo', sans-serif;
         }
 
+        /* Hide arrows for Chrome, Safari, Edge, and Opera */
+        input[type=number]::-webkit-outer-spin-button,
+        input[type=number]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        /* Hide arrows for Firefox */
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
+
         .btn {
             padding: 10px 15px;
             border-radius: 10px;
