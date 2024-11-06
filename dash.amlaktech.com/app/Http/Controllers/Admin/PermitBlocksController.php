@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\PermitBlock;
+use App\Models\PermitCategory;
 use App\Services\PermitBlockService;
 use Illuminate\Http\Request;
 

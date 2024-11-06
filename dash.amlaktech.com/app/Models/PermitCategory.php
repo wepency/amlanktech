@@ -15,6 +15,6 @@ class PermitCategory extends Model
 
     public function permit()
     {
-        return $this->belongsTo(Permit::class);
+        return $this->hasMany(Permit::class);
     }
 }

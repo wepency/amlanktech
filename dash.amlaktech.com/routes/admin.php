@@ -141,6 +141,9 @@ Route::middleware(['admin'])->group(function () {
     Route::post('permits/blocklist', [\App\Http\Controllers\Admin\PermitBlocksController::class, 'store'])->name('permits.blocklist.store');
     Route::delete('permits/blocklist/{block}/delete', [\App\Http\Controllers\Admin\PermitBlocksController::class, 'destroy'])->name('permits.blocklist.destroy');
 
+    // Permit Categories
+    Route::resource('permit_categories', \App\Http\Controllers\Admin\PermitCategoriesController::class);
+
     Route::resource('permits', \App\Http\Controllers\Admin\PermitsController::class);
 
     Route::resource('tickets/{ticket}/messages', TicketMessageController::class)->only('index', 'store', 'update', 'destroy');

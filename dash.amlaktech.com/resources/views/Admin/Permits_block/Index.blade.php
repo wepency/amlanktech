@@ -106,6 +106,7 @@
                             <tr>
                                 <th scope="col">#</th>
                                 <th scope="col">رقم الجوال</th>
+                                <th scope="col">سبب الحظر</th>
 
                                 @if(is_admin())
                                     <th scope="col">الجمعية</th>
@@ -165,7 +166,9 @@
             },
             columns: [
                 {data: 'id', name: 'id', orderable: true, searchable: false},
-                {data: 'national_id', name: 'natinal_id', orderable: true, searchable: true},
+                {data: 'national_id', name: 'national_id', orderable: true, searchable: true},
+
+                {data: 'reason', name: 'reason', orderable: true, searchable: true},
 
                 @if(is_admin())
                 {data: 'association', name: 'association', orderable: true, searchable: true},

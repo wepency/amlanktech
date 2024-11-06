@@ -1,4 +1,4 @@
-<form method="post" action="{{$url}}">
+<form method="post" action="{{$url}}" id="permit-form">
     <div class="modal-content">
         <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLabel">{{$page_title}}</h5>
@@ -14,13 +14,35 @@
                 @method('PUT')
             @endif
 
+            <!-- Error Alert (Hidden initially) -->
+            <div class="alert alert-danger alert-dismissible fade show" id="errorAlert" style="display: none;">
+                <span id="errorMessage"></span>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
             <!-- Members -->
             <div class="form-group">
                 <label for="member_id" class="required">عضو الجمعية \ المالك</label>
 
-                <select name="member_id" id="member_id" class="form-control select2">
+                <select name="member_id" id="member_id" class="form-control select2 d-block w-100">
                     @foreach($members as $member)
-                        <option value="{{$member->id}}" {{$permit->member_id == $member->id ? 'selected' : ''}}>{{$member->name}} - {{$member->phone_number}}</option>
+                        <option
+                            value="{{$member->id}}" {{$permit->member_id == $member->id ? 'selected' : ''}}>{{$member->name}}
+                            - {{$member->phone_number}}</option>
+                    @endforeach
+                </select>
+            </div>
+
+            <!-- Members -->
+            <div class="form-group">
+                <label for="member_id" class="required">تصنيف التصريح</label>
+
+                <select name="member_id" id="member_id" class="form-control select2 d-block w-100">
+                    @foreach($categories as $category)
+                        <option
+                            value="{{$category->id}}" {{$category->id == $permit->permit_category_id ? 'selected' : ''}}>{{$category->name}}</option>
                     @endforeach
                 </select>
             </div>
@@ -38,17 +60,22 @@
 
             <!-- Login Attempts -->
             <div class="form-group">
-                <div class="form-group">
-                    <label for="login_attempts" class="required">عدد مرات الدخول</label>
-                    <input type="number" min="1" name="login_attempts" class="form-control" id="login_attempts" value="{{$permit->login_attempts ?? 1}}" />
-                </div>
+                <label for="login_attempts" class="required">عدد مرات الدخول</label>
+                <input type="number" min="1" max="2" oninput="limitDigits(this, 2)" name="login_attempts"
+                       class="form-control" id="login_attempts"
+                       value="{{$permit->login_attempts ?? 1}}"/>
             </div>
 
             <!-- Start Date -->
             <div class="form-group">
                 <div class="form-group">
                     <label for="start_date" class="required">تاريخ الدخول</label>
-                    <input type="date" min="{{now()->format('Y-m-d')}}" name="start_date" class="form-control" id="start_date" value="{{$permit->start_date ? $permit->start_date->format('Y-m-d') : ''}}" required />
+                    <input type="date"
+                           @if(!$permit->exists)
+                               min="{{now()->format('Y-m-d')}}"
+                           @endif
+                           name="start_date" class="form-control" id="start_date"
+                           value="{{$permit->start_date ? $permit->start_date->format('Y-m-d') : ''}}" required/>
                 </div>
             </div>
 
@@ -56,7 +83,9 @@
             <div class="form-group">
                 <div class="form-group">
                     <label for="permit_days" class="required">عدد أيام الدخول</label>
-                    <input type="number" min="1" name="permit_days" class="form-control" id="permit_days" value="{{$permit->permit_days ?? 1}}" />
+                    <input type="number" min="1" max="99" oninput="limitDigits(this, 2)" name="permit_days"
+                           class="form-control" id="permit_days"
+                           value="{{$permit->permit_days ?? 1}}"/>
                 </div>
             </div>
 
@@ -68,7 +97,8 @@
                         <label for="type" class="required">نوع التصريح</label>
 
                         <select id="type" name="type" class="form-control select2">
-                            <option value="maintenance" {{$permit->type == 'maintenance' ? 'selected' : ''}}>صيانة</option>
+                            <option value="maintenance" {{$permit->type == 'maintenance' ? 'selected' : ''}}>صيانة
+                            </option>
                             <option value="worker" {{$permit->type == 'worker' ? 'selected' : ''}}>عامل</option>
                             <option value="deliver" {{$permit->type == 'deliver' ? 'selected' : ''}}>توصيل</option>
                             <option value="visitor" {{$permit->type == 'visitor' ? 'selected' : ''}}>زائر</option>
@@ -83,7 +113,8 @@
 
                 <div>
                     <label class="switch">
-                        <input type="checkbox" id="add-active" name="status" {{$permit->status == 1 ? 'checked' : ''}} />
+                        <input type="checkbox" id="add-active"
+                               name="status" {{$permit->status == 1 ? 'checked' : ''}} />
                         <span class="slider round"></span>
                     </label>
                 </div>
@@ -117,7 +148,7 @@
 
             $this.attr('disabled', true)
 
-            $.get('{{dashboard_route('permits.visitors.row')}}').then(function (data){
+            $.get('{{dashboard_route('permits.visitors.row')}}').then(function (data) {
                 $this.attr('disabled', false)
                 $('#visitors').append(data.data);
             });

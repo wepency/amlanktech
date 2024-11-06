@@ -33,4 +33,17 @@ class PermitRequest extends FormRequest
             'visitors' => 'required|array'
         ];
     }
+
+    public function attributes()
+    {
+        return [
+            'association_id' => 'المعرف الخاص بالجمعية',
+            'member_id' => 'المعرف الخاص بالمالك',
+            'login_attempts' => 'مرات الدخول',
+            'start_date' => 'تاريخ الدخول',
+            'permit_days' => 'عدد ايام التصريح',
+            'type' => 'نوع التصريح',
+            'visitors' => 'الزوار'
+        ];
+    }
 }

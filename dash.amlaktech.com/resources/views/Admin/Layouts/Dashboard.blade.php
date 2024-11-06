@@ -915,6 +915,14 @@
         }
     }
 
+    function limitDigits(input, maxLength = 10) {
+        const value = input.value;
+        console.log(maxLength)
+        if (value.length > maxLength) {
+            input.value = value.slice(0, maxLength);
+        }
+    }
+
     // $('.tooltip-container').tooltip();
 
 </script>

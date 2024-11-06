@@ -201,7 +201,7 @@
                 </li>
 
                 <li>
-                    <a class="slide-item" href="{{route('dashboard.permits.index')}}">تصنيفات التصاريح</a>
+                    <a class="slide-item" href="{{dashboard_route('permit_categories.index')}}">تصنيفات التصاريح</a>
                 </li>
 
                 <li>

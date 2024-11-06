@@ -217,6 +217,60 @@
             var selectedValue = $(this).val();
             table.page.len(selectedValue).draw(); // Set the page length and redraw the table
         });
+
+
+        /* */
+        $('body').on('submit', '#permit-form', function (e) {
+            e.preventDefault(); // Prevent the default form submission
+
+            // Create a FormData object and pass in the form element
+            var formData = new FormData(this);
+
+            const url = $(this).attr('action');
+            const modal = $(this).parents('.modal');
+
+            $(this).find('input[type="submit"]').attr('disabled', true);
+
+            $.ajax({
+                url: url, // Replace with your server URL
+                type: 'POST',
+                data: formData,
+                processData: false, // Important: Prevents jQuery from automatically transforming the data into a query string
+                contentType: false, // Important: Lets jQuery know that data is multipart/form-data
+                success: function (response) {
+                    toastr.success('تمت اضافة التصريح بنجاح.')
+                    modal.modal('hide');
+                    table.draw();
+                },
+                error: function (xhr, status, error) {
+                    // Clear previous error messages to avoid duplication
+                    $('#errorMessage').empty();
+
+                    // Show the error message in the modal
+                    if (xhr.responseJSON && xhr.responseJSON.errors) {
+                        let errorMessage = xhr.responseJSON.message || 'An error occurred';
+
+                        // Concatenate all error messages if there are multiple
+                        $.each(xhr.responseJSON.errors, function(key, messages) {
+                            errorMessage += '<br>' + messages.join('<br>');
+                        });
+
+                        // Show the error in the alert
+                        $('#errorMessage').html(errorMessage);
+                        $('#errorAlert').show(); // Display the error alert
+
+                        // Scroll to the top of the modal to show the error message
+                        modal.find('.modal-body').animate({ scrollTop: 0 }, 'fast');
+                    } else {
+                        $('#errorMessage').text('An unknown error occurred.');
+                        $('#errorAlert').show(); // Display a generic error message
+
+                        // Scroll to the top of the modal to show the error message
+                        modal.find('.modal-body').animate({ scrollTop: 0 }, 'fast');
+                    }
+                }
+            });
+        });
     </script>
 
 @endpush

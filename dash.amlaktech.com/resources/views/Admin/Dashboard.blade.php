@@ -191,7 +191,8 @@
     </div>
 
     @foreach($getCompanyContracts as $companyContract)
-        <div class="card card-dismissable" id="card-company-{{$companyContract->id}}" data-card-id="card-company-{{$companyContract->id}}">
+        <div class="card card-dismissable" id="card-company-{{$companyContract->id}}"
+             data-card-id="card-company-{{$companyContract->id}}">
 
             <!-- Dismiss icon at the top-left corner -->
             <div class="position-absolute top-1 end-0 m-2">
@@ -339,14 +340,12 @@
                 </div>
             </div>
         </div>
-        <!--  -->
+
         <div>
             <div class="chart-outer-wrapper">
                 <div class="header">
-                    <p>الوحدات</p>
-                    <span>
-                  قم بتغير الفترة الزمنية لمقارنة الوحدات في فترات مختلفة
-                </span>
+                    <p>بالنفقات التشغيلية</p>
+
                 </div>
                 <div class="filters">
                     <div class="radio-inputs">
@@ -399,9 +398,9 @@
         <div>
             <div class="chart-outer-wrapper">
                 <div class="header">
-                    <p>الحجوزات</p>
+                    <p>مشاريع الجمعية</p>
                     <span>
-                  قم بتغير الفترة الزمنية لمقارنة الحجوزات في فترات مختلفة
+                  قم بتغير الفترة الزمنية لمقارنة عدد مشاريع الجمعية في فترات مختلفة
                 </span>
                 </div>
                 <div class="filters">
@@ -451,6 +450,58 @@
             </div>
         </div>
         <!--  -->
+
+        <div>
+            <div class="chart-outer-wrapper">
+                <div class="header">
+                    <p>مدى التقدم في مشاريع الجمعية</p>
+                </div>
+                <div class="filters">
+                    <div class="radio-inputs">
+                        <label class="radio">
+                            <input type="radio" name="bookings-filter" value="today"/>
+                            <span class="name">يومي</span>
+                        </label>
+                        <label class="radio">
+                            <input
+                                type="radio"
+                                name="bookings-filter"
+                                checked=""
+                                value="week"/>
+                            <span class="name">اسبوعي</span>
+                        </label>
+                        <label class="radio">
+                            <input type="radio" name="bookings-filter" value="month"/>
+                            <span class="name">شهري</span>
+                        </label>
+
+                        <label class="radio">
+                            <input
+                                type="radio"
+                                name="bookings-filter"
+                                value="three_months"/>
+                            <span class="name">ربع سنوي</span>
+                        </label>
+                        <label class="radio">
+                            <input
+                                type="radio"
+                                name="bookings-filter"
+                                value="six-months"/>
+                            <span class="name">نصف سنوي</span>
+                        </label>
+                        <label class="radio">
+                            <input type="radio" name="bookings-filter" value="year"/>
+                            <span class="name">سنوي</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="chart-wrapper">
+                    <div class="chart">
+                        <canvas id="progress-chart" role="img"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
 @endsection
@@ -462,7 +513,7 @@
     <script>
 
         // Check sessionStorage for dismissed cards
-        $('.card-dismissable').each(function() {
+        $('.card-dismissable').each(function () {
             const cardId = $(this).data('card-id');
 
             if (sessionStorage.getItem('dismissedCard-' + cardId)) {
@@ -514,7 +565,7 @@
             });
         }
 
-        $('.btn-close').on('click', function (){
+        $('.btn-close').on('click', function () {
             const card = $(this).parents('.card');
 
             const cardId = card.data('card-id');

@@ -22,8 +22,8 @@
 
             <div class="form-group">
                 <label for="phonenumber" class="required">رقم الجوال</label>
-                <input type="number" class="form-control" id="phonenumber" name="phone_number"
-                       value="{{old('phone_number') ?? $user->phone_number}}" required/>
+                <input type="number" min="0" class="form-control" id="phonenumber" name="phone_number"
+                       value="{{old('phone_number') ?? $user->phone_number}}" oninput="limitDigits(this)" required/>
             </div>
 
             <div class="form-group">

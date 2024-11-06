@@ -9,7 +9,7 @@
 
 <div class="form-group">
     <label for="phonenumber" class="required"> رقم الجوال </label>
-    <input type="number" class="form-control" id="phonenumber" name="phone_number"
+    <input type="number" class="form-control" id="phonenumber" name="phone_number" oninput="limitDigits(this)"
            value="{{old('phone_number') ?? $manager->phone_number}}" required />
 </div>
 
