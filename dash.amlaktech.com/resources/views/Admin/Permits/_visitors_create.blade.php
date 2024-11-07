@@ -25,13 +25,3 @@
         </div>
     </div>
 </div>
-
-<script>
-    function limitDigits(input) {
-        const maxLength = 10;
-        const value = input.value;
-        if (value.length > maxLength) {
-            input.value = value.slice(0, maxLength);
-        }
-    }
-</script>

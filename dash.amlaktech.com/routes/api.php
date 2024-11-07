@@ -120,3 +120,5 @@ Route::get('getAssociationFeesLabel/{association}', [\App\Http\Controllers\API\A
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::post('payment/{plan}', [\App\Http\Controllers\API\PaymentController::class, 'pay']);

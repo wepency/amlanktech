@@ -37,9 +37,9 @@
 
             <!-- Members -->
             <div class="form-group">
-                <label for="member_id" class="required">تصنيف التصريح</label>
+                <label for="permit_category_id" class="required">تصنيف التصريح</label>
 
-                <select name="member_id" id="member_id" class="form-control select2 d-block w-100">
+                <select name="permit_category_id" id="permit_category_id" class="form-control select2 d-block w-100">
                     @foreach($categories as $category)
                         <option
                             value="{{$category->id}}" {{$category->id == $permit->permit_category_id ? 'selected' : ''}}>{{$category->name}}</option>
@@ -61,7 +61,7 @@
             <!-- Login Attempts -->
             <div class="form-group">
                 <label for="login_attempts" class="required">عدد مرات الدخول</label>
-                <input type="number" min="1" max="2" oninput="limitDigits(this, 2)" name="login_attempts"
+                <input type="number" min="1" max="99" oninput="limitDigits(this, 2)" name="login_attempts"
                        class="form-control" id="login_attempts"
                        value="{{$permit->login_attempts ?? 1}}"/>
             </div>

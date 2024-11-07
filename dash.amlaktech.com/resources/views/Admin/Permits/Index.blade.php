@@ -7,6 +7,10 @@
             padding: 7px
         }
 
+        .select2.select2-container {
+            width: 100% !important;
+        }
+
         .form-control-lg {
             font-size: 14px;
         }
@@ -251,7 +255,7 @@
                         let errorMessage = xhr.responseJSON.message || 'An error occurred';
 
                         // Concatenate all error messages if there are multiple
-                        $.each(xhr.responseJSON.errors, function(key, messages) {
+                        $.each(xhr.responseJSON.errors, function (key, messages) {
                             errorMessage += '<br>' + messages.join('<br>');
                         });
 
@@ -260,13 +264,13 @@
                         $('#errorAlert').show(); // Display the error alert
 
                         // Scroll to the top of the modal to show the error message
-                        modal.find('.modal-body').animate({ scrollTop: 0 }, 'fast');
+                        modal.find('.modal-body').animate({scrollTop: 0}, 'fast');
                     } else {
                         $('#errorMessage').text('An unknown error occurred.');
                         $('#errorAlert').show(); // Display a generic error message
 
                         // Scroll to the top of the modal to show the error message
-                        modal.find('.modal-body').animate({ scrollTop: 0 }, 'fast');
+                        modal.find('.modal-body').animate({scrollTop: 0}, 'fast');
                     }
                 }
             });
