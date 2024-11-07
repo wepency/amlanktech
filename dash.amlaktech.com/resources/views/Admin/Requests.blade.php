@@ -24,10 +24,10 @@
 
         <div class="d-flex my-xl-auto right-content">
 
-            <span class="btn btn-primary mb-1 me-1">
-                <span>{{$page_title}}</span>
-                <span id="requests-total" class="badge bg-white ms-1"></span>
-            </span>
+{{--            <span class="btn btn-primary mb-1 me-1">--}}
+{{--                <span>{{$page_title}}</span>--}}
+{{--                <span id="requests-total" class="badge bg-white ms-1"></span>--}}
+{{--            </span>--}}
         </div>
     </div>
     <!-- breadcrumb -->

@@ -10,17 +10,17 @@
 
             @include('messages')
 
-            <!-- Members -->
-            <div class="form-group">
-                <label for="member_id" class="required">رقم الهوية</label>
-                <input type="number" id="national-id" name="national_id" min="0" step="1" class="form-control"
-                       oninput="limitDigits(this)"/>
-            </div>
+            @if($permitCategory->exists)
+                @method('PUT')
+            @endif
 
-            <!-- Reason -->
+            <!-- Category name -->
             <div class="form-group">
-                <label for="reason" class="required">سبب الحظر</label>
-                <input type="text" id="reason" name="reason" class="form-control"/>
+                <div class="form-group">
+                    <label for="name" class="required">اسم التصنيف</label>
+                    <input type="text" name="name" class="form-control" id="name"
+                           value="{{$permitCategory->name ?? old('name')}}"/>
+                </div>
             </div>
 
             <!-- Associations -->
@@ -29,10 +29,22 @@
                     <label for="associations-select" class="required">الجمعية</label>
                     @include('Admin.Layouts.Partials._associations-select', [
                         'id' => 'associations-select',
-                        'currentValue' => null
+                        'currentValue' => $permitCategory->association_id
                     ])
                 </div>
             @endif
+
+            <div class="form-group">
+                <label for="add-active">هل يتطلب موافقة؟</label>
+
+                <div>
+                    <label class="switch">
+                        <input type="checkbox" id="add-active"
+                               name="need_approval" {{$permitCategory->need_approval == 1 ? 'checked' : ''}} />
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+            </div>
 
         </div>
 
@@ -42,9 +54,3 @@
         </div>
     </div>
 </form>
-
-<script>
-    $(document).ready(function () {
-        $('#associations-select').select2();
-    })
-</script>

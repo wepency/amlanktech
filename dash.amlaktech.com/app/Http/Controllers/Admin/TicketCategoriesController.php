@@ -18,6 +18,7 @@ class TicketCategoriesController extends Controller
             return (new TicketCategoryService($ticketCategories))
                 ->editColumnId()
                 ->addColumnStatus()
+                ->editColumnAppealTime()
                 ->addColumnAction()
                 ->getAssociationDetails()
                 ->rawTableColumns()
@@ -57,24 +58,37 @@ class TicketCategoriesController extends Controller
         ]);
     }
 
-    public function store(TicketCategory $ticketCategory)
+    public function store(Request $request, TicketCategory $ticketCategory)
     {
+        $data = $request->all();
 
-        $create = $ticketCategory->create(request()->all() + [
-                'association_id' => getAssociationId()
-            ]);
+        if ($request->appeal_period_type == 'days') {
+            $data['appeal_period'] = $request->appeal_period * 24;
+            $data['appeal_period_type'] = $request->appeal_period_type;
+        }
+
+        $data['association_id'] = getAssociationId();
+
+        $create = $ticketCategory->create($data);
 
         return $this->redirectBack(
             $create
         );
     }
 
-    public function update(TicketCategory $ticketCategory)
+    public function update(Request $request, TicketCategory $ticketCategory)
     {
 
-        $update = $ticketCategory->update(request()->all() + [
-                'association_id' => getAssociationId()
-            ]);
+        $data = $request->all();
+
+        if ($request->appeal_period_type == 'days') {
+            $data['appeal_period'] = $request->appeal_period * 24;
+            $data['appeal_period_type'] = $request->appeal_period_type;
+        }
+
+        $data['association_id'] = getAssociationId();
+
+        $update = $ticketCategory->update($data);
 
         return $this->redirectBack(
             $update

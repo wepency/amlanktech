@@ -17,6 +17,7 @@ class Permit extends Model
         'member_id',
         'status',
         'login_attempts',
+        'permit_category_id',
         'start_date',
         'permit_days',
         'type'

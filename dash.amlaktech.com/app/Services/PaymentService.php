@@ -15,7 +15,6 @@ class PaymentService
         'App\Models\Invoice'
     ];
 
-    public Payment $paymentOBJ;
     private static string $terminalId;
     private static string $password;
     private static string $merchant_key;
@@ -24,9 +23,7 @@ class PaymentService
 
     public function __construct()
     {
-        $this->paymentOBJ = new Payment;
-
-        $env_type = 'TEST_'; // TEST_, ''
+        $env_type = ''; // TEST_, ''
 
         self::$terminalId = env('URWAY_' . $env_type . 'TERMINALID');
         self::$password = env('URWAY_' . $env_type . 'PASSWORD');
@@ -92,6 +89,26 @@ class PaymentService
         return false;
     }
 
+    public static function get_server_ip() {
+        $ipaddress = '';
+
+        if (getenv('HTTP_CLIENT_IP'))
+            $ipaddress = getenv('HTTP_CLIENT_IP');
+        else if(getenv('HTTP_X_FORWARDED_FOR'))
+            $ipaddress = getenv('HTTP_X_FORWARDED_FOR');
+        else if(getenv('HTTP_X_FORWARDED'))
+            $ipaddress = getenv('HTTP_X_FORWARDED');
+        else if(getenv('HTTP_FORWARDED_FOR'))
+            $ipaddress = getenv('HTTP_FORWARDED_FOR');
+        else if(getenv('HTTP_FORWARDED'))
+            $ipaddress = getenv('HTTP_FORWARDED');
+        else if(getenv('REMOTE_ADDR'))
+            $ipaddress = getenv('REMOTE_ADDR');
+        else
+            $ipaddress = 'UNKNOWN';
+        return $ipaddress;
+    }
+
     public static function payInfo($idorder, $amount, $response_url, $model_type = null, $model_id = null, $user_type = null, $user_id = null)
     {
         $terminalId = self::$terminalId;
@@ -99,28 +116,47 @@ class PaymentService
         $merchant_key = self::$merchant_key;
         $currencycode = self::$currencycode;
 
-        $ipp = '197.59.109.90';
+        $ipp = '128.0.0.1';
+        $amount = numbers_api($amount);
 
         $txn_details = $idorder . '|' . $terminalId . '|' . $password . '|' . $merchant_key . '|' . $amount . '|' . $currencycode;
         $hash = hash('sha256', $txn_details);
 
-        $fields = [
+//        $fields = [
+//            'trackid' => $idorder,
+//            'terminalId' => $terminalId,
+//            'customerEmail' => 'ahmedyassersalama@email.com',
+//            'action' => "1",
+//            'merchantIp' => $ipp,
+//            'password' => $password,
+//            'currency' => $currencycode,
+//            'country' => "SA",
+//            'amount' => numbers_api($amount),
+//            "udf1" => "Test1",
+//            "udf2" => $response_url,
+//            "udf3" => "",
+//            "udf4" => "",
+//            "udf5" => "Test5",
+//            'requestHash' => $hash
+//        ];
+
+        $fields = array(
             'trackid' => $idorder,
             'terminalId' => $terminalId,
-            'customerEmail' => 'ahmedyassersalama@email.com',
-            'action' => "1",
-            'merchantIp' => $ipp,
-            'password' => $password,
+            'customerEmail' => 'customer@email.com',
+            'action' => "1",  // action is always 1
+            'merchantIp' =>$ipp,
+            'password'=> $password,
             'currency' => $currencycode,
-            'country' => "SA",
-            'amount' => numbers_api($amount),
-            "udf1" => "Test1",
-            "udf2" => $response_url,
-            "udf3" => "",
-            "udf4" => "",
-            "udf5" => "Test5",
-            'requestHash' => $hash
-        ];
+            'country'=>"SA",
+            'amount' => $amount,
+            "udf1"              =>"Test1",
+            "udf2"              =>"https://amlacktech.com",//Response page URL
+            "udf3"              =>"",
+            "udf4"              =>"",
+            "udf5"              =>"Test5",
+            'requestHash' => $hash  //generated Hash
+        );
 
 
 //        try {
@@ -129,7 +165,7 @@ class PaymentService
         ])->post(self::$requestURL, $fields);
 
         if (!empty($result['payid']) && !empty($result['targetUrl'])) {
-            self::createTransaction($result['payid'], $idorder, $model_type, $model_id, $user_type, $user_id);
+//            self::createTransaction($result['payid'], $idorder, $model_type, $model_id, $user_type, $user_id);
             return $result['targetUrl'] . '?paymentid=' . $result['payid'];
         }
 

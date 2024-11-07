@@ -232,7 +232,7 @@ const AddNewTicket = (props: Props) => {
                   data={[
                     { value: "normal", label: "عادي" },
                     { value: "average", label: "متوسط" },
-                    { value: "urgent", label: "ضروري" },
+                    { value: "urgent", label: "عالي" },
                   ]}
                   required
                 />

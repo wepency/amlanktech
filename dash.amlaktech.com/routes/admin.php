@@ -73,6 +73,9 @@ Route::middleware(['admin'])->group(function () {
     Route::resource('managers', AssociationManagerController::class)->except('show');
 
     Route::get('/companies/{company}/agreements', [CompanyController::class, 'agreements'])->name('companies.agreements');
+
+    Route::post('/companies/{company}/agreements/vote', [CompanyController::class, 'vote'])->name('companies.agreements.vote');
+
     Route::resource('companies', CompanyController::class);
 
 //    Route::get('/companies/{company}/invesment-contract', [CompanyController::class, 'showInvesmentContract'])->name('companies.showInvesmentContract');
@@ -91,6 +94,7 @@ Route::middleware(['admin'])->group(function () {
 
     Route::resource('bills', BillController::class);
 
+    // Polls
     Route::resource('polls', PollController::class);
 
     Route::resource('invoices', InvoiceController::class)->only('index', 'store', 'update', 'destroy');
@@ -137,7 +141,10 @@ Route::middleware(['admin'])->group(function () {
     Route::post('permits/blocklist', [\App\Http\Controllers\Admin\PermitBlocksController::class, 'store'])->name('permits.blocklist.store');
     Route::delete('permits/blocklist/{block}/delete', [\App\Http\Controllers\Admin\PermitBlocksController::class, 'destroy'])->name('permits.blocklist.destroy');
 
-    Route::resource('permits', \App\Http\Controllers\Admin\PermitsController::class)->except('show');
+    // Permit Categories
+    Route::resource('permit_categories', \App\Http\Controllers\Admin\PermitCategoriesController::class);
+
+    Route::resource('permits', \App\Http\Controllers\Admin\PermitsController::class);
 
     Route::resource('tickets/{ticket}/messages', TicketMessageController::class)->only('index', 'store', 'update', 'destroy');
 

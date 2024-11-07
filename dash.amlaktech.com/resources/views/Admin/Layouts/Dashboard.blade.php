@@ -59,6 +59,18 @@
             font-family: 'Cairo', sans-serif;
         }
 
+        /* Hide arrows for Chrome, Safari, Edge, and Opera */
+        input[type=number]::-webkit-outer-spin-button,
+        input[type=number]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        /* Hide arrows for Firefox */
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
+
         .btn {
             padding: 10px 15px;
             border-radius: 10px;
@@ -900,6 +912,14 @@
             link.href = src;
 
             preview.style.display = "block";
+        }
+    }
+
+    function limitDigits(input, maxLength = 10) {
+        const value = input.value;
+        console.log(maxLength)
+        if (value.length > maxLength) {
+            input.value = value.slice(0, maxLength);
         }
     }
 

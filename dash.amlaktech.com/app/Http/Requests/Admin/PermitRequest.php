@@ -28,9 +28,22 @@ class PermitRequest extends FormRequest
             'member_id' => 'required|numeric',
             'login_attempts' => 'required|numeric',
             'start_date' => 'required',
-            'permit_days' => 'required|numeric',
+            'permit_days' => 'required|numeric|max:365',
             'type' => 'required|in:maintenance,worker,deliver,visitor',
             'visitors' => 'required|array'
+        ];
+    }
+
+    public function attributes()
+    {
+        return [
+            'association_id' => 'المعرف الخاص بالجمعية',
+            'member_id' => 'المعرف الخاص بالمالك',
+            'login_attempts' => 'مرات الدخول',
+            'start_date' => 'تاريخ الدخول',
+            'permit_days' => 'عدد ايام التصريح',
+            'type' => 'نوع التصريح',
+            'visitors' => 'الزوار'
         ];
     }
 }

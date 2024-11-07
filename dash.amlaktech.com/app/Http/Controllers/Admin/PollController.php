@@ -4,21 +4,47 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Option;
+use App\Models\PaymentReceipt;
 use App\Models\Poll;
+use App\Services\PollService;
+use App\Services\ReceiptService;
 use Illuminate\Http\Request;
 
 class PollController extends Controller
 {
 
-    public function index()
+    public function index(Request $request)
     {
-        $polls = Poll::paginate(10);
-        $pollsCount = Poll::count();
+        $polls = Poll::with('items', 'votes');
 
-        return view('Admin.Polls.index', [
-            'page_title' => 'التصويتات',
+        $page_title = trans('labels.polls');
+
+        if (!is_admin()) {
+            $polls->whereAssociationId(getAssociationId());
+        }
+
+        if ($request->ajax()) {
+
+            return (new PollService($polls))
+                ->editCreatedAtColumn()
+                ->editColumnId()
+                ->editColumnId()
+                ->getAssociationDetails()
+                ->addColumnCreatedBy()
+                ->addColumnItems()
+                ->addColumnVotes()
+                ->addColumnActions()
+                ->rawTableColumns()
+                ->setRowId()
+                ->toJson();
+
+        }
+
+        return view('Admin.Polls.Index', [
+            'page_title' => $page_title,
             'polls' => $polls,
-            'pollsCount' => $pollsCount,
+            'singleModel' => ReceiptService::SINGLE_MODEL_TITLE,
+            'pluralModel' => ReceiptService::PLURAL_MODEL_TITLE,
         ]);
     }
 

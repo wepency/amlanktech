@@ -11,7 +11,7 @@ class TicketCategory extends Model
 
     protected $table = 'ticket_categories';
 
-    protected $guarded = [];
+    protected $guarded = ['id'];
 
     public function association()
     {

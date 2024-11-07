@@ -94,7 +94,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
         // Permits
         Route::post('permits/{permit}', [\App\Http\Controllers\API\PermitsController::class, 'update']);
-        Route::resource('permits', \App\Http\Controllers\API\PermitsController::class)->except('create', 'edit', 'show');
+        Route::resource('permits', \App\Http\Controllers\API\PermitsController::class)->except('create', 'edit');
 
         // Polls
         Route::get('polls', [\App\Http\Controllers\API\PollsController::class, 'index']);
@@ -106,8 +106,6 @@ Route::middleware('auth:sanctum')->group(function () {
     });
 
 });
-
-Route::get('permits', [\App\Http\Controllers\API\PermitsController::class, 'show']);
 
 // Dashboard API
 Route::prefix('dashboard')->group(function () {
@@ -122,3 +120,5 @@ Route::get('getAssociationFeesLabel/{association}', [\App\Http\Controllers\API\A
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::post('payment/{plan}', [\App\Http\Controllers\API\PaymentController::class, 'pay']);

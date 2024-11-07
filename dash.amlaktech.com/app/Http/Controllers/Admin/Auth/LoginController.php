@@ -29,7 +29,7 @@ class LoginController extends Controller
         $user = false;
 
         if (is_numeric($request->username)) {
-            $user = auth('admin')->attempt(['phonenumber' => $request->username, 'password' => $request->password]);
+            $user = auth('admin')->attempt(['phone_number' => $request->username, 'password' => $request->password]);
         } else if (filter_var($request->username, FILTER_VALIDATE_EMAIL)) {
             $user = auth('admin')->attempt(['email' => $request->username, 'password' => $request->password]);
         }

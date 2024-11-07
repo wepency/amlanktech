@@ -62,7 +62,7 @@
 
                         <div class="float-end mb-3">
                             <span class="text-success ">
-                                {{ currency($paids) }}
+{{--                                {{ currency($paids) }}--}}
                             </span>
                         </div>
                         <div class="float-start">
@@ -86,7 +86,7 @@
                     <div class="clearfix">
                         <div class="float-end  mb-3">
                             <span class="text-warning text-black">
-                                {{ currency($notPaids) }}
+{{--                                {{ currency($notPaids) }}--}}
                             </span>
                         </div>
                         <div class="float-start">
@@ -110,7 +110,7 @@
                     <div class="clearfix">
                         <div class="float-left  mb-3">
                             <span class="text-danger">
-                                {{ currency($lates) }}
+{{--                                {{ currency($lates) }}--}}
                             </span>
                         </div>
 
@@ -130,6 +130,8 @@
             </div>
         </div>
     </div>
+
+
 
     <div class="row row-sm">
 
@@ -187,6 +189,37 @@
             </div>
         </div>
     </div>
+
+    @foreach($getCompanyContracts as $companyContract)
+        <div class="card card-dismissable" id="card-company-{{$companyContract->id}}"
+             data-card-id="card-company-{{$companyContract->id}}">
+
+            <!-- Dismiss icon at the top-left corner -->
+            <div class="position-absolute top-1 end-0 m-2">
+                <button type="button" class="btn-close dismiss" aria-label="Close"></button>
+            </div>
+
+            <div class="card-body">
+                <h5 class="card-title">التصويت على عقد شركة خدمية</h5>
+
+                <p class="card-text">
+                    هناك عقد شركة "{{$companyContract->name}}" لم يتم التصويت عليه فهل انت موافق او غير موافق
+                </p>
+
+                <!-- Align buttons to the right with icons -->
+                <div class="d-flex">
+
+                    <button id="agreeBtn" data-id="{{$companyContract->id}}" class="btn btn-success agreeBtn">
+                        <i class="bi bi-check-circle"></i> آوافق
+                    </button> &nbsp;
+
+                    <button id="disagreeBtn" data-id="{{$companyContract->id}}" class="btn btn-danger disagreeBtn">
+                        <i class="bi bi-x-circle"></i> لا أوافق
+                    </button>
+                </div>
+            </div>
+        </div>
+    @endforeach
 
     <div class="charts">
         <div>
@@ -307,14 +340,12 @@
                 </div>
             </div>
         </div>
-        <!--  -->
+
         <div>
             <div class="chart-outer-wrapper">
                 <div class="header">
-                    <p>الوحدات</p>
-                    <span>
-                  قم بتغير الفترة الزمنية لمقارنة الوحدات في فترات مختلفة
-                </span>
+                    <p>بالنفقات التشغيلية</p>
+
                 </div>
                 <div class="filters">
                     <div class="radio-inputs">
@@ -367,9 +398,9 @@
         <div>
             <div class="chart-outer-wrapper">
                 <div class="header">
-                    <p>الحجوزات</p>
+                    <p>مشاريع الجمعية</p>
                     <span>
-                  قم بتغير الفترة الزمنية لمقارنة الحجوزات في فترات مختلفة
+                  قم بتغير الفترة الزمنية لمقارنة عدد مشاريع الجمعية في فترات مختلفة
                 </span>
                 </div>
                 <div class="filters">
@@ -419,6 +450,58 @@
             </div>
         </div>
         <!--  -->
+
+        <div>
+            <div class="chart-outer-wrapper">
+                <div class="header">
+                    <p>مدى التقدم في مشاريع الجمعية</p>
+                </div>
+                <div class="filters">
+                    <div class="radio-inputs">
+                        <label class="radio">
+                            <input type="radio" name="bookings-filter" value="today"/>
+                            <span class="name">يومي</span>
+                        </label>
+                        <label class="radio">
+                            <input
+                                type="radio"
+                                name="bookings-filter"
+                                checked=""
+                                value="week"/>
+                            <span class="name">اسبوعي</span>
+                        </label>
+                        <label class="radio">
+                            <input type="radio" name="bookings-filter" value="month"/>
+                            <span class="name">شهري</span>
+                        </label>
+
+                        <label class="radio">
+                            <input
+                                type="radio"
+                                name="bookings-filter"
+                                value="three_months"/>
+                            <span class="name">ربع سنوي</span>
+                        </label>
+                        <label class="radio">
+                            <input
+                                type="radio"
+                                name="bookings-filter"
+                                value="six-months"/>
+                            <span class="name">نصف سنوي</span>
+                        </label>
+                        <label class="radio">
+                            <input type="radio" name="bookings-filter" value="year"/>
+                            <span class="name">سنوي</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="chart-wrapper">
+                    <div class="chart">
+                        <canvas id="progress-chart" role="img"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
 @endsection
@@ -426,4 +509,69 @@
 @push('scripts')
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="{{asset('assets/kpis/index.js')}}"></script>
+
+    <script>
+
+        // Check sessionStorage for dismissed cards
+        $('.card-dismissable').each(function () {
+            const cardId = $(this).data('card-id');
+
+            if (sessionStorage.getItem('dismissedCard-' + cardId)) {
+                $(this).hide(); // Hide if previously dismissed
+            }
+        });
+
+        // Handler for the Agree button
+        $('.agreeBtn').click(function () {
+            let confirmed = confirm("هل انت متأكد من التصويت بالموافقه على العقد؟");
+            const Id = $(this).data('id');
+            const card = $(this).parents('.card');
+
+            if (confirmed) {
+                sendData(card, Id, 'agree');
+            }
+        });
+
+        // Handler for the Disagree button
+        $('.disagreeBtn').click(function () {
+            let confirmed = confirm("هل انت متأكد من التصويت بعدم الموافقة على العقد؟");
+            const Id = $(this).data('id');
+            const card = $(this).parents('.card');
+
+            if (confirmed) {
+                sendData(card, Id, 'disagree');
+            }
+        });
+
+        // Function to send AJAX request
+        function sendData(card, Id, vote) {
+            let url = "{{dashboard_route('companies.agreements.vote', ':id')}}";
+            url = url.replace(':id', Id)
+
+            $.ajax({
+                url: url,  // Change to your Laravel route
+                method: 'POST',
+                data: {
+                    _token: '{{ csrf_token() }}', // Include CSRF token for Laravel
+                    vote: vote
+                },
+                success: function (data) {
+                    card.hide(500);
+                    toastr.success(data.data[0])
+                },
+                error: function (err) {
+                    toastr.error(err.data)
+                }
+            });
+        }
+
+        $('.btn-close').on('click', function () {
+            const card = $(this).parents('.card');
+
+            const cardId = card.data('card-id');
+
+            card.hide(500); // Hide the card with animation
+            sessionStorage.setItem('dismissedCard-' + cardId, true); // Store dismissal in sessionStorage
+        })
+    </script>
 @endpush

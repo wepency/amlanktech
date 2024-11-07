@@ -17,10 +17,10 @@ class SubscriptionController extends Controller
         $subscriptions = Subscription::query();
 
         if (!is_admin()) {
-            $subscriptions = getOnlyObjectsAccordingToAdmin($subscriptions, getAssociationId());
+            $subscriptions = getOnlyObjectsAccordingToAdmin($subscriptions, 'association_id');
         }
 
-        $subscriptions = $subscriptions->paginate(10);
+        $subscriptions = $subscriptions->paginate();
 
         $subscriptionsCount = $subscriptions->total();
 

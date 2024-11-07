@@ -13,7 +13,7 @@ return [
         'tag' => 'li',
         'href' => 'home',
         'class' => 'side-item side-item-category',
-        'content' => 'موقع اتحاد ملاك',
+        'content' => 'أملاك-تك',
         'icon' => '',
         'who_can_view' => 'admin',
     ],

@@ -2,11 +2,9 @@
 
 namespace App\Services;
 
-use App\Models\Ticket;
 use App\Models\TicketCategory;
 use App\Traits\DataTableHelperTrait;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class TicketCategoryService
 {
@@ -31,6 +29,20 @@ class TicketCategoryService
     {
         return $this->addColumn('status', function ($row) {
             return $row->status == 1 ? 'مفعل' : 'غير مفعل';
+        });
+    }
+
+    public function editColumnAppealTime()
+    {
+        return $this->editColumn('appeal_period', function ($row) {
+            $output = trans_choice('labels.appeal_hours', $row->appeal_period);
+
+            if ($row->appeal_period_type == 'days' || $row->appeal_period > 24) {
+                $days = $row->appeal_period / 24;
+                $output = trans_choice('labels.appeal_days', $days);
+            }
+
+            return $output;
         });
     }
 

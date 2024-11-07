@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\PermitRequest;
 use App\Models\Permit;
+use App\Models\PermitCategory;
 use App\Services\PermitService;
 use App\Traits\AssociationTrait;
 use Illuminate\Http\Request;
@@ -75,7 +76,7 @@ class PermitsController extends Controller
                 ->addColumn('action', function ($row) {
                     $out = '<div class="table-buttons">';
 
-                    $out .= '<a href="'.dashboard_route('permits.show', $row?->code).'" class="btn btn-success" target="_blank">
+                    $out .= '<a href="' . dashboard_route('permits.show', $row?->code) . '" class="btn btn-success" target="_blank">
                                             <i class="far fa-eye"></i>
                                         </a>';
 
@@ -134,6 +135,17 @@ class PermitsController extends Controller
         ]);
     }
 
+    private function getPermitCategories()
+    {
+        $categories = PermitCategory::query();
+
+        if (!is_admin()) {
+            $categories = $categories->where('association_id', get_association_id());
+        }
+
+        return $categories->get();
+    }
+
     /**
      * Show the form for creating a new resource.
      */
@@ -144,6 +156,7 @@ class PermitsController extends Controller
                 'page_title' => 'تصريح جديد',
                 'permit' => $permit,
                 'url' => route('dashboard.permits.store'),
+                'categories' => $this->getPermitCategories(),
                 'visitors' => [
                     [
                         'name' => '',
@@ -160,7 +173,7 @@ class PermitsController extends Controller
         $permit = Permit::where('code', $permitCode)->firstOrFail();
 
         return view('Permit', [
-            'page_title' => 'تصريح دخول '.$permit->code,
+            'page_title' => 'تصريح دخول ' . $permit->code,
             'permit' => $permit
         ]);
     }
@@ -184,6 +197,7 @@ class PermitsController extends Controller
                 'permit' => $permit,
                 'url' => route('dashboard.permits.update', $permit->id),
                 'visitors' => $permit->visitors,
+                'categories' => $this->getPermitCategories(),
                 'members' => $this->getMembers()
             ])->render()
         ]);
@@ -202,11 +216,6 @@ class PermitsController extends Controller
         return response()->json([
             'data' => view('Admin.Permits._visitors_create')->render()
         ]);
-    }
-
-    public function blockedUsers()
-    {
-
     }
 
     /**

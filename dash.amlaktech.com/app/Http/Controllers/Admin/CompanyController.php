@@ -4,13 +4,16 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Company;
+use App\Models\CompanyAgreement;
 use App\Services\CompanyService;
 use App\Services\UploadService;
+use App\Traits\generateAPI;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class CompanyController extends Controller
 {
+    use generateAPI;
 
     public function index(Request $request)
     {
@@ -158,7 +161,9 @@ class CompanyController extends Controller
         if ($company->wasRecentlyCreated) {
             DB::table('companies_admin_agreement')->insert([
                 'company_id' => $company->id,
+                'association_id' => getAssociationId(),
                 'admin_id' => get_auth()->id(),
+                'type' => 'agree',
                 'created_at' => now()
             ]);
         }
@@ -166,6 +171,27 @@ class CompanyController extends Controller
         DB::commit();
 
         return true;
+    }
+
+    public function vote(Request $request, Company $company)
+    {
+        $request->validate([
+            'vote' => 'required|in:agree,disagree'
+        ]);
+
+        if(CompanyAgreement::updateOrCreate([
+            'company_id' => $company->id,
+            'admin_id' => get_auth()->id(),
+        ],[
+            'company_id' => $company->id,
+            'association_id' => $company->association_id,
+            'admin_id' => get_auth()->id(),
+            'type' => $request->vote,
+        ])){
+            return $this->success(['تم التصويت بنجاح.']);
+        }
+
+        return $this->error(['برحاء التأكد من العقد']);
     }
 
     public function destroy($id)

@@ -35,7 +35,7 @@ class PermitsController extends Controller
             'member_id' => get_auth()->id()
         ]);
 
-        if(PermitService::updateOrCreate($request, $permit))
+        if (PermitService::updateOrCreate($request, $permit))
             return $this->success(['تم انشاء التصريح بنجاح.']);
 
         return $this->error(['رقم الهويه محظور يرجى مراجعه رئيس / مدير الجمعيه.']);
@@ -44,13 +44,20 @@ class PermitsController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $permit)
+    public function show(string $permit = null)
     {
-        $permit = Permit::where('code', $permit)->firstOrFail();
+
+        $permitLink = '';
+
+        if (!is_null($permit)) {
+            $permit = Permit::where('code', $permit)->firstOrFail();
+            $permitLink = route('permits.show', $permit->code);
+        }
 
         return $this->success([
-            'permit_link' => route('permits.show', $permit->code),
+            'permit_link' => $permitLink,
         ]);
+
     }
 
     /**
@@ -62,7 +69,7 @@ class PermitsController extends Controller
             'member_id' => get_auth()->id()
         ]);
 
-        if(PermitService::updateOrCreate($request, $permit))
+        if (PermitService::updateOrCreate($request, $permit))
             return $this->success(['تم تعديل التصريح بنجاح.']);
 
         return $this->error(['رقم الهويه محظور يرجى مراجعه رئيس / مدير الجمعيه.']);
@@ -73,7 +80,7 @@ class PermitsController extends Controller
      */
     public function destroy(Permit $permit)
     {
-        if($permit->delete())
+        if ($permit->delete())
             return $this->success(['تم الحذف بنجاح.']);
 
         return $this->error(['هناك مشكلة في حذف التصريح.']);

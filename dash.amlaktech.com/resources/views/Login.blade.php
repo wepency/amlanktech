@@ -1,6 +1,6 @@
 @extends('Frontend.Layouts.Login')
 
-@section('title', 'تسجيل الدخول | موقع اتحاد الملاك')
+@section('title', 'تسجيل الدخول | أملاك-تك')
 
 @section('content')
     <div class="login-page-wrap">
