@@ -3,6 +3,7 @@
 import { useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
+import { useParams } from "next/navigation"
 import AmlackApi from "@/api"
 import { logo } from "@/assets"
 import { RegisterAssociationSchema } from "@/validation/register-association"
@@ -45,7 +46,8 @@ export interface Association {
   admin_id: number
 }
 
-export default function Login() {
+export default function Page() {
+  const { plan_id } = useParams()
   // form state using react hook form
   const {
     control,
@@ -78,7 +80,7 @@ export default function Login() {
     try {
       const response = await AmlackApi.post<RegisterResponse>(
         "/associations/register",
-        data,
+        { ...data, plan_id },
       )
       setPaymentLink(response.data.data.payment_link)
       window.open(paymentLink, "_blank")

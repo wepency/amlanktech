@@ -41,7 +41,7 @@ const Pricing = async (props: Props) => {
 
                   <Button
                     component={Link}
-                    href={`/register-association?planId=${element.id}`}
+                    href={`/register-association/${element.id}`}
                     className="mt-8 w-full"
                     variant="outline">
                     اشترك الآن
