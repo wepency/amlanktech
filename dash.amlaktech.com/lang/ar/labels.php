@@ -72,4 +72,12 @@ return [
     'appeal_hours' => '{1} ساعة واحدة|{2} ساعتين|[3,10] :count ساعات|[11,*] :count ساعة',
 
     'appeal_days' => '{1} يوم واحد|{2} يومين|[3,10] :count أيام|[11,*] :count يوم',
+
+    'unit_types' => [
+        'villa' => 'فيلا',
+        'building' => 'عمارة',
+        'apartment' => 'شقة',
+        'warehouse' => 'مستودع',
+        'shop' => 'محل تجاري'
+    ]
 ];

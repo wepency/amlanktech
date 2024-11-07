@@ -17,7 +17,7 @@ return [
 
     'paths' => ['api/*', 'sanctum/csrf-cookie'],
 
-    'allowed_methods' => ['*', 'localhost:3000', 'http://localhost', 'http://localhost:3000', 'https://xvneer-amlack.netlify.app'],
+    'allowed_methods' => ['*', 'localhost:3000', 'http://localhost', 'http://localhost:3000', 'https://xvneer-amlack.netlify.app', 'http://localhost:3000'],
 
     'allowed_origins' => ['*'],
 

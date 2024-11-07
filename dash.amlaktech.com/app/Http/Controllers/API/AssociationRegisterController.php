@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Models\Admin;
 use App\Models\Association;
+use App\Services\PaymentService;
 use App\Traits\generateAPI;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -63,7 +64,7 @@ class AssociationRegisterController extends Controller
 
             return $this->success([
                 'message' => 'تم اضافة الجمعية بنجاح، التوجه الى صفحة الدفع',
-                'payment_link' => 'https://payments-dev.urway-tech.com/URWAYPGService/HTMLPage.html',
+                'payment_link' => (new PaymentService)->payInfo("111123", 100, 'https://amlacktech.com'),
                 'association' => $association
             ]);
 

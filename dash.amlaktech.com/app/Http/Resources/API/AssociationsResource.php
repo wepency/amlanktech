@@ -19,7 +19,7 @@ class AssociationsResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'map_link'  => $this->map_link,
+            'map_link' => $this->map_link,
             'registration_number' => $this->registration_number,
             'city' => [
                 'id' => $city?->id,
