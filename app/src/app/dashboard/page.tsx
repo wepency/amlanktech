@@ -19,7 +19,7 @@ const page = async (props: Props) => {
     <AuroraBackground>
       <section className="flex min-h-screen items-center justify-center   text-center backdrop-blur">
         <div>
-          <h1 className="mb-10 text-xl font-bold">أختر جمعية للمتابعة</h1>
+          <h1 className="mb-10 text-xl font-bold">أختر جمعية للتالي</h1>
           <div className="flex flex-wrap gap-4">
             {userData.data.associations.map((association, index) => {
               return (
