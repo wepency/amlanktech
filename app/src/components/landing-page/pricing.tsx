@@ -1,4 +1,5 @@
 import React from "react"
+import Link from "next/link"
 import AmlackApi from "@/api"
 import { Button } from "@mantine/core"
 import { IconCheck, IconX } from "@tabler/icons-react"
@@ -38,7 +39,11 @@ const Pricing = async (props: Props) => {
                     <span className="text-sm font-medium text-gray-700">/سنة</span>
                   </p>
 
-                  <Button className="mt-8 w-full" variant="outline">
+                  <Button
+                    component={Link}
+                    href={`/register-association?planId=${element.id}`}
+                    className="mt-8 w-full"
+                    variant="outline">
                     اشترك الآن
                   </Button>
                 </div>

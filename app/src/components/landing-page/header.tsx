@@ -42,10 +42,14 @@ export function Header() {
           </Group>
 
           <Group visibleFrom="sm">
-            <Button component={Link} href={"/login"} variant="default">
+            <Button
+              prefetch={true}
+              component={Link}
+              href={"/login"}
+              variant="default">
               تسجيل الدخول
             </Button>
-            <Button component={Link} href={"/register"}>
+            <Button prefetch={true} component={Link} href={"/register"}>
               إنشاء حساب
             </Button>
           </Group>
