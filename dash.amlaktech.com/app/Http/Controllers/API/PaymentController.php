@@ -13,7 +13,7 @@ class PaymentController extends Controller
 
     public function pay() {
         return $this->success([
-            'payment_url' => (new PaymentService)->payInfo("111123", 100, 'https://amlacktech.com')
+            'payment_url' => (new PaymentService)->payInfo("7999", 100, 'https://amlacktech.com')
         ]);
     }
 }
