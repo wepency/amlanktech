@@ -17,7 +17,7 @@ class StoreMeetingRequest extends FormRequest
     {
         return [
             'title' => 'required|string|max:100',
-            'association_id' => 'required|numeric',
+            'association_id' => 'nullable|numeric',
             'meeting_id' => 'required',
             'passcode' => 'required',
             'date' => 'required',

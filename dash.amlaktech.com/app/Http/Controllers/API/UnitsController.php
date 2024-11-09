@@ -139,7 +139,7 @@ class UnitsController extends Controller
             'partners_amount' => 'nullable|numeric',
             'ownership_ratio' => 'nullable|numeric|min:0|max:100',
 
-            'unit_type' => 'required|in:villa,building,apartment,warehouse,shop',
+            'unit_type' => 'nullable|in:villa,building,apartment,warehouse,shop',
             'area' => 'nullable|numeric'
         ];
 

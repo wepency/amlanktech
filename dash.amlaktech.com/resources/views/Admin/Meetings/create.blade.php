@@ -55,14 +55,14 @@
 
                 <div class="form-inline">
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="users_type" id="managers" value="0" {{$meeting->users_type == 0 ? 'checked' : ''}} />
+                        <input class="form-check-input" type="radio" name="users_type" id="managers" value="board_of_directors" {{$meeting->users_type == 'board_of_directors' ? 'checked' : ''}} />
                         <label class="form-check-label" for="managers">اجتماع مجلس ادارة</label>
                     </div>
                 </div>
 
                 <div class="form-inline">
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="users_type" id="managers-users" value="1" {{$meeting->users_type == 1 ? 'checked' : ''}} />
+                        <input class="form-check-input" type="radio" name="users_type" id="managers-users" value="association_members" {{$meeting->users_type == 'association_members' ? 'checked' : ''}} />
                         <label class="form-check-label" for="managers-users">اجتماع أعضاء المجلس</label>
                     </div>
                 </div>
