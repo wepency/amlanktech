@@ -96,7 +96,7 @@
 
             // Generate QR code
             var qrcode = new QRCode("qr-code", {
-                text: "{{route('permits.show', $permit->code)}}",
+                text: "{{url('permits/' . $permit->code)}}",
                 width: 128,
                 height: 128,
                 colorDark: "#000000",

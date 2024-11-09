@@ -17,7 +17,8 @@ class PermitsResource extends JsonResource
         return [
             'id' => $this->id,
             'code' => $this->code,
-            'link' => route('permits.show', $this->code),
+//            'link' => route('permits.show', $this->code),
+            'link' => 'https://dash.amlaktech.com/permits/' . $this->code,
             'association' => [
                 'id' => $this?->association?->id,
                 'name' => $this?->association?->name,
