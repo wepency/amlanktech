@@ -56,18 +56,18 @@ class UnitsController extends Controller
     {
         try {
 
-            $validateField = [
-                'association_id' => 'required|numeric',
-                'ownership_type' => 'required|in:individual,group',
-                'partners_amount' => 'nullable|numeric',
-                'ownership_ratio' => 'nullable|numeric|min:0|max:100',
-                'unit_address' => 'required|max:191',
-                'water_meter_serial' => 'required|max:191',
-                'electricity_meter_serial' => 'required|max:191',
-                'area' => 'nullable|numeric'
-            ];
-
-            $request->validate($validateField);
+//            $validateField = [
+//                'association_id' => 'required|numeric',
+//                'ownership_type' => 'required|in:individual,group',
+//                'partners_amount' => 'nullable|numeric',
+//                'ownership_ratio' => 'nullable|numeric|min:0|max:100',
+//                'unit_address' => 'required|max:191',
+//                'water_meter_serial' => 'required|max:191',
+//                'electricity_meter_serial' => 'required|max:191',
+//                'area' => 'nullable|numeric'
+//            ];
+//
+//            $request->validate($validateField);
 
             if ($this->updateOrCreate($request, $unit)) {
                 return $this->success(['تم ارسال طلب العقار بنجاح.']);
@@ -95,18 +95,18 @@ class UnitsController extends Controller
 
         try {
 
-            $validateField = [
-                'association_id' => 'required|numeric',
-                'ownership_type' => 'required|in:individual,group',
-                'partners_amount' => 'nullable|numeric',
-                'ownership_ratio' => 'nullable|numeric|min:0|max:100',
-                'unit_address' => 'required|max:191',
-                'water_meter_serial' => 'required|max:191',
-                'electricity_meter_serial' => 'required|max:191',
-                'area' => 'nullable|numeric'
-            ];
-
-            $request->validate($validateField);
+//            $validateField = [
+//                'association_id' => 'required|numeric',
+//                'ownership_type' => 'required|in:individual,group',
+//                'partners_amount' => 'nullable|numeric',
+//                'ownership_ratio' => 'nullable|numeric|min:0|max:100',
+//                'unit_address' => 'required|max:191',
+//                'water_meter_serial' => 'required|max:191',
+//                'electricity_meter_serial' => 'required|max:191',
+//                'area' => 'nullable|numeric'
+//            ];
+//
+//            $request->validate($validateField);
 
             if ($this->updateOrCreate($request, $unit)) {
                 return $this->success(['تم التعديل بنجاح.']);
@@ -135,7 +135,12 @@ class UnitsController extends Controller
             'unit_address' => 'required|max:191',
             'water_meter_serial' => 'required|max:191',
             'electricity_meter_serial' => 'required|max:191',
-//            'area' => 'required|numeric'
+
+            'partners_amount' => 'nullable|numeric',
+            'ownership_ratio' => 'nullable|numeric|min:0|max:100',
+
+            'unit_type' => 'required|in:villa,building,apartment,warehouse,shop',
+            'area' => 'nullable|numeric'
         ];
 
         $request->validate($validateField);
@@ -162,8 +167,10 @@ class UnitsController extends Controller
             'id' => $unit->id
         ], [
             'association_id' => $request->association_id,
+            'association_member_id' => get_auth()->id(),
             'name' => $request->unit_name,
             'unit_no' => $unitCode,
+            'unit_type' => $request->unit_type,
             'ownership_type' => $request->ownership_type,
             'ownership_ratio' => $request->ownership_ratio,
             'partners_amount' => $request->partners_amount,

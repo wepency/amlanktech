@@ -21,6 +21,7 @@ class Unit extends Model
         'ownership_ratio',
         'address',
         'unit_no',
+        'unit_type',
         'water_meter_serial',
         'electricity_meter_serial',
         'association_member_id',

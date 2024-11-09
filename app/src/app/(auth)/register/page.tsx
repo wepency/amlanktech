@@ -53,7 +53,7 @@ export default function Register() {
       unit_name: "",
       partners_amount: "",
       ownership_ratio: "",
-      fee_type_value: "",
+      fee_type_value: ""
     },
   })
   const { data, isLoading, error } = useQuery({

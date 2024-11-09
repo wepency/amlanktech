@@ -133,6 +133,8 @@ Route::middleware(['admin'])->group(function () {
 
     // Permits
     Route::get('permits/requests', [\App\Http\Controllers\Admin\PermitsController::class, 'requests'])->name('permits.requests');
+    Route::put('permits/trigger/{permit}/{type}', [\App\Http\Controllers\Admin\PermitsController::class, 'triggerRequest'])->name('permits.requests.trigger');
+
     Route::get('permits/visitors-row', [\App\Http\Controllers\Admin\PermitsController::class, 'visitorsRow'])->name('permits.visitors.row');
 
 

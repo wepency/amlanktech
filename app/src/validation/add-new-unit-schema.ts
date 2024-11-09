@@ -12,6 +12,7 @@ export const AddNewUnitSchema = z
     partnership_ratio: z.string().optional(),
     fee_type_value: z.string().optional(),
     fee_type_id: z.string().optional(),
+    unit_type: z.string()
   })
   .refine(
     (obj) => {
